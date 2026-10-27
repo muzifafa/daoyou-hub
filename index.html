@@ -420,7 +420,14 @@ function renderGuides(){
     return true;
   });
   const el=document.getElementById('guide-list');
-  if(!list.length){el.innerHTML='<div class="empty">没有匹配的导游</div>';return;}
+  if(!list.length){
+    el.innerHTML=`<div class="empty" style="padding:60px 20px">
+      <div style="font-size:40px;margin-bottom:12px">🧑‍🏫</div>
+      <div style="font-size:16px;margin-bottom:6px">这里还没有登记的导游</div>
+      <div style="font-size:13px;color:var(--ink-soft);margin-bottom:20px">持证导游自助登记，领队直接联系，不抽佣</div>
+      <button class="cta" onclick="document.getElementById('guide-form').scrollIntoView({behavior:'smooth'})">我是导游，去登记 →</button>
+    </div>`;return;
+  }
   el.innerHTML=list.map(g=>`<div class="gcard">
     <h3>${esc(g.name)}</h3>
     <div class="meta"><b>${esc(g.city)}</b>${g.languages?' · '+esc(g.languages):''}</div>
@@ -475,7 +482,14 @@ function renderJobs(){
     return true;
   });
   const el=document.getElementById('job-list');
-  if(!list.length){el.innerHTML='<div class="empty">没有匹配的需求</div>';return;}
+  if(!list.length){
+    el.innerHTML=`<div class="empty" style="padding:60px 20px">
+      <div style="font-size:40px;margin-bottom:12px">📋</div>
+      <div style="font-size:16px;margin-bottom:6px">这里还没有团带需求</div>
+      <div style="font-size:13px;color:var(--ink-soft);margin-bottom:20px">领队、计调、散客拼团都可以发布找导游需求</div>
+      <button class="cta" onclick="document.getElementById('job-form').scrollIntoView({behavior:'smooth'})">发布第一条需求 →</button>
+    </div>`;return;
+  }
   const active=list.filter(j=>!isExpired(j));
   const expired=list.filter(j=>isExpired(j));
   const card=(j,ex)=>`<div class="jcard" style="${ex?'opacity:.55':''}">
