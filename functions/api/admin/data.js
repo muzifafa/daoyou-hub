@@ -17,10 +17,14 @@ export async function onRequestGet(context){
     env.DAOYOU_DATA.get('jobs'),
     env.DAOYOU_DATA.get('feedback')
   ]);
+  const guides=guidesRaw?JSON.parse(guidesRaw):[];
+  const jobs=jobsRaw?JSON.parse(jobsRaw):[];
+  const feedback=feedbackRaw?JSON.parse(feedbackRaw):[];
+  const today=new Date().toDateString();
+  const guidesToday=guides.filter(g=>new Date(g.createdAt).toDateString()===today).length;
+  const jobsToday=jobs.filter(j=>new Date(j.createdAt).toDateString()===today).length;
   return new Response(JSON.stringify({
-    user,
-    guides:guidesRaw?JSON.parse(guidesRaw):[],
-    jobs:jobsRaw?JSON.parse(jobsRaw):[],
-    feedback:feedbackRaw?JSON.parse(feedbackRaw):[]
+    user,guides,jobs,feedback,
+    stats:{guides:guides.length,jobs:jobs.length,feedback:feedback.length,guidesToday,jobsToday}
   }),{headers:{'Content-Type':'application/json'}});
 }

@@ -396,6 +396,16 @@ async function loadAdmin(){
     if(!r.ok){el.innerHTML='<div class="empty">无权限</div>';return;}
     const d=await r.json();
     el.innerHTML=`
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px">
+        <div style="background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center">
+          <div style="font-size:28px;font-weight:900;color:var(--pine-dark)">${d.stats.guides}</div>
+          <div style="font-size:12px;color:var(--ink-soft)">登记导游（今日+${d.stats.guidesToday}）</div>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center">
+          <div style="font-size:28px;font-weight:900;color:var(--pine-dark)">${d.stats.jobs}</div>
+          <div style="font-size:12px;color:var(--ink-soft)">团带需求（今日+${d.stats.jobsToday}）</div>
+        </div>
+      </div>
       <h3 style="margin-bottom:12px;color:var(--pine-dark)">导游登记（${d.guides.length}）</h3>
       ${d.guides.map(g=>`<div class="gcard" style="margin-bottom:8px">
         <h3>${esc(g.name)} · ${esc(g.city)}</h3>
