@@ -112,7 +112,8 @@ footer .links a{color:var(--gold-soft);margin:0 12px;cursor:pointer}
       <a href="https://chicheng.org/" target="_blank" rel="noopener">景区搭建</a>
       <a href="https://github.com/muzifafa/daoyou-hub" target="_blank" rel="noopener">GitHub</a>
       <a id="nav-login" onclick="openAuth()">登录</a>
-      <a id="nav-user" style="display:none" onclick="logout()">退出</a>
+      <a id="nav-user" style="display:none" onclick="show('me')">我的</a>
+      <a id="nav-logout" style="display:none" onclick="logout()">退出</a>
     </div>
   </div>
 </nav>
@@ -237,6 +238,14 @@ footer .links a{color:var(--gold-soft);margin:0 12px;cursor:pointer}
   </div></section>
 </div>
 
+<!-- ME -->
+<div class="view" id="view-me">
+  <header class="sub-head"><div class="wrap"><h1>我的</h1><p>你登记的导游信息、发布的找团需求，可以删除自己的数据。</p></div></header>
+  <section class="section"><div class="wrap">
+    <div id="me-content" style="max-width:680px;margin:0 auto"><div class="empty">加载中…</div></div>
+  </div></section>
+</div>
+
 <!-- FEEDBACK -->
 <div class="view" id="view-feedback">
   <header class="sub-head"><div class="wrap"><h1>反馈与共建</h1><p>景区政策变了、数据错了、新景区没收录？填表告诉我们，不用会编程，普通导游就能提交。</p></div></header>
@@ -303,7 +312,37 @@ function show(v){
   window.scrollTo(0,0);
   if(v==='guides')loadGuides();
   if(v==='jobs')loadJobs();
+  if(v==='me')loadMe();
   try{history.replaceState(null,'','#'+v)}catch(e){}
+}
+async function loadMe(){
+  const el=document.getElementById('me-content');
+  try{
+    const [g,j]=await Promise.all([fetch('/api/guides').then(r=>r.json()),fetch('/api/jobs').then(r=>r.json())]);
+    if(!g.loggedIn){el.innerHTML='<div class="empty">请先登录</div>';return;}
+    const myGuides=g.list.slice(0,1);
+    const myJobs=j.list.slice(0,5);
+    el.innerHTML=`
+      <h3 style="margin-bottom:12px;color:var(--pine-dark)">我登记的导游信息</h3>
+      ${myGuides.length?myGuides.map(x=>`<div class="gcard">
+        <h3>${esc(x.name)} · ${esc(x.city)}</h3>
+        <div class="meta">${esc(x.languages||'')} · ${esc(x.specialty||'')}</div>
+        <div style="margin-top:8px;font-size:13px;color:var(--pine);cursor:pointer" onclick="delMine('guides',${x.id})">删除这条登记</div>
+      </div>`).join(''):'<div class="empty" style="margin-bottom:20px">你还没登记导游信息</div>'}
+      <h3 style="margin:24px 0 12px;color:var(--pine-dark)">我发布的找团需求</h3>
+      ${myJobs.length?myJobs.map(x=>`<div class="jcard">
+        <h3>${esc(x.title)}</h3>
+        <div class="meta">${esc(x.city)} · ${esc(x.dateRange||'')}</div>
+        <div style="margin-top:8px;font-size:13px;color:var(--pine);cursor:pointer" onclick="delMine('jobs',${x.id})">删除这条需求</div>
+      </div>`).join(''):'<div class="empty">你还没发布需求</div>'}
+    `;
+  }catch(e){el.innerHTML='<div class="empty">加载失败</div>';}
+}
+async function delMine(kind,id){
+  if(!confirm('确定删除？'))return;
+  const r=await fetch('/api/'+kind+'?id='+id,{method:'DELETE'});
+  if(r.ok){toast('已删除');loadMe();}
+  else{const d=await r.json().catch(()=>({}));toast(d.error||'删除失败');}
 }
 function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 
@@ -312,9 +351,9 @@ async function checkAuth(){
   try{
     const r=await fetch('/api/auth/me');const d=await r.json();
     currentLoggedIn=d.loggedIn;
-    const nl=document.getElementById('nav-login');const nu=document.getElementById('nav-user');
-    if(d.loggedIn){nl.style.display='none';nu.style.display='inline';nu.textContent='退出 ('+d.name+')';}
-    else{nl.style.display='inline';nu.style.display='none';}
+    document.getElementById('nav-login').style.display=d.loggedIn?'none':'inline';
+    document.getElementById('nav-user').style.display=d.loggedIn?'inline':'none';
+    document.getElementById('nav-logout').style.display=d.loggedIn?'inline':'none';
   }catch(e){}
 }
 function openAuth(){document.getElementById('auth-modal').style.display='flex';document.getElementById('auth-msg').textContent='';}
