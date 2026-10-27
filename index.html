@@ -157,9 +157,22 @@ footer .links a{color:#d4b87a;margin:0 12px;cursor:pointer}
       </div>
     </div>
   </section>
+  <section class="section" style="padding-top:0">
+    <div class="wrap" style="max-width:880px">
+      <div class="section-h"><h2>最近动态</h2><p>最新登记的导游、最新发布的团带需求</p></div>
+      <div class="grid">
+        <div class="card" style="cursor:default">
+          <h3 style="margin-bottom:12px">🧑‍🏫 最新登记导游</h3>
+          <div id="latest-guides" style="font-size:14px;color:var(--ink-soft)">加载中…</div>
+        </div>
+        <div class="card" style="cursor:default">
+          <h3 style="margin-bottom:12px">📋 最新团带需求</h3>
+          <div id="latest-jobs" style="font-size:14px;color:var(--ink-soft)">加载中…</div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
-
-<!-- MAP -->
 <div class="view" id="view-map">
   <div class="map-top">
     <span>🗺️ 免票景区地图</span>
@@ -503,6 +516,26 @@ document.getElementById('feedback-form').onsubmit=async(e)=>{
 const h=location.hash.replace('#','');
 if(h&&document.getElementById('view-'+h))show(h);
 checkAuth();
+loadLatest();
+async function loadLatest(){
+  try{
+    const [g,j]=await Promise.all([fetch('/api/guides').then(r=>r.json()),fetch('/api/jobs').then(r=>r.json())]);
+    const lg=document.getElementById('latest-guides');
+    const lj=document.getElementById('latest-jobs');
+    if(g.list.length){
+      lg.innerHTML=g.list.slice(0,4).map(x=>`<div style="padding:8px 0;border-bottom:1px dashed var(--line)">
+        <b style="color:var(--ink)">${esc(x.name)}</b> · ${esc(x.city)}
+        <div style="font-size:12px;color:var(--ink-soft)">${esc(x.languages||'')} ${x.specialty?'· '+esc(x.specialty):''}</div>
+      </div>`).join('');
+    }else lg.innerHTML='<div style="padding:8px 0">还没有导游登记</div>';
+    if(j.list.length){
+      lj.innerHTML=j.list.slice(0,4).map(x=>`<div style="padding:8px 0;border-bottom:1px dashed var(--line)">
+        <b style="color:var(--ink)">${esc(x.title)}</b> · ${esc(x.city)}
+        <div style="font-size:12px;color:var(--ink-soft)">${esc(x.dateRange||'')} ${x.tourists?'· '+esc(x.tourists):''}</div>
+      </div>`).join('');
+    }else lj.innerHTML='<div style="padding:8px 0">还没有团带需求</div>';
+  }catch(e){}
+}
 </script>
 </body>
 </html>
