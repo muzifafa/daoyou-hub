@@ -39,8 +39,9 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;heig
 
 .hero{background:radial-gradient(1000px 300px at 80% -50%, rgba(185,130,42,.15), transparent 60%),linear-gradient(180deg,var(--pine-deep),var(--pine));color:#f4efe2;padding:72px 0 60px;text-align:center}
 .hero .kicker{font-size:12px;letter-spacing:.3em;color:var(--gold-soft);margin-bottom:16px}
-.hero h1{font-size:38px;font-weight:900;line-height:1.2;margin-bottom:16px}
-.hero p.sub{font-size:16px;color:#d8dfd4;max-width:56ch;margin:0 auto 28px;line-height:1.7}
+.hero h1{font-size:28px;font-weight:900;line-height:1.2;margin-bottom:16px}
+.hero p.sub{font-size:14px;color:#d8dfd4;max-width:56ch;margin:0 auto 28px;line-height:1.7}
+@media(min-width:640px){.hero h1{font-size:38px}.hero p.sub{font-size:16px}}
 .cta{display:inline-block;background:var(--gold);color:#fff;padding:13px 32px;border-radius:999px;font-size:15px;font-weight:700;cursor:pointer;border:none}
 .cta:hover{background:#a06f22}
 .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(244,239,226,.25);border:1px solid rgba(244,239,226,.25);border-radius:var(--radius);overflow:hidden;margin-top:36px;max-width:680px;margin-left:auto;margin-right:auto}
@@ -133,6 +134,15 @@ footer .links a{color:var(--gold-soft);margin:0 12px;cursor:pointer}
     </div>
   </header>
   <section class="section">
+    <div class="wrap" style="max-width:780px;text-align:center">
+      <p style="color:var(--ink-soft);font-size:14px;line-height:1.8">
+        这是一个由导游自己维护的公益小站。<br>
+        景区免票政策经常变、网上信息真假难辨——我们把全国持证导游拉进来，谁去过、谁核实过，就把结果写在这里。<br>
+        领队找导游、导游找团带，直接联系，<b>不抽佣、不发广告、不存你身份证号</b>。
+      </p>
+    </div>
+  </section>
+  <section class="section" style="padding-top:0">
     <div class="wrap">
       <div class="section-h"><h2>平台功能</h2><p>站内四个核心模块 + 两个关联工具，覆盖导游执业日常</p></div>
       <div class="grid">
@@ -158,7 +168,11 @@ footer .links a{color:var(--gold-soft);margin:0 12px;cursor:pointer}
 
 <!-- GUIDES -->
 <div class="view" id="view-guides">
-  <header class="sub-head"><div class="wrap"><h1>找导游</h1><p>持证导游自助登记：证号留档（列表打码）、常驻地、擅长线路。领队直接联系，平台不抽佣。</p></div></header>
+  <header class="sub-head"><div class="wrap">
+    <h1>找导游</h1>
+    <p>持证导游自助登记：证号后台留档核验、常驻地、擅长线路。领队直接联系，平台不抽佣。</p>
+    <button class="cta" onclick="document.getElementById('guide-form').scrollIntoView({behavior:'smooth'})" style="margin-top:16px">我是导游，我要登记 →</button>
+  </div></header>
   <section class="section"><div class="wrap">
     <input class="search-box" id="guide-search" placeholder="🔍 搜索城市、语种、擅长线路，如：西安 英语 兵马俑">
     <div style="display:flex;gap:10px;margin-bottom:16px;align-items:center">
@@ -187,7 +201,11 @@ footer .links a{color:var(--gold-soft);margin:0 12px;cursor:pointer}
 
 <!-- JOBS -->
 <div class="view" id="view-jobs">
-  <header class="sub-head"><div class="wrap"><h1>找团带</h1><p>领队、计调、散客拼团发布找导游需求，导游看到直接联系。平台不参与交易、不抽佣。</p></div></header>
+  <header class="sub-head"><div class="wrap">
+    <h1>找团带</h1>
+    <p>领队、计调、散客拼团发布找导游需求，导游看到直接联系。平台不参与交易、不抽佣。</p>
+    <button class="cta" onclick="document.getElementById('job-form').scrollIntoView({behavior:'smooth'})" style="margin-top:16px">我要发需求 →</button>
+  </div></header>
   <section class="section"><div class="wrap">
     <input class="search-box" id="job-search" placeholder="🔍 搜索目的地、语种、人数，如：成都 日语 20人">
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center">
@@ -244,7 +262,7 @@ footer .links a{color:var(--gold-soft);margin:0 12px;cursor:pointer}
 </div>
 
 <div id="auth-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center">
-  <div style="background:var(--card);padding:28px;border-radius:14px;width:90%;max-width:38px;max-width:380px">
+  <div style="background:var(--card);padding:24px;border-radius:14px;width:92%;max-width:380px;max-height:90vh;overflow-y:auto">
     <h2 id="auth-title" style="font-size:20px;margin-bottom:16px">登录 / 注册</h2>
     <label style="font-size:13px;color:var(--ink-soft)">昵称（注册时填）</label>
     <input id="auth-name" placeholder="如 李导" style="width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:8px;margin:4px 0 10px">
@@ -385,16 +403,17 @@ function renderJobs(){
   });
   const el=document.getElementById('job-list');
   if(!list.length){el.innerHTML='<div class="empty">没有匹配的需求</div>';return;}
-  el.innerHTML=list.map(j=>{
-    const ex=isExpired(j);
-    return `<div class="jcard" style="${ex?'opacity:.55':''}">
+  const active=list.filter(j=>!isExpired(j));
+  const expired=list.filter(j=>isExpired(j));
+  const card=(j,ex)=>`<div class="jcard" style="${ex?'opacity:.55':''}">
       <h3>${esc(j.title)} ${ex?'<span class="tag" style="background:#ddd;color:#666">已过期</span>':''}</h3>
       <div class="meta"><b>${esc(j.city)}</b>${j.dateRange?' · '+esc(j.dateRange):''}${j.tourists?' · '+esc(j.tourists):''}</div>
       <div>${[j.language?`<span class="tag">${esc(j.language)}</span>`:'',j.budget?`<span class="tag">${esc(j.budget)}</span>`:''].join('')}</div>
       ${j.note?`<div style="font-size:13.5px;margin:8px 0;color:var(--ink-soft)">${esc(j.note)}</div>`:''}
       <div style="font-size:13px;color:var(--pine);font-weight:700">联系：${esc(j.contact)} ${j.contactMasked?'<a onclick="openAuth()" style="cursor:pointer;color:var(--ink-soft);font-weight:400;text-decoration:underline;font-size:12px">登录查看完整</a>':''}</div>
     </div>`;
-  }).join('');
+  el.innerHTML=active.map(j=>card(j,false)).join('')+
+    (expired.length?`<details style="margin-top:8px"><summary style="cursor:pointer;color:var(--ink-soft);font-size:13px;padding:8px">已过期 ${expired.length} 条（点击展开）</summary>${expired.map(j=>card(j,true)).join('')}</details>`:'');
 }
 async function loadJobs(){
   try{
