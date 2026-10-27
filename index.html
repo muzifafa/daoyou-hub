@@ -299,6 +299,7 @@ function show(v){
   document.querySelectorAll('.view').forEach(e=>e.classList.remove('active'));
   document.getElementById('view-'+v).classList.add('active');
   document.querySelectorAll('.navlinks a[data-view]').forEach(a=>a.classList.toggle('active',a.dataset.view===v));
+  document.querySelector('.navlinks').classList.remove('open');
   window.scrollTo(0,0);
   if(v==='guides')loadGuides();
   if(v==='jobs')loadJobs();
@@ -319,6 +320,7 @@ async function checkAuth(){
 function openAuth(){document.getElementById('auth-modal').style.display='flex';document.getElementById('auth-msg').textContent='';}
 function closeAuth(){document.getElementById('auth-modal').style.display='none';}
 async function doAuth(mode){
+  document.getElementById('auth-name').parentElement.style.display=mode==='register'?'block':'none';
   const email=document.getElementById('auth-email').value.trim();
   const password=document.getElementById('auth-password').value;
   const name=document.getElementById('auth-name').value.trim();
@@ -326,8 +328,15 @@ async function doAuth(mode){
   const body=mode==='register'?{email,password,name}:{email,password};
   const r=await fetch('/api/auth/'+mode,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
   const d=await r.json();
-  if(r.ok){closeAuth();await checkAuth();loadGuides();loadJobs();}
+  if(r.ok){closeAuth();await checkAuth();loadGuides();loadJobs();toast(mode==='register'?'注册成功，欢迎！':'登录成功');}
   else{msg.style.color='#8a2a1a';msg.textContent=d.error||'失败';}
+}
+function toast(t){
+  const d=document.createElement('div');
+  d.textContent=t;
+  d.style.cssText='position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--pine-dark);color:#fff;padding:12px 24px;border-radius:999px;z-index:2000;font-size:14px;box-shadow:0 4px 16px rgba(0,0,0,.2)';
+  document.body.appendChild(d);
+  setTimeout(()=>d.remove(),2500);
 }
 async function logout(){
   await fetch('/api/auth/logout',{method:'POST'});
@@ -375,7 +384,7 @@ document.getElementById('guide-form').onsubmit=async(e)=>{
   const fd=new FormData(e.target);const body=Object.fromEntries(fd.entries());
   const msg=document.getElementById('guide-msg');
   const r=await fetch('/api/guides',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(r.ok){msg.className='msg ok';msg.textContent='提交成功！已显示在列表顶部。';guideList.unshift({...body});loadGuides();e.target.reset();}
+  if(r.ok){msg.className='msg ok';msg.textContent='提交成功！已显示在列表顶部。';guideList.unshift({...body});loadGuides();e.target.reset();toast('登记成功')}
   else{const d=await r.json().catch(()=>({}));msg.className='msg err';msg.textContent=d.error||'提交失败';}
 };
 
@@ -433,7 +442,8 @@ document.getElementById('job-form').onsubmit=async(e)=>{
   const fd=new FormData(e.target);const body=Object.fromEntries(fd.entries());
   const msg=document.getElementById('job-msg');
   const r=await fetch('/api/jobs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(r.ok){msg.className='msg ok';msg.textContent='发布成功！已显示在列表顶部。';jobList.unshift({...body,id:Date.now()});loadJobs();e.target.reset();}
+  if(r.ok){msg.className='msg ok';msg.textContent='发布成功！已显示在列表顶部。';jobList.unshift({...body,id:Date.now()});loadJobs();e.target.reset();toast('发布成功')}
+  else{msg.className='msg err';msg.textContent='发布失败，请重试';}
   else{msg.className='msg err';msg.textContent='发布失败，请重试';}
 };
 
@@ -442,7 +452,7 @@ document.getElementById('feedback-form').onsubmit=async(e)=>{
   const fd=new FormData(e.target);const body=Object.fromEntries(fd.entries());
   const msg=document.getElementById('feedback-msg');
   const r=await fetch('/api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(r.ok){msg.className='msg ok';msg.textContent='收到！感谢你的贡献，我们核实后会更新。';e.target.reset();}
+  if(r.ok){msg.className='msg ok';msg.textContent='收到！感谢你的贡献，我们核实后会更新。';e.target.reset();toast('反馈已提交')}
   else{msg.className='msg err';msg.textContent='提交失败，请重试';}
 };
 
