@@ -124,6 +124,7 @@ footer .links a{color:#d4b87a;margin:0 12px;cursor:pointer}
 </nav>
 
 <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;position:fixed;bottom:24px;right:24px;z-index:99;width:44px;height:44px;border-radius:50%;background:var(--pine);color:#fff;border:none;font-size:18px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.15)">↑</button>
+<button onclick="shareSite()" style="position:fixed;bottom:24px;right:80px;z-index:99;height:44px;padding:0 16px;border-radius:999px;background:var(--gold);color:#fff;border:none;font-size:14px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.15)">分享</button>
 
 <!-- HOME -->
 <div class="view active" id="view-home">
@@ -471,6 +472,11 @@ function timeAgo(iso){
   return d.toLocaleDateString('zh-CN');
 }
 function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+async function shareSite(){
+  const data={title:'导游 Hub · 全国导游互助平台',text:'持导游证免票景区地图 + 团导对接，公益不抽佣',url:location.origin};
+  if(navigator.share){try{await navigator.share(data);}catch(e){}}
+  else{try{await navigator.clipboard.writeText(data.url);toast('链接已复制，去粘贴分享吧');}catch(e){prompt('分享链接：',data.url);}}
+}
 
 let currentLoggedIn=false;
 async function checkAuth(){
