@@ -27,6 +27,7 @@ export async function onRequestGet(context){
     language:j.language,budget:j.budget,
     contact:loggedIn?j.contact:maskContact(j.contact),
     contactMasked:!loggedIn,
+    applicants:j.applicants||[],
     note:j.note,createdAt:j.createdAt
   }));
   return new Response(JSON.stringify({list:safe,loggedIn}),{headers:{'Content-Type':'application/json'}});
@@ -44,10 +45,28 @@ export async function onRequestPost(context){
     dateRange:String(body.dateRange||'').slice(0,40),tourists:String(body.tourists||'').slice(0,30),
     language:String(body.language||'').slice(0,30),budget:String(body.budget||'').slice(0,30),
     contact:String(body.contact||'').slice(0,60),note:String(body.note||'').slice(0,300),
-    createdAt:new Date().toISOString()
+    applicants:[],createdAt:new Date().toISOString()
   });
   await env.DAOYOU_DATA.put('jobs',JSON.stringify(list));
   return new Response(JSON.stringify({ok:true}),{headers:{'Content-Type':'application/json'}});
+}
+// POST /api/jobs/apply  body: {id}
+export async function onRequest(context){
+  if(context.request.method==='POST' && new URL(context.request.url).pathname==='/api/jobs/apply'){
+    const {request,env}=context;
+    const uid=await currentUid(request,env);
+    if(!uid)return new Response(JSON.stringify({error:'请先登录'}),{status:401});
+    const body=await request.json();
+    const raw=await env.DAOYOU_DATA.get('jobs');
+    const list=raw?JSON.parse(raw):[];
+    const j=list.find(x=>x.id===Number(body.id));
+    if(!j)return new Response(JSON.stringify({error:'需求不存在'}),{status:404});
+    j.applicants=j.applicants||[];
+    if(!j.applicants.includes(uid))j.applicants.push(uid);
+    await env.DAOYOU_DATA.put('jobs',JSON.stringify(list));
+    return new Response(JSON.stringify({ok:true,count:j.applicants.length}),{headers:{'Content-Type':'application/json'}});
+  }
+  return onRequestGet(context);
 }
 export async function onRequestDelete(context){
   const {request,env}=context;
@@ -59,7 +78,7 @@ export async function onRequestDelete(context){
   let list=raw?JSON.parse(raw):[];
   const before=list.length;
   list=list.filter(j=>!(j.id===id && j.ownerUid===uid));
-  if(list.length===before)return new Response(JSON.stringify({error:'找不到这条记录或不是你提交的'}),{status:403});
+  if(list.length===before)return new Response(JSON.stringify({error:'找不到这条记录或不是你发布的'}),{status:403});
   await env.DAOYOU_DATA.put('jobs',JSON.stringify(list));
   return new Response(JSON.stringify({ok:true}),{headers:{'Content-Type':'application/json'}});
 }
