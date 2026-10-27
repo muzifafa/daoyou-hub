@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>全国持导游证免票景区数据地图</title>
+<title>导游互助平台 · 全国A级景区持证优待核实</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%232e5e4e'/%3Cpath d='M8 21l5-9 4 6 3-4 4 7z' fill='%23f6f2e9'/%3E%3Ccircle cx='16' cy='12' r='2.4' fill='%23c08a2d'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
@@ -139,10 +139,13 @@ footer.site .disc{border-top:1px solid rgba(255,255,255,.15);margin-top:18px;pad
 
 <header class="site">
   <div class="wrap">
-    <div class="kicker">文旅数据整理 · 导游执业参考</div>
-    <h1>全国持导游证免票景区数据地图</h1>
-    <p class="sub">基于公开政策与多平台网友亲测信息整理的导游证免票景区点位库，覆盖 31 个省级行政区。政策口径不一，出行前请以景区官方公告为准。</p>
-    <div class="compare">数据规模：108 → 1011 → 1853 → 本次 1827 · 本身免费 116 → 388</div>
+    <div class="kicker">全国A级景区 · 导游共建核实</div>
+    <h1>全国A级景区导游互助核实平台</h1>
+    <p class="sub">不靠网上零散截图，靠全国持证导游实地走访：每个景区标注「持导游证是否免票 / 本身免费 / 不免 / 待核实」，政策随时间变化，欢迎你提交实测反馈持续纠错。覆盖 31 个省级行政区。</p>
+    <div class="compare">已核实 1827 条 · 待核实 A 级名录 5976 条 · 数据由导游共建维护</div>
+    <div style="margin-top:12px">
+      <a href="https://github.com/muzifafa/daoyou-hub/issues/new?template=scenic-feedback.yml&title=%5B%E5%AE%9E%E6%B5%8B%E5%8F%8D%E9%A6%88%5D%20%E5%A1%AB%E5%86%99%E6%99%AF%E5%8C%BA%E5%90%8D%E7%A7%B0" target="_blank" rel="noopener" style="display:inline-block;background:var(--gold);color:#fff;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:700;text-decoration:none">✏️ 我要提交实测反馈</a>
+    </div>
     <div class="stats" id="stats"></div>
   </div>
 </header>
@@ -164,7 +167,7 @@ footer.site .disc{border-top:1px solid rgba(255,255,255,.15);margin-top:18px;pad
 
 <div class="wrap">
   <div class="tabs" role="tablist">
-    <button id="tabList" type="button" role="tab" aria-selected="true">景区列表</button>
+    <button id="tabList" type="button" role="tab" aria-selected="true">已核实名录</button>
     <button id="tabMap" type="button" role="tab" aria-selected="false">地图分布</button>
   </div>
   <div class="layout">
@@ -175,6 +178,13 @@ footer.site .disc{border-top:1px solid rgba(255,255,255,.15);margin-top:18px;pad
 
 <footer class="site">
   <div class="wrap">
+    <h3>🤝 导游共建 · 如何参与？</h3>
+    <p style="margin-bottom:8px">这个库不是某个人整理的，是全国导游一起核实的。你实地去过某个景区，不管是确认免票、发现政策变了、还是发现这里根本不免票，都欢迎反馈：</p>
+    <ul style="margin:0 0 14px 20px;line-height:2">
+      <li>点本页顶部「✏️ 我要提交实测反馈」按钮，按模板填写景区名、你的实测结论、时间、来源</li>
+      <li>提交后进入维护者审核队列，核实无误就更新到本库</li>
+      <li>会代码的导游可以直接 <a href="https://github.com/muzifafa/daoyou-hub" target="_blank" rel="noopener" style="color:var(--gold-soft)">Fork GitHub 仓库</a> 改数据提 PR</li>
+    </ul>
     <h3>数据来源与口径说明</h3>
     <p>本页为公开信息镜像整理：v6 版以元宝主数据集为基础，叠加 v3 扩充数据与导游之家《持导游证全国免票景区一览表》（镜像站 daoyouhome.com），并收录官方信源：江苏省文旅厅 2026-09-22 新政（25 家 5A 级景区）、连云港文旅局全域 18 家景区公开信，以及黄山、泰山、井冈山、红旗渠、安阳、长春、重庆、甘南等景区/文旅部门的官方公开政策。本轮重点扩充「本身免费」景区（116 → 388），新增来源以省级文旅厅公告与政府官网为主。信源涵盖公众号、官方公告、政府公告、景区官网、新闻媒体，以及抖音、携程、微博、豆瓣等多平台网友分享。</p>
     <p><strong style="color:#fff">「已查证 / 一方称」口径：</strong>「已查证」表示已核对到官方公告、景区官网或权威媒体报道原文；「一方称」来自网友亲测分享或平台整理，未见官方文件直接背书，可信度需自行判断。</p>
