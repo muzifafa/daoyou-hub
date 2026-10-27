@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>导游名录 · 导游 Hub</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%232e5e4e'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+<style>
+:root{--paper:#f6f2e9;--card:#fbf8f1;--ink:#26302a;--ink-soft:#5c675f;--pine:#2e5e4e;--pine-dark:#1f4437;--gold:#b9822a;--line:#d8cfba;--radius:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Noto Sans SC",system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;font-size:15px}
+h1,h2,h3{font-family:"Noto Serif SC",serif}
+a{color:var(--pine);text-decoration:none}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+nav{position:sticky;top:0;background:rgba(246,242,233,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:10}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+.brand{font-family:"Noto Serif SC",serif;font-weight:900;font-size:18px;color:var(--pine-dark)}
+.brand span{color:var(--gold)}
+.navlinks a{margin-left:20px;font-size:14px;color:var(--ink-soft)}
+.navlinks a:hover{color:var(--pine)}
+.head{background:var(--pine-dark);color:#f4efe2;padding:40px 0}
+.head h1{font-size:28px;margin-bottom:8px}
+.head p{color:#cfd8cc;font-size:14px}
+.section{padding:32px 0}
+.grid{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:720px){.grid{grid-template-columns:1fr 1fr}}
+.gcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.gcard h3{font-size:17px;color:var(--pine-dark);margin-bottom:6px}
+.gcard .meta{font-size:13px;color:var(--ink-soft);margin-bottom:8px}
+.gcard .meta b{color:var(--ink);font-weight:500}
+.tag{display:inline-block;background:#ead9ae;color:#7a5a1a;font-size:12px;padding:2px 8px;border-radius:999px;margin-right:4px}
+.empty{text-align:center;padding:40px;color:var(--ink-soft);font-size:14px}
+.form{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;margin-top:24px}
+.form h2{font-size:18px;margin-bottom:16px;color:var(--pine-dark)}
+.form label{display:block;font-size:13px;color:var(--ink-soft);margin:10px 0 4px}
+.form input,.form textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:14px;font-family:inherit}
+.form input:focus,.form textarea:focus{outline:none;border-color:var(--pine)}
+.form button{margin-top:16px;background:var(--gold);color:#fff;border:none;padding:12px 28px;border-radius:999px;font-size:15px;font-weight:700;cursor:pointer}
+.form button:hover{background:#a06f22}
+.msg{padding:10px 14px;border-radius:8px;margin-top:12px;font-size:14px;display:none}
+.msg.ok{background:#d4ead8;color:#1f5c33;display:block}
+.msg.err{background:#f3d4cd;color:#8a2a1a;display:block}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+<a class="brand" href="/">导游<span>Hub</span></a>
+<div class="navlinks">
+<a href="/map.html">景区地图</a>
+<a href="/guides.html">导游名录</a>
+<a href="/jobs.html">找团需求</a>
+<a href="/feedback.html">反馈</a>
+</div>
+</div></nav>
+
+<header class="head"><div class="wrap">
+<h1>导游名录</h1>
+<p>持证导游自助登记：语言、常驻地、擅长线路、可接团时间。旅行社和领队按地区筛选对接。信息由导游本人提交，平台不审核真实性。</p>
+</div></header>
+
+<section class="section"><div class="wrap">
+<div class="grid" id="list"><div class="empty">加载中…</div></div>
+
+<form class="form" id="f">
+<h2>我要登记 / 更新信息</h2>
+<label>姓名 / 昵称 *</label><input name="name" required>
+<label>常驻城市 *</label><input name="city" placeholder="如 西安 / 杭州" required>
+<label>擅长语言</label><input name="languages" placeholder="普通话 / 英语 / 粤语 / 日语…">
+<label>擅长线路 / 景点</label><input name="specialty" placeholder="如 兵马俑讲解、川西环线、华东水乡">
+<label>联系电话 / 微信</label><input name="phone" placeholder="游客或计调联系你用">
+<label>备注</label><textarea name="note" rows="2" placeholder="可接团时间、带团年限等"></textarea>
+<button type="submit">提交登记</button>
+<div class="msg" id="msg"></div>
+</form>
+</div></section>
+
+<script>
+async function load(){
+  try{
+    const r=await fetch('/api/guides');
+    const list=await r.json();
+    const el=document.getElementById('list');
+    if(!list.length){el.innerHTML='<div class="empty">还没有导游登记，快来做第一个</div>';return;}
+    el.innerHTML=list.map(g=>`<div class="gcard">
+      <h3>${esc(g.name)}</h3>
+      <div class="meta"><b>${esc(g.city)}</b>${g.languages?' · '+esc(g.languages):''}</div>
+      ${g.specialty?`<div style="font-size:13.5px;margin-bottom:6px">${esc(g.specialty)}</div>`:''}
+      ${g.phone?`<div style="font-size:13px;color:var(--ink-soft)">联系：${esc(g.phone)}</div>`:''}
+      ${g.note?`<div style="font-size:13px;color:var(--ink-soft);margin-top:4px">${esc(g.note)}</div>`:''}
+    </div>`).join('');
+  }catch(e){document.getElementById('list').innerHTML='<div class="empty">加载失败，请刷新</div>';}
+}
+function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+document.getElementById('f').onsubmit=async(e)=>{
+  e.preventDefault();
+  const fd=new FormData(e.target);
+  const body=Object.fromEntries(fd.entries());
+  const msg=document.getElementById('msg');
+  const r=await fetch('/api/guides',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(r.ok){msg.className='msg ok';msg.textContent='提交成功！刷新页面可见。';e.target.reset();setTimeout(load,800);}
+  else{msg.className='msg err';msg.textContent='提交失败，请重试';}
+};
+load();
+</script>
+</body></html>

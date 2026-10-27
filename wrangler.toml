@@ -1,0 +1,7 @@
+name = "daoyou"
+compatibility_date = "2024-09-01"
+pages_build_output_dir = "."
+
+[[kv_namespaces]]
+binding = "DAOYOU_DATA"
+id = "edceb9a667ea4a679f52b366d9e30d6d"
