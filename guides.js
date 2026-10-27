@@ -11,8 +11,14 @@ async function currentUid(request,env){
 }
 function maskPhone(p){
   p=String(p||'');
+  if(!p)return '';
   if(/^1\d{10}$/.test(p))return p.slice(0,3)+'****'+p.slice(-4);
-  return p.length<7?p:p.slice(0,2)+'****'+p.slice(-2);
+  if(p.includes('@')){
+    const [u,d]=p.split('@');
+    return u[0]+'***@'+d;
+  }
+  if(p.length<=6)return p;
+  return p.slice(0,2)+'****'+p.slice(-2);
 }
 export async function onRequestGet(context){
   const {request,env}=context;
@@ -23,7 +29,7 @@ export async function onRequestGet(context){
   const list=raw?JSON.parse(raw):[];
   const safe=list.map(g=>({
     id:g.id,
-    mine:g.ownerUid===uid,
+    mine:!!g.ownerUid && g.ownerUid===uid,
     name:g.name?g.name[0]+'**':'',
     licenseNo:g.licenseNo?g.licenseNo.slice(0,2)+'****'+g.licenseNo.slice(-2):'',
     city:g.city,

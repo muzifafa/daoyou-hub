@@ -11,8 +11,14 @@ async function currentUid(request,env){
 }
 function maskPhone(p){
   p=String(p||'');
+  if(!p)return '';
   if(/^1\d{10}$/.test(p))return p.slice(0,3)+'****'+p.slice(-4);
-  return p.length<7?p:p.slice(0,2)+'****'+p.slice(-2);
+  if(p.includes('@')){
+    const [u,d]=p.split('@');
+    return u[0]+'***@'+d;
+  }
+  if(p.length<=6)return p;
+  return p.slice(0,2)+'****'+p.slice(-2);
 }
 export async function onRequestGet(context){
   const {request,env}=context;
