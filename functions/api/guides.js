@@ -24,12 +24,16 @@ export async function onRequestPost(context) {
   if (!body.name || !body.city || !body.licenseNo) {
     return new Response(JSON.stringify({ error: "缺少姓名、常驻城市或导游证号" }), { status: 400 });
   }
+  const licenseNo = String(body.licenseNo).trim().toUpperCase();
+  if (!/^[A-Z]{3}\d{4}[A-Z]$/.test(licenseNo)) {
+    return new Response(JSON.stringify({ error: "导游证号格式不正确，应为3个大写字母+4个数字+1个大写字母（如 BJS1234A）" }), { status: 400 });
+  }
   const raw = await DAOYOU_DATA.get("guides");
   const list = raw ? JSON.parse(raw) : [];
   list.unshift({
     id: Date.now(),
     name: String(body.name).slice(0, 30),
-    licenseNo: String(body.licenseNo).trim().slice(0, 30),
+    licenseNo: licenseNo.slice(0, 30),
     city: String(body.city).slice(0, 20),
     languages: String(body.languages || "").slice(0, 60),
     specialty: String(body.specialty || "").slice(0, 100),
