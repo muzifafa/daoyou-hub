@@ -377,6 +377,7 @@ async function loadAdmin(){
         <div class="meta">语种：${esc(g.languages||'未填')} · 机构：${esc(g.agency||'未填')}</div>
         <div class="meta">电话：${esc(g.phone||'未填')}</div>
         <div style="margin-top:6px;font-size:12px;color:var(--ink-soft)">${esc(g.note||'')}</div>
+        <div style="margin-top:8px;font-size:13px;color:#c0392b;cursor:pointer" onclick="adminDel('guides',${g.id})">删除这条</div>
       </div>`).join('')||'<div class="empty">无数据</div>'}
       <h3 style="margin:24px 0 12px;color:var(--pine-dark)">团带需求（${d.jobs.length}）</h3>
       ${d.jobs.map(j=>`<div class="jcard" style="margin-bottom:8px">
@@ -384,6 +385,7 @@ async function loadAdmin(){
         <div class="meta">${esc(j.city)} · ${esc(j.dateRange||'')} · ${esc(j.tourists||'')}</div>
         <div class="meta">联系方式：${esc(j.contact||'未填')}</div>
         <div style="margin-top:6px;font-size:12px;color:var(--ink-soft)">${esc(j.note||'')}</div>
+        <div style="margin-top:8px;font-size:13px;color:#c0392b;cursor:pointer" onclick="adminDel('jobs',${j.id})">删除这条</div>
       </div>`).join('')||'<div class="empty">无数据</div>'}
       <h3 style="margin:24px 0 12px;color:var(--pine-dark)">用户反馈（${d.feedback.length}）</h3>
       ${d.feedback.map(f=>`<div class="gcard" style="margin-bottom:8px">
@@ -408,6 +410,12 @@ async function applyJob(id){
     if(r.ok){toast('报名成功！领队会在这条需求下看到你');loadJobs();}
     else toast(d.error||'报名失败，请重试');
   }catch(e){toast('网络异常，请稍后再试');}
+}
+async function adminDel(kind,id){
+  if(!confirm('确定删除这条？'))return;
+  const r=await fetch('/api/admin/del?kind='+kind+'&id='+id,{method:'DELETE'});
+  if(r.ok){toast('已删除');loadAdmin();}
+  else toast('删除失败');
 }
 function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 
