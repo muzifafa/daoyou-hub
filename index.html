@@ -519,7 +519,8 @@ function renderGuides(){
   }
   el.innerHTML=list.map(g=>`<div class="gcard">
     <h3>${esc(g.name)}</h3>
-    <div class="meta"><b>${esc(g.city)}</b>${g.languages?' · '+esc(g.languages):''} <span style="color:var(--ink-soft);font-size:12px">· ${timeAgo(g.createdAt)}</span></div>
+    <div class="meta"><b>${esc(g.city)}</b> <span style="color:var(--ink-soft);font-size:12px">· ${timeAgo(g.createdAt)}</span></div>
+    ${g.languages?`<div style="margin:6px 0">${g.languages.split(/[,，、\/]/).map(l=>`<span class="tag">${esc(l.trim())}</span>`).join('')}</div>`:''}
     ${g.agency?`<div style="font-size:12px;color:var(--ink-soft);margin-bottom:6px">注册：${esc(g.agency)}</div>`:''}
     ${g.expiry?`<div style="font-size:12px;color:var(--ink-soft);margin-bottom:6px">有效期至：${esc(g.expiry)}</div>`:''}
     ${g.specialty?`<div style="font-size:13.5px;margin-bottom:6px">${esc(g.specialty)}</div>`:''}
