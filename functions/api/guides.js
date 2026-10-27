@@ -36,7 +36,9 @@ export async function onRequestPost(context){
   const body=await request.json();
   if(!body.name||!body.city||!body.licenseNo)return new Response(JSON.stringify({error:'缺少必填项'}),{status:400});
   const licenseNo=String(body.licenseNo).trim().toUpperCase();
-  if(!/^[A-Z]{3}\d{4}[A-Z]$/.test(licenseNo))return new Response(JSON.stringify({error:'导游证号格式不正确，应为3字母+4数字+1字母（如 BJS1234A）'}),{status:400});
+  if(!/^[A-Z]{3}\d{4}[A-Z]$/.test(licenseNo))return new Response(JSON.stringify({error:'导游证号格式不正确，请核对后重填'}),{status:400});
+  let expiry=String(body.expiry||'').trim();
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(expiry))expiry='';
   const raw=await env.DAOYOU_DATA.get('guides');
   const list=raw?JSON.parse(raw):[];
   list.unshift({
@@ -46,7 +48,7 @@ export async function onRequestPost(context){
     city:String(body.city).slice(0,20),
     languages:String(body.languages||'').slice(0,60),
     agency:String(body.agency||'').slice(0,60),
-    expiry:String(body.expiry||'').slice(0,10),
+    expiry,
     specialty:String(body.specialty||'').slice(0,100),
     phone:String(body.phone||'').slice(0,30),
     note:String(body.note||'').slice(0,200),
