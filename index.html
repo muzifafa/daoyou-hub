@@ -23,6 +23,16 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;heig
 .navlinks{display:flex;gap:20px;font-size:14px;align-items:center}
 .navlinks a{color:var(--ink-soft);cursor:pointer;transition:color .15s}
 .navlinks a:hover,.navlinks a.active{color:var(--pine)}
+.hamburger{display:none;background:none;border:none;font-size:24px;cursor:pointer;color:var(--pine-dark)}
+@media(max-width:720px){
+  .hamburger{display:block}
+  .navlinks{position:absolute;top:60px;left:0;right:0;background:var(--paper);flex-direction:column;padding:16px 20px;gap:14px;border-bottom:1px solid var(--line);display:none}
+  .navlinks.open{display:flex}
+}
+.search-box{width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:#fff;margin-bottom:14px}
+.search-box:focus{outline:none;border-color:var(--pine)}
+.map-top{position:absolute;top:60px;left:0;right:0;z-index:50;background:var(--pine-dark);color:#f4efe2;padding:8px 16px;font-size:13px;display:flex;justify-content:space-between;align-items:center}
+.map-top a{color:var(--gold);cursor:pointer}
 
 .view{display:none;min-height:calc(100vh - 60px)}
 .view.active{display:block}
@@ -90,6 +100,7 @@ footer .links a{color:var(--gold-soft);margin:0 12px;cursor:pointer}
 <nav class="top">
   <div class="wrap">
     <div class="brand" onclick="show('home')">导游<span>Hub</span></div>
+    <button class="hamburger" onclick="document.querySelector('.navlinks').classList.toggle('open')">☰</button>
     <div class="navlinks">
       <a data-view="home" onclick="show('home')">首页</a>
       <a data-view="map" onclick="show('map')">景区地图</a>
@@ -138,13 +149,18 @@ footer .links a{color:var(--gold-soft);margin:0 12px;cursor:pointer}
 
 <!-- MAP -->
 <div class="view" id="view-map">
-  <iframe class="map-frame" src="map.html" loading="lazy"></iframe>
+  <div class="map-top">
+    <span>🗺️ 免票景区地图</span>
+    <a onclick="show('home')">← 返回首页</a>
+  </div>
+  <iframe class="map-frame" src="map.html" loading="lazy" style="height:calc(100vh - 100px)"></iframe>
 </div>
 
 <!-- GUIDES -->
 <div class="view" id="view-guides">
   <header class="sub-head"><div class="wrap"><h1>找导游</h1><p>持证导游自助登记：证号留档（列表打码）、常驻地、擅长线路。领队直接联系，平台不抽佣。</p></div></header>
   <section class="section"><div class="wrap">
+    <input class="search-box" id="guide-search" placeholder="🔍 搜索城市、语种、擅长线路，如：西安 英语 兵马俑">
     <div style="display:flex;gap:10px;margin-bottom:16px;align-items:center">
       <label style="font-size:13px;color:var(--ink-soft)">城市筛选：</label>
       <select id="guide-filter-city" style="padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:14px">
@@ -173,6 +189,7 @@ footer .links a{color:var(--gold-soft);margin:0 12px;cursor:pointer}
 <div class="view" id="view-jobs">
   <header class="sub-head"><div class="wrap"><h1>找团带</h1><p>领队、计调、散客拼团发布找导游需求，导游看到直接联系。平台不参与交易、不抽佣。</p></div></header>
   <section class="section"><div class="wrap">
+    <input class="search-box" id="job-search" placeholder="🔍 搜索目的地、语种、人数，如：成都 日语 20人">
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center">
       <label style="font-size:13px;color:var(--ink-soft)">城市筛选：</label>
       <select id="job-filter-city" style="padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:14px">
@@ -302,7 +319,15 @@ async function logout(){
 let guideList=[];
 function renderGuides(){
   const city=document.getElementById('guide-filter-city').value;
-  const list=city?guideList.filter(g=>g.city?.includes(city)):guideList;
+  const q=(document.getElementById('guide-search').value||'').toLowerCase();
+  let list=guideList.filter(g=>{
+    if(city && !g.city?.includes(city))return false;
+    if(q){
+      const hay=((g.city||'')+(g.languages||'')+(g.specialty||'')+(g.agency||'')+(g.note||'')).toLowerCase();
+      if(!q.split(/\s+/).every(k=>hay.includes(k)))return false;
+    }
+    return true;
+  });
   const el=document.getElementById('guide-list');
   if(!list.length){el.innerHTML='<div class="empty">没有匹配的导游</div>';return;}
   el.innerHTML=list.map(g=>`<div class="gcard">
@@ -326,6 +351,7 @@ async function loadGuides(){
   }catch(e){document.getElementById('guide-list').innerHTML='<div class="empty">加载失败</div>';}
 }
 document.getElementById('guide-filter-city').onchange=renderGuides;
+document.getElementById('guide-search').oninput=renderGuides;
 document.getElementById('guide-form').onsubmit=async(e)=>{
   e.preventDefault();
   const fd=new FormData(e.target);const body=Object.fromEntries(fd.entries());
@@ -346,10 +372,15 @@ function isExpired(j){
 function renderJobs(){
   const city=document.getElementById('job-filter-city').value;
   const status=document.getElementById('job-filter-status').value;
+  const q=(document.getElementById('job-search').value||'').toLowerCase();
   let list=jobList.filter(j=>{
     if(city && !j.city?.includes(city))return false;
     if(status==='open' && isExpired(j))return false;
     if(status==='expired' && !isExpired(j))return false;
+    if(q){
+      const hay=((j.title||'')+(j.city||'')+(j.language||'')+(j.tourists||'')+(j.note||'')).toLowerCase();
+      if(!q.split(/\s+/).every(k=>hay.includes(k)))return false;
+    }
     return true;
   });
   const el=document.getElementById('job-list');
@@ -377,6 +408,7 @@ async function loadJobs(){
 }
 document.getElementById('job-filter-city').onchange=renderJobs;
 document.getElementById('job-filter-status').onchange=renderJobs;
+document.getElementById('job-search').oninput=renderJobs;
 document.getElementById('job-form').onsubmit=async(e)=>{
   e.preventDefault();
   const fd=new FormData(e.target);const body=Object.fromEntries(fd.entries());
