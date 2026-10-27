@@ -76,30 +76,38 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:5
 </div></section>
 
 <script>
+function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+let currentList=[];
+function render(){
+  const el=document.getElementById('list');
+  if(!currentList.length){el.innerHTML='<div class="empty">还没有导游登记，快来做第一个</div>';return;}
+  el.innerHTML=currentList.map(g=>`<div class="gcard">
+    <h3>${esc(g.name)}</h3>
+    <div class="meta"><b>${esc(g.city)}</b>${g.languages?' · '+esc(g.languages):''}</div>
+    ${g.specialty?`<div style="font-size:13.5px;margin-bottom:6px">${esc(g.specialty)}</div>`:''}
+    ${g.phone?`<div style="font-size:13px;color:var(--ink-soft)">联系：${esc(g.phone)}</div>`:''}
+    ${g.note?`<div style="font-size:13px;color:var(--ink-soft);margin-top:4px">${esc(g.note)}</div>`:''}
+  </div>`).join('');
+}
 async function load(){
   try{
     const r=await fetch('/api/guides');
-    const list=await r.json();
-    const el=document.getElementById('list');
-    if(!list.length){el.innerHTML='<div class="empty">还没有导游登记，快来做第一个</div>';return;}
-    el.innerHTML=list.map(g=>`<div class="gcard">
-      <h3>${esc(g.name)}</h3>
-      <div class="meta"><b>${esc(g.city)}</b>${g.languages?' · '+esc(g.languages):''}</div>
-      ${g.specialty?`<div style="font-size:13.5px;margin-bottom:6px">${esc(g.specialty)}</div>`:''}
-      ${g.phone?`<div style="font-size:13px;color:var(--ink-soft)">联系：${esc(g.phone)}</div>`:''}
-      ${g.note?`<div style="font-size:13px;color:var(--ink-soft);margin-top:4px">${esc(g.note)}</div>`:''}
-    </div>`).join('');
+    currentList=await r.json();
+    render();
   }catch(e){document.getElementById('list').innerHTML='<div class="empty">加载失败，请刷新</div>';}
 }
-function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 document.getElementById('f').onsubmit=async(e)=>{
   e.preventDefault();
   const fd=new FormData(e.target);
   const body=Object.fromEntries(fd.entries());
   const msg=document.getElementById('msg');
   const r=await fetch('/api/guides',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(r.ok){msg.className='msg ok';msg.textContent='提交成功！刷新页面可见。';e.target.reset();setTimeout(load,800);}
-  else{msg.className='msg err';msg.textContent='提交失败，请重试';}
+  if(r.ok){
+    msg.className='msg ok';msg.textContent='提交成功！已显示在列表顶部。';
+    currentList.unshift({...body,id:Date.now()});
+    render();
+    e.target.reset();
+  }else{msg.className='msg err';msg.textContent='提交失败，请重试';}
 };
 load();
 </script>
