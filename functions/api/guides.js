@@ -1,3 +1,8 @@
+function maskPhone(p){
+  p=String(p||'');
+  if(p.length<7)return p;
+  return p.slice(0,3)+'****'+p.slice(-4);
+}
 export async function onRequestGet(context) {
   const { DAOYOU_DATA } = context.env;
   const raw = await DAOYOU_DATA.get("guides");
@@ -11,7 +16,8 @@ export async function onRequestGet(context) {
     agency: g.agency,
     expiry: g.expiry,
     specialty: g.specialty,
-    phone: g.phone,
+    phoneMask: maskPhone(g.phone),
+    phoneLast4: g.phone ? g.phone.slice(-4) : "",
     note: g.note,
     createdAt: g.createdAt
   }));

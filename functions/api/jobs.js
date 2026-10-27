@@ -1,8 +1,26 @@
+function maskContact(c){
+  c=String(c||'');
+  if(c.length<7)return c;
+  if(/^1\d{10}$/.test(c))return c.slice(0,3)+'****'+c.slice(-4);
+  return c.slice(0,2)+'****'+c.slice(-3);
+}
 export async function onRequestGet(context) {
   const { DAOYOU_DATA } = context.env;
   const raw = await DAOYOU_DATA.get("jobs");
   const list = raw ? JSON.parse(raw) : [];
-  return new Response(JSON.stringify(list), {
+  const safe = list.map(j => ({
+    id: j.id,
+    title: j.title,
+    city: j.city,
+    dateRange: j.dateRange,
+    tourists: j.tourists,
+    language: j.language,
+    budget: j.budget,
+    contactMask: maskContact(j.contact),
+    note: j.note,
+    createdAt: j.createdAt
+  }));
+  return new Response(JSON.stringify(safe), {
     headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
   });
 }
