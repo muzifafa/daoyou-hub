@@ -38,7 +38,7 @@ button{font-family:inherit}
 
 nav.top{position:sticky;top:0;z-index:100;background:rgba(246,242,233,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 nav.top .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:12px}
-.brand{font-family:"Noto Serif SC",serif;font-weight:900;font-size:19px;color:var(--pine-dark);cursor:pointer;letter-spacing:.02em;white-space:nowrap}
+.brand{font-family:"Noto Serif SC",serif;font-weight:900;font-size:19px;color:var(--pine-dark);cursor:pointer;letter-spacing:.02em;white-space:nowrap;background:none;border:none;padding:0;text-align:left}
 .brand span{color:var(--gold)}
 .navlinks{display:flex;gap:20px;font-size:14px;align-items:center}
 .navlinks a{color:var(--ink-soft);cursor:pointer;transition:color .15s;white-space:nowrap}
@@ -55,7 +55,7 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;heig
   .navlinks a:last-child{border-bottom:none}
   .navlinks .nav-auth{text-align:center;margin-left:0}
 }
-.search-box{width:100%;padding:11px 16px;border:1px solid var(--line);border-radius:var(--radius-sm);font-size:14px;background:#fff;margin-bottom:14px;box-shadow:var(--shadow)}
+.search-box{width:100%;padding:11px 16px;border:1px solid var(--line);border-radius:var(--radius-sm);font-size:16px;background:#fff;margin-bottom:14px;box-shadow:var(--shadow)}
 .search-box:focus{outline:none;border-color:var(--pine)}
 .map-top{position:absolute;top:60px;left:0;right:0;z-index:50;background:var(--pine-dark);color:#f4efe2;padding:10px 18px;font-size:13px;display:flex;justify-content:space-between;align-items:center}
 .map-top a{color:var(--gold);cursor:pointer}
@@ -113,7 +113,7 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;heig
 .form{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px;margin-top:24px;box-shadow:var(--shadow)}
 .form h2{font-size:18px;margin-bottom:16px;color:var(--pine-dark)}
 .form label{display:block;font-size:13px;color:var(--ink-soft);margin:12px 0 4px;font-weight:500}
-.form input,.form textarea,.form select{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:var(--radius-sm);background:#fff;font-size:14px;font-family:inherit;transition:border-color .15s}
+.form input,.form textarea,.form select{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:var(--radius-sm);background:#fff;font-size:16px;font-family:inherit;transition:border-color .15s}
 .form input:focus,.form textarea:focus,.form select:focus{outline:none;border-color:var(--pine)}
 .form button{margin-top:18px;background:var(--gold);color:#fff;border:none;padding:13px 32px;border-radius:999px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(185,130,42,.25)}
 .form button:hover{background:var(--gold-dark)}
@@ -150,7 +150,7 @@ footer .sub-links a{color:#cfd8cc;margin:0 8px}
 .auth-tabs button{flex:1;background:none;border:none;padding:8px;border-radius:999px;font-size:14px;cursor:pointer;color:var(--ink-soft);font-weight:500}
 .auth-tabs button.active{background:var(--pine);color:#fff}
 .modal label{display:block;font-size:13px;color:var(--ink-soft);margin:10px 0 4px;font-weight:500}
-.modal input{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;margin-bottom:4px;font-size:14px;font-family:inherit}
+.modal input{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;margin-bottom:4px;font-size:16px;font-family:inherit}
 .modal input:focus{outline:none;border-color:var(--pine)}
 .modal .auth-actions{display:flex;gap:10px;margin-top:16px}
 .modal .auth-actions button{flex:1;padding:11px;border-radius:999px;font-weight:700;cursor:pointer;border:none;font-size:14px}
@@ -159,11 +159,12 @@ footer .sub-links a{color:#cfd8cc;margin:0 8px}
 </style>
 </head>
 <body>
+<noscript><div style="padding:40px;text-align:center;font-family:sans-serif">本站需要启用 JavaScript 才能浏览。请在浏览器设置中启用 JS 后刷新。</div></noscript>
 <a class="skip-link" href="#main">跳到主要内容</a>
 
 <nav class="top" aria-label="主导航">
   <div class="wrap">
-    <button class="brand" onclick="show('home')" style="background:none;border:none;cursor:pointer;font-family:inherit;font-size:inherit;padding:0;text-align:left">导游<span>Hub</span></button>
+    <button class="brand" onclick="show('home')" aria-label="返回首页">导游<span>Hub</span></button>
     <button class="hamburger" aria-label="打开菜单" aria-expanded="false" onclick="toggleMenu(this)">☰</button>
     <div class="navlinks" id="navlinks">
       <a data-view="home" onclick="show('home')">首页</a>
@@ -197,7 +198,7 @@ footer .sub-links a{color:#cfd8cc;margin:0 8px}
       <div class="stats">
         <div class="stat"><b id="stat-guides">—</b><span>登记导游</span></div>
         <div class="stat"><b id="stat-jobs">—</b><span>团带需求</span></div>
-        <div class="stat"><b>1853+</b><span>免票景区</span></div>
+        <div class="stat"><b>1827+</b><span>已核实景区</span></div>
         <div class="stat"><b>公益</b><span>不抽佣不交易</span></div>
       </div>
     </div>
@@ -454,6 +455,9 @@ function show(v){
   if(v==='jobs')loadJobs();
   if(v==='me')loadMe();
   if(v==='admin')loadAdmin();
+  // 无障碍：移动焦点到 main
+  const main=document.getElementById('main');
+  if(main){main.setAttribute('tabindex','-1');main.focus({preventScroll:true});}
   try{history.pushState(null,'','#'+v)}catch(e){}
 }
 function goPostJob(){show('jobs');setTimeout(()=>scrollToForm('job-form'),80);}
@@ -828,6 +832,9 @@ async function loadLatest(){
     }else lj.innerHTML='<div style="padding:8px 0">还没有团带需求</div>';
   }catch(e){
     document.getElementById('stat-guides').textContent='—';
+    document.getElementById('stat-jobs').textContent='—';
+    document.getElementById('latest-guides').innerHTML='<div style="padding:8px 0">加载失败</div>';
+    document.getElementById('latest-jobs').innerHTML='<div style="padding:8px 0">加载失败</div>';
   }
 }
 </script>
