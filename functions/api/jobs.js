@@ -16,11 +16,14 @@ function maskContact(c){
 export async function onRequestGet(context){
   const {request,env}=context;
   const sid=getSession(request);
-  const loggedIn=!!sid && !!(await env.DAOYOU_DATA.get('session:'+sid));
+  const uid=sid?await env.DAOYOU_DATA.get('session:'+sid):null;
+  const loggedIn=!!uid;
   const raw=await env.DAOYOU_DATA.get('jobs');
   const list=raw?JSON.parse(raw):[];
   const safe=list.map(j=>({
-    id:j.id,title:j.title,city:j.city,dateRange:j.dateRange,tourists:j.tourists,
+    id:j.id,
+    mine:j.ownerUid===uid,
+    title:j.title,city:j.city,dateRange:j.dateRange,tourists:j.tourists,
     language:j.language,budget:j.budget,
     contact:loggedIn?j.contact:maskContact(j.contact),
     contactMasked:!loggedIn,

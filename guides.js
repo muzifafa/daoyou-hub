@@ -17,11 +17,13 @@ function maskPhone(p){
 export async function onRequestGet(context){
   const {request,env}=context;
   const sid=getSession(request);
-  const loggedIn=!!sid && !!(await env.DAOYOU_DATA.get('session:'+sid));
+  const uid=sid?await env.DAOYOU_DATA.get('session:'+sid):null;
+  const loggedIn=!!uid;
   const raw=await env.DAOYOU_DATA.get('guides');
   const list=raw?JSON.parse(raw):[];
   const safe=list.map(g=>({
     id:g.id,
+    mine:g.ownerUid===uid,
     name:g.name?g.name[0]+'**':'',
     licenseNo:g.licenseNo?g.licenseNo.slice(0,2)+'****'+g.licenseNo.slice(-2):'',
     city:g.city,

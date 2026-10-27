@@ -320,8 +320,8 @@ async function loadMe(){
   try{
     const [g,j]=await Promise.all([fetch('/api/guides').then(r=>r.json()),fetch('/api/jobs').then(r=>r.json())]);
     if(!g.loggedIn){el.innerHTML='<div class="empty">请先登录</div>';return;}
-    const myGuides=g.list.slice(0,1);
-    const myJobs=j.list.slice(0,5);
+    const myGuides=g.list.filter(x=>x.mine);
+    const myJobs=j.list.filter(x=>x.mine);
     el.innerHTML=`
       <h3 style="margin-bottom:12px;color:var(--pine-dark)">我登记的导游信息</h3>
       ${myGuides.length?myGuides.map(x=>`<div class="gcard">
@@ -356,7 +356,11 @@ async function checkAuth(){
     document.getElementById('nav-logout').style.display=d.loggedIn?'inline':'none';
   }catch(e){}
 }
-function openAuth(){document.getElementById('auth-modal').style.display='flex';document.getElementById('auth-msg').textContent='';}
+function openAuth(){
+  document.getElementById('auth-modal').style.display='flex';
+  document.getElementById('auth-msg').textContent='';
+  document.getElementById('auth-name').parentElement.style.display='none';
+}
 function closeAuth(){document.getElementById('auth-modal').style.display='none';}
 async function doAuth(mode){
   document.getElementById('auth-name').parentElement.style.display=mode==='register'?'block':'none';
@@ -482,7 +486,6 @@ document.getElementById('job-form').onsubmit=async(e)=>{
   const msg=document.getElementById('job-msg');
   const r=await fetch('/api/jobs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
   if(r.ok){msg.className='msg ok';msg.textContent='发布成功！已显示在列表顶部。';jobList.unshift({...body,id:Date.now()});loadJobs();e.target.reset();toast('发布成功')}
-  else{msg.className='msg err';msg.textContent='发布失败，请重试';}
   else{msg.className='msg err';msg.textContent='发布失败，请重试';}
 };
 
