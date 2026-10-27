@@ -55,16 +55,17 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:5
 </div></nav>
 
 <header class="head"><div class="wrap">
-<h1>导游名录</h1>
-<p>持证导游自助登记：语言、常驻地、擅长线路、可接团时间。旅行社和领队按地区筛选对接。信息由导游本人提交，平台不审核真实性。</p>
+<h1>找导游</h1>
+<p>持证导游自助登记：语言、常驻地、擅长线路。需填导游证号留档（列表打码显示），姓名只显示姓。信息由导游本人提交，平台不接入文旅部核验系统，如遇假导游可凭留档证号追溯。</p>
 </div></header>
 
 <section class="section"><div class="wrap">
 <div class="grid" id="list"><div class="empty">加载中…</div></div>
 
 <form class="form" id="f">
-<h2>我要登记 / 更新信息</h2>
-<label>姓名 / 昵称 *</label><input name="name" required>
+      <h2>导游登记 / 更新信息</h2>
+<label>真实姓名 *</label><input name="name" required placeholder="用于核验，列表只显示姓">
+<label>导游证号 *</label><input name="licenseNo" required placeholder="如 D-123456（列表打码显示）">
 <label>常驻城市 *</label><input name="city" placeholder="如 西安 / 杭州" required>
 <label>擅长语言</label><input name="languages" placeholder="普通话 / 英语 / 粤语 / 日语…">
 <label>擅长线路 / 景点</label><input name="specialty" placeholder="如 兵马俑讲解、川西环线、华东水乡">
@@ -84,6 +85,7 @@ function render(){
   el.innerHTML=currentList.map(g=>`<div class="gcard">
     <h3>${esc(g.name)}</h3>
     <div class="meta"><b>${esc(g.city)}</b>${g.languages?' · '+esc(g.languages):''}</div>
+    ${g.licenseNo?`<div style="font-size:12px;color:var(--ink-soft);margin-bottom:6px">导游证：${esc(g.licenseNo)}</div>`:''}
     ${g.specialty?`<div style="font-size:13.5px;margin-bottom:6px">${esc(g.specialty)}</div>`:''}
     ${g.phone?`<div style="font-size:13px;color:var(--ink-soft)">联系：${esc(g.phone)}</div>`:''}
     ${g.note?`<div style="font-size:13px;color:var(--ink-soft);margin-top:4px">${esc(g.note)}</div>`:''}

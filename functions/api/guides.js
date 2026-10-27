@@ -2,7 +2,18 @@ export async function onRequestGet(context) {
   const { DAOYOU_DATA } = context.env;
   const raw = await DAOYOU_DATA.get("guides");
   const list = raw ? JSON.parse(raw) : [];
-  return new Response(JSON.stringify(list), {
+  const safe = list.map(g => ({
+    id: g.id,
+    name: g.name ? g.name[0] + "**" : "",
+    licenseNo: g.licenseNo ? g.licenseNo.slice(0, 2) + "****" + g.licenseNo.slice(-2) : "",
+    city: g.city,
+    languages: g.languages,
+    specialty: g.specialty,
+    phone: g.phone,
+    note: g.note,
+    createdAt: g.createdAt
+  }));
+  return new Response(JSON.stringify(safe), {
     headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
   });
 }
@@ -10,14 +21,15 @@ export async function onRequestGet(context) {
 export async function onRequestPost(context) {
   const { DAOYOU_DATA } = context.env;
   const body = await context.request.json();
-  if (!body.name || !body.city) {
-    return new Response(JSON.stringify({ error: "缺少姓名或常驻城市" }), { status: 400 });
+  if (!body.name || !body.city || !body.licenseNo) {
+    return new Response(JSON.stringify({ error: "缺少姓名、常驻城市或导游证号" }), { status: 400 });
   }
   const raw = await DAOYOU_DATA.get("guides");
   const list = raw ? JSON.parse(raw) : [];
   list.unshift({
     id: Date.now(),
     name: String(body.name).slice(0, 30),
+    licenseNo: String(body.licenseNo).trim().slice(0, 30),
     city: String(body.city).slice(0, 20),
     languages: String(body.languages || "").slice(0, 60),
     specialty: String(body.specialty || "").slice(0, 100),
