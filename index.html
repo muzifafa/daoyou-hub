@@ -424,10 +424,11 @@ async function loadAdmin(){
         <div style="margin-top:8px;font-size:13px;color:#c0392b;cursor:pointer" onclick="adminDel('jobs',${j.id})">删除这条</div>
       </div>`).join('')||'<div class="empty">无数据</div>'}
       <h3 style="margin:24px 0 12px;color:var(--pine-dark)">用户反馈（${d.feedback.length}）</h3>
-      ${d.feedback.map(f=>`<div class="gcard" style="margin-bottom:8px">
-        <div class="meta">${esc(f.type||'')} · ${esc(f.spot||'')}</div>
+      ${d.feedback.map(f=>`<div class="gcard" style="margin-bottom:8px;${f.handled?'opacity:.6':''}">
+        <div class="meta">${esc(f.type||'')} · ${esc(f.spot||'')} ${f.handled?'· <span style="color:#1f5c33">已处理</span>':''}</div>
         <div style="margin-top:4px">${esc(f.content||'')}</div>
         <div class="meta" style="margin-top:4px;font-size:12px">${esc(f.contact||'')}</div>
+        ${!f.handled?`<div style="margin-top:8px;font-size:13px;color:var(--pine);cursor:pointer" onclick="handleFeedback(${f.id})">标记已处理</div>`:''}
       </div>`).join('')||'<div class="empty">无反馈</div>'}
     `;
   }catch(e){el.innerHTML='<div class="empty">加载失败</div>';}
@@ -452,6 +453,11 @@ async function adminDel(kind,id){
   const r=await fetch('/api/admin/del?kind='+kind+'&id='+id,{method:'DELETE'});
   if(r.ok){toast('已删除');loadAdmin();}
   else toast('删除失败');
+}
+async function handleFeedback(id){
+  const r=await fetch('/api/admin/handle-feedback?id='+id,{method:'POST'});
+  if(r.ok){toast('已标记');loadAdmin();}
+  else toast('操作失败');
 }
 function timeAgo(iso){
   if(!iso)return '';
