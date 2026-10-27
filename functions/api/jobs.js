@@ -20,16 +20,21 @@ export async function onRequestGet(context){
   const loggedIn=!!uid;
   const raw=await env.DAOYOU_DATA.get('jobs');
   const list=raw?JSON.parse(raw):[];
-  const safe=list.map(j=>({
+  const safe=list.map(j=>{
+    const isMine=!!j.ownerUid && j.ownerUid===uid;
+    const apps=j.applicants||[];
+    return {
     id:j.id,
-    mine:j.ownerUid===uid,
+    mine:isMine,
     title:j.title,city:j.city,dateRange:j.dateRange,tourists:j.tourists,
     language:j.language,budget:j.budget,
     contact:loggedIn?j.contact:maskContact(j.contact),
     contactMasked:!loggedIn,
-    applicants:j.applicants||[],
+    applicants:isMine?apps.map(a=>({name:(typeof a==='object'?a.name:'导游')})):[],
+    applicantsCount:apps.length,
     note:j.note,createdAt:j.createdAt
-  }));
+    };
+  });
   return new Response(JSON.stringify({list:safe,loggedIn}),{headers:{'Content-Type':'application/json'}});
 }
 export async function onRequestPost(context){
@@ -50,24 +55,7 @@ export async function onRequestPost(context){
   await env.DAOYOU_DATA.put('jobs',JSON.stringify(list));
   return new Response(JSON.stringify({ok:true}),{headers:{'Content-Type':'application/json'}});
 }
-// POST /api/jobs/apply  body: {id}
-export async function onRequest(context){
-  if(context.request.method==='POST' && new URL(context.request.url).pathname==='/api/jobs/apply'){
-    const {request,env}=context;
-    const uid=await currentUid(request,env);
-    if(!uid)return new Response(JSON.stringify({error:'请先登录'}),{status:401});
-    const body=await request.json();
-    const raw=await env.DAOYOU_DATA.get('jobs');
-    const list=raw?JSON.parse(raw):[];
-    const j=list.find(x=>x.id===Number(body.id));
-    if(!j)return new Response(JSON.stringify({error:'需求不存在'}),{status:404});
-    j.applicants=j.applicants||[];
-    if(!j.applicants.includes(uid))j.applicants.push(uid);
-    await env.DAOYOU_DATA.put('jobs',JSON.stringify(list));
-    return new Response(JSON.stringify({ok:true,count:j.applicants.length}),{headers:{'Content-Type':'application/json'}});
-  }
-  return onRequestGet(context);
-}
+// POST /api/jobs/apply 已拆分到 functions/api/jobs/apply.js（本文件只处理 /api/jobs）
 export async function onRequestDelete(context){
   const {request,env}=context;
   const uid=await currentUid(request,env);

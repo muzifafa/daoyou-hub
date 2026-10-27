@@ -23,7 +23,7 @@ export async function onRequestGet(context){
   const list=raw?JSON.parse(raw):[];
   const safe=list.map(g=>({
     id:g.id,
-    mine:g.ownerUid===uid,
+    mine:!!g.ownerUid && g.ownerUid===uid,
     name:g.name?g.name[0]+'**':'',
     licenseNo:g.licenseNo?g.licenseNo.slice(0,2)+'****'+g.licenseNo.slice(-2):'',
     city:g.city,

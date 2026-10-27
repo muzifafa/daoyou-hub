@@ -127,7 +127,7 @@ footer .links a{color:#d4b87a;margin:0 12px;cursor:pointer}
       <div class="kicker">全国持证导游 · 公益互助</div>
       <h1>导游互助平台</h1>
       <p class="sub">不靠网上零散截图，靠全国导游实地核实。<br>持导游证免票景区名录、团导对接、A级景区共建——一个为导游服务的开放数据社区。</p>
-      <button class="cta" onclick="show('guides')">我是导游，我要接单 →</button>
+      <button class="cta" onclick="show('jobs')">我是导游，我要接单 →</button>
       <div class="stats">
         <div class="stat"><b id="stat-guides">—</b><span>登记导游</span></div>
         <div class="stat"><b id="stat-jobs">—</b><span>团带需求</span></div>
@@ -360,11 +360,13 @@ async function delMine(kind,id){
   else{const d=await r.json().catch(()=>({}));toast(d.error||'删除失败');}
 }
 async function applyJob(id){
-  if(!currentLoggedIn){openAuth();toast('请先登录');return;}
-  const r=await fetch('/api/jobs/apply',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})});
-  const d=await r.json();
-  if(r.ok){toast('报名成功！领队会看到你');loadJobs();}
-  else toast(d.error||'报名失败');
+  if(!currentLoggedIn){openAuth();toast('请先登录后再接单');return;}
+  try{
+    const r=await fetch('/api/jobs/apply',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})});
+    const d=await r.json().catch(()=>({}));
+    if(r.ok){toast('报名成功！领队会在这条需求下看到你');loadJobs();}
+    else toast(d.error||'报名失败，请重试');
+  }catch(e){toast('网络异常，请稍后再试');}
 }
 function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 
@@ -494,11 +496,12 @@ function renderJobs(){
   const active=list.filter(j=>!isExpired(j));
   const expired=list.filter(j=>isExpired(j));
   const card=(j,ex)=>`<div class="jcard" style="${ex?'opacity:.55':''}">
-      <h3>${esc(j.title)} ${ex?'<span class="tag" style="background:#ddd;color:#666">已过期</span>':''} ${j.applicants&&j.applicants.length?`<span class="tag" style="background:#d4ead8;color:#1f5c33">${j.applicants.length}位导游报名</span>`:''}</h3>
+      <h3>${esc(j.title)} ${ex?'<span class="tag" style="background:#ddd;color:#666">已过期</span>':''} ${j.applicantsCount?`<span class="tag" style="background:#d4ead8;color:#1f5c33">${j.applicantsCount}位导游报名</span>`:''}</h3>
       <div class="meta"><b>${esc(j.city)}</b>${j.dateRange?' · '+esc(j.dateRange):''}${j.tourists?' · '+esc(j.tourists):''}</div>
       <div>${[j.language?`<span class="tag">${esc(j.language)}</span>`:'',j.budget?`<span class="tag">${esc(j.budget)}</span>`:''].join('')}</div>
       ${j.note?`<div style="font-size:13.5px;margin:8px 0;color:var(--ink-soft)">${esc(j.note)}</div>`:''}
       <div style="font-size:13px;color:var(--pine);font-weight:700">联系：${esc(j.contact)} ${j.contactMasked?'<a onclick="openAuth()" style="cursor:pointer;color:var(--ink-soft);font-weight:400;text-decoration:underline;font-size:12px">登录查看完整</a>':''}</div>
+      ${j.mine&&j.applicants&&j.applicants.length?`<div style="margin-top:10px;font-size:13px;color:#1f5c33;background:#eef5ef;border:1px solid #cfe3d2;padding:8px 12px;border-radius:8px">👥 已报名的导游：${j.applicants.map(a=>esc(a.name)).join('、')}（请通过上方联系方式主动联系）</div>`:''}
       ${!j.mine?'<button onclick="applyJob('+j.id+')" style="margin-top:10px;background:var(--pine);color:#fff;border:none;padding:8px 18px;border-radius:999px;font-size:13px;cursor:pointer">我要接单</button>':''}
     </div>`;
   el.innerHTML=active.map(j=>card(j,false)).join('')+
