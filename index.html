@@ -129,9 +129,9 @@ footer .links a{color:#d4b87a;margin:0 12px;cursor:pointer}
       <p class="sub">不靠网上零散截图，靠全国导游实地核实。<br>持导游证免票景区名录、团导对接、A级景区共建——一个为导游服务的开放数据社区。</p>
       <button class="cta" onclick="show('guides')">我是导游，我要接单 →</button>
       <div class="stats">
-        <div class="stat"><b>1827</b><span>已核实景区</span></div>
-        <div class="stat"><b>5976</b><span>待核实 A 级名录</span></div>
-        <div class="stat"><b>31</b><span>省级行政区</span></div>
+        <div class="stat"><b id="stat-guides">—</b><span>登记导游</span></div>
+        <div class="stat"><b id="stat-jobs">—</b><span>团带需求</span></div>
+        <div class="stat"><b>1853</b><span>免票景区</span></div>
         <div class="stat"><b>公益</b><span>不抽佣不交易</span></div>
       </div>
     </div>
@@ -545,6 +545,10 @@ async function loadLatest(){
     const [g,j]=await Promise.all([fetch('/api/guides').then(r=>r.json()),fetch('/api/jobs').then(r=>r.json())]);
     const lg=document.getElementById('latest-guides');
     const lj=document.getElementById('latest-jobs');
+    const sg=document.getElementById('stat-guides');
+    const sj=document.getElementById('stat-jobs');
+    if(sg)sg.textContent=g.list.length;
+    if(sj)sj.textContent=j.list.length;
     if(g.list.length){
       lg.innerHTML=g.list.slice(0,4).map(x=>`<div style="padding:8px 0;border-bottom:1px dashed var(--line)">
         <b style="color:var(--ink)">${esc(x.name)}</b> · ${esc(x.city)}
