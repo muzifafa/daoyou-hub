@@ -99,6 +99,8 @@ footer .links a{color:var(--gold-soft);margin:0 12px;cursor:pointer}
       <a href="https://visa.chicheng.org/" target="_blank" rel="noopener">签证</a>
       <a href="https://chicheng.org/" target="_blank" rel="noopener">景区搭建</a>
       <a href="https://github.com/muzifafa/daoyou-hub" target="_blank" rel="noopener">GitHub</a>
+      <a id="nav-login" onclick="openAuth()">登录</a>
+      <a id="nav-user" style="display:none" onclick="logout()">退出</a>
     </div>
   </div>
 </nav>
@@ -224,6 +226,25 @@ footer .links a{color:var(--gold-soft);margin:0 12px;cursor:pointer}
   </div></section>
 </div>
 
+<div id="auth-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center">
+  <div style="background:var(--card);padding:28px;border-radius:14px;width:90%;max-width:38px;max-width:380px">
+    <h2 id="auth-title" style="font-size:20px;margin-bottom:16px">登录 / 注册</h2>
+    <label style="font-size:13px;color:var(--ink-soft)">昵称（注册时填）</label>
+    <input id="auth-name" placeholder="如 李导" style="width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:8px;margin:4px 0 10px">
+    <label style="font-size:13px;color:var(--ink-soft)">邮箱 *</label>
+    <input id="auth-email" type="email" placeholder="you@example.com" style="width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:8px;margin:4px 0 10px">
+    <label style="font-size:13px;color:var(--ink-soft)">密码 *（至少6位）</label>
+    <input id="auth-password" type="password" placeholder="••••••" style="width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:8px;margin:4px 0 14px">
+    <div style="display:flex;gap:10px">
+      <button onclick="doAuth('login')" style="flex:1;background:var(--pine);color:#fff;border:none;padding:11px;border-radius:999px;font-weight:700;cursor:pointer">登录</button>
+      <button onclick="doAuth('register')" style="flex:1;background:var(--gold);color:#fff;border:none;padding:11px;border-radius:999px;font-weight:700;cursor:pointer">注册</button>
+      <button onclick="closeAuth()" style="padding:11px 16px;background:var(--paper-2);border:none;border-radius:999px;cursor:pointer">取消</button>
+    </div>
+    <div id="auth-msg" style="margin-top:12px;font-size:13px;color:var(--clay);text-align:center"></div>
+    <p style="font-size:12px;color:var(--ink-soft);margin-top:12px;text-align:center">登录后才能看到完整联系方式</p>
+  </div>
+</div>
+
 <footer>
   <div class="wrap">
     <div class="links">
@@ -250,6 +271,34 @@ function show(v){
 }
 function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 
+let currentLoggedIn=false;
+async function checkAuth(){
+  try{
+    const r=await fetch('/api/auth/me');const d=await r.json();
+    currentLoggedIn=d.loggedIn;
+    const nl=document.getElementById('nav-login');const nu=document.getElementById('nav-user');
+    if(d.loggedIn){nl.style.display='none';nu.style.display='inline';nu.textContent='退出 ('+d.name+')';}
+    else{nl.style.display='inline';nu.style.display='none';}
+  }catch(e){}
+}
+function openAuth(){document.getElementById('auth-modal').style.display='flex';document.getElementById('auth-msg').textContent='';}
+function closeAuth(){document.getElementById('auth-modal').style.display='none';}
+async function doAuth(mode){
+  const email=document.getElementById('auth-email').value.trim();
+  const password=document.getElementById('auth-password').value;
+  const name=document.getElementById('auth-name').value.trim();
+  const msg=document.getElementById('auth-msg');
+  const body=mode==='register'?{email,password,name}:{email,password};
+  const r=await fetch('/api/auth/'+mode,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const d=await r.json();
+  if(r.ok){closeAuth();await checkAuth();loadGuides();loadJobs();}
+  else{msg.style.color='#8a2a1a';msg.textContent=d.error||'失败';}
+}
+async function logout(){
+  await fetch('/api/auth/logout',{method:'POST'});
+  location.reload();
+}
+
 let guideList=[];
 function renderGuides(){
   const city=document.getElementById('guide-filter-city').value;
@@ -263,17 +312,18 @@ function renderGuides(){
     ${g.agency?`<div style="font-size:12px;color:var(--ink-soft);margin-bottom:6px">注册：${esc(g.agency)}</div>`:''}
     ${g.expiry?`<div style="font-size:12px;color:var(--ink-soft);margin-bottom:6px">有效期至：${esc(g.expiry)}</div>`:''}
     ${g.specialty?`<div style="font-size:13.5px;margin-bottom:6px">${esc(g.specialty)}</div>`:''}
-    ${g.phoneMask?`<div style="font-size:13px;color:var(--ink-soft)">联系：${esc(g.phoneMask)} <span style="font-size:12px;color:var(--pine)">（已隐藏中间位，防爬）</span></div>`:''}
+    ${g.phone?`<div style="font-size:13px;color:var(--ink-soft)">联系：${esc(g.phone)} ${g.phoneMasked?'<a onclick="openAuth()" style="cursor:pointer;color:var(--pine);text-decoration:underline">登录查看完整号码</a>':''}</div>`:''}
     ${g.note?`<div style="font-size:13px;color:var(--ink-soft);margin-top:4px">${esc(g.note)}</div>`:''}
   </div>`).join('');
 }
 async function loadGuides(){
   try{
-    const r=await fetch('/api/guides');guideList=await r.json();
+    const r=await fetch('/api/guides');const d=await r.json();
+    guideList=d.list||[];currentLoggedIn=d.loggedIn;
     const cities=[...new Set(guideList.map(g=>g.city).filter(Boolean))].sort();
     const sel=document.getElementById('guide-filter-city');
     sel.innerHTML='<option value="">全部</option>'+cities.map(c=>`<option>${esc(c)}</option>`).join('');
-    renderGuides();
+    renderGuides();checkAuth();
   }catch(e){document.getElementById('guide-list').innerHTML='<div class="empty">加载失败</div>';}
 }
 document.getElementById('guide-filter-city').onchange=renderGuides;
@@ -312,17 +362,18 @@ function renderJobs(){
       <div class="meta"><b>${esc(j.city)}</b>${j.dateRange?' · '+esc(j.dateRange):''}${j.tourists?' · '+esc(j.tourists):''}</div>
       <div>${[j.language?`<span class="tag">${esc(j.language)}</span>`:'',j.budget?`<span class="tag">${esc(j.budget)}</span>`:''].join('')}</div>
       ${j.note?`<div style="font-size:13.5px;margin:8px 0;color:var(--ink-soft)">${esc(j.note)}</div>`:''}
-      <div style="font-size:13px;color:var(--pine);font-weight:700">联系：${esc(j.contactMask)} <span style="font-size:12px;color:var(--ink-soft);font-weight:400">（已隐藏中间位）</span></div>
+      <div style="font-size:13px;color:var(--pine);font-weight:700">联系：${esc(j.contact)} ${j.contactMasked?'<a onclick="openAuth()" style="cursor:pointer;color:var(--ink-soft);font-weight:400;text-decoration:underline;font-size:12px">登录查看完整</a>':''}</div>
     </div>`;
   }).join('');
 }
 async function loadJobs(){
   try{
-    const r=await fetch('/api/jobs');jobList=await r.json();
+    const r=await fetch('/api/jobs');const d=await r.json();
+    jobList=d.list||[];currentLoggedIn=d.loggedIn;
     const cities=[...new Set(jobList.map(j=>j.city).filter(Boolean))].sort();
     const sel=document.getElementById('job-filter-city');
     sel.innerHTML='<option value="">全部</option>'+cities.map(c=>`<option>${esc(c)}</option>`).join('');
-    renderJobs();
+    renderJobs();checkAuth();
   }catch(e){document.getElementById('job-list').innerHTML='<div class="empty">加载失败</div>';}
 }
 document.getElementById('job-filter-city').onchange=renderJobs;
@@ -348,6 +399,7 @@ document.getElementById('feedback-form').onsubmit=async(e)=>{
 // hash 路由
 const h=location.hash.replace('#','');
 if(h&&document.getElementById('view-'+h))show(h);
+checkAuth();
 </script>
 </body>
 </html>
