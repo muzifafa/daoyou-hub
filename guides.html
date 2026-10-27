@@ -68,6 +68,8 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:5
 <label>导游证号 *</label><input name="licenseNo" required pattern="[A-Za-z]{3}[0-9]{4}[A-Za-z]" placeholder="格式：3字母+4数字+1字母，如 BJS1234A" title="格式为3个大写字母+4个数字+1个大写字母，共8位">
 <label>常驻城市 *</label><input name="city" placeholder="如 西安 / 杭州" required>
 <label>擅长语种（可多个，用逗号分隔）</label><input name="languages" placeholder="如 普通话,英语,粤语">
+<label>注册机构</label><input name="agency" placeholder="如 西安市旅行社协会 / 注册地文旅局">
+<label>导游证有效期至</label><input name="expiry" type="date">
 <label>擅长线路 / 景点</label><input name="specialty" placeholder="如 兵马俑讲解、川西环线、华东水乡">
 <label>联系电话 / 微信</label><input name="phone" placeholder="游客或计调联系你用">
 <label>备注</label><textarea name="note" rows="2" placeholder="可接团时间、带团年限等"></textarea>
@@ -86,6 +88,8 @@ function render(){
     <h3>${esc(g.name)}</h3>
     <div class="meta"><b>${esc(g.city)}</b>${g.languages?' · '+esc(g.languages):''}</div>
     ${g.licenseNo?`<div style="font-size:12px;color:var(--ink-soft);margin-bottom:6px">导游证：${esc(g.licenseNo)}</div>`:''}
+    ${g.agency?`<div style="font-size:12px;color:var(--ink-soft);margin-bottom:6px">注册：${esc(g.agency)}</div>`:''}
+    ${g.expiry?`<div style="font-size:12px;color:var(--ink-soft);margin-bottom:6px">有效期至：${esc(g.expiry)}</div>`:''}
     ${g.specialty?`<div style="font-size:13.5px;margin-bottom:6px">${esc(g.specialty)}</div>`:''}
     ${g.phone?`<div style="font-size:13px;color:var(--ink-soft)">联系：${esc(g.phone)}</div>`:''}
     ${g.note?`<div style="font-size:13px;color:var(--ink-soft);margin-top:4px">${esc(g.note)}</div>`:''}
