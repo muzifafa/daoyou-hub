@@ -114,6 +114,7 @@ footer .links a{color:#d4b87a;margin:0 12px;cursor:pointer}
       <a href="https://github.com/muzifafa/daoyou-hub" target="_blank" rel="noopener">GitHub</a>
       <a id="nav-login" onclick="openAuth()">登录</a>
       <a id="nav-user" style="display:none" onclick="show('me')">我的</a>
+      <a id="nav-admin" style="display:none;color:var(--gold)" onclick="show('admin')">管理</a>
       <a id="nav-logout" style="display:none" onclick="logout()">退出</a>
       <a href="https://chicheng.org/" style="color:var(--gold);font-weight:700" title="返回赤澄文化主站">赤澄主站 →</a>
     </div>
@@ -285,6 +286,14 @@ footer .links a{color:#d4b87a;margin:0 12px;cursor:pointer}
   </div></section>
 </div>
 
+<!-- ADMIN -->
+<div class="view" id="view-admin">
+  <header class="sub-head"><div class="wrap"><h1>管理后台</h1><p>查看所有导游、需求、反馈，删除假数据。</p></div></header>
+  <section class="section"><div class="wrap">
+    <div id="admin-content" style="font-size:14px">加载中…</div>
+  </div></section>
+</div>
+
 <div id="auth-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center">
   <div style="background:var(--card);padding:24px;border-radius:14px;width:92%;max-width:380px;max-height:90vh;overflow-y:auto">
     <h2 id="auth-title" style="font-size:20px;margin-bottom:16px">登录 / 注册</h2>
@@ -328,6 +337,7 @@ function show(v){
   if(v==='guides')loadGuides();
   if(v==='jobs')loadJobs();
   if(v==='me')loadMe();
+  if(v==='admin')loadAdmin();
   try{history.replaceState(null,'','#'+v)}catch(e){}
 }
 async function loadMe(){
@@ -350,6 +360,37 @@ async function loadMe(){
         <div class="meta">${esc(x.city)} · ${esc(x.dateRange||'')}</div>
         <div style="margin-top:8px;font-size:13px;color:var(--pine);cursor:pointer" onclick="delMine('jobs',${x.id})">删除这条需求</div>
       </div>`).join(''):'<div class="empty">你还没发布需求</div>'}
+    `;
+  }catch(e){el.innerHTML='<div class="empty">加载失败</div>';}
+}
+async function loadAdmin(){
+  const el=document.getElementById('admin-content');
+  try{
+    const r=await fetch('/api/admin/data');
+    if(!r.ok){el.innerHTML='<div class="empty">无权限</div>';return;}
+    const d=await r.json();
+    el.innerHTML=`
+      <h3 style="margin-bottom:12px;color:var(--pine-dark)">导游登记（${d.guides.length}）</h3>
+      ${d.guides.map(g=>`<div class="gcard" style="margin-bottom:8px">
+        <h3>${esc(g.name)} · ${esc(g.city)}</h3>
+        <div class="meta">证号：${esc(g.licenseNo)} · 有效期：${esc(g.expiry||'未填')}</div>
+        <div class="meta">语种：${esc(g.languages||'未填')} · 机构：${esc(g.agency||'未填')}</div>
+        <div class="meta">电话：${esc(g.phone||'未填')}</div>
+        <div style="margin-top:6px;font-size:12px;color:var(--ink-soft)">${esc(g.note||'')}</div>
+      </div>`).join('')||'<div class="empty">无数据</div>'}
+      <h3 style="margin:24px 0 12px;color:var(--pine-dark)">团带需求（${d.jobs.length}）</h3>
+      ${d.jobs.map(j=>`<div class="jcard" style="margin-bottom:8px">
+        <h3>${esc(j.title)}</h3>
+        <div class="meta">${esc(j.city)} · ${esc(j.dateRange||'')} · ${esc(j.tourists||'')}</div>
+        <div class="meta">联系方式：${esc(j.contact||'未填')}</div>
+        <div style="margin-top:6px;font-size:12px;color:var(--ink-soft)">${esc(j.note||'')}</div>
+      </div>`).join('')||'<div class="empty">无数据</div>'}
+      <h3 style="margin:24px 0 12px;color:var(--pine-dark)">用户反馈（${d.feedback.length}）</h3>
+      ${d.feedback.map(f=>`<div class="gcard" style="margin-bottom:8px">
+        <div class="meta">${esc(f.type||'')} · ${esc(f.spot||'')}</div>
+        <div style="margin-top:4px">${esc(f.content||'')}</div>
+        <div class="meta" style="margin-top:4px;font-size:12px">${esc(f.contact||'')}</div>
+      </div>`).join('')||'<div class="empty">无反馈</div>'}
     `;
   }catch(e){el.innerHTML='<div class="empty">加载失败</div>';}
 }
@@ -378,6 +419,9 @@ async function checkAuth(){
     document.getElementById('nav-login').style.display=d.loggedIn?'none':'inline';
     document.getElementById('nav-user').style.display=d.loggedIn?'inline':'none';
     document.getElementById('nav-logout').style.display=d.loggedIn?'inline':'none';
+    if(d.isAdmin){
+      document.getElementById('nav-admin').style.display='inline';
+    }
   }catch(e){}
 }
 function openAuth(){
