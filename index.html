@@ -422,6 +422,14 @@ async function adminDel(kind,id){
   if(r.ok){toast('已删除');loadAdmin();}
   else toast('删除失败');
 }
+function timeAgo(iso){
+  if(!iso)return '';
+  const d=new Date(iso);const diff=(Date.now()-d.getTime())/1000;
+  if(diff<3600)return Math.max(1,Math.floor(diff/60))+'分钟前';
+  if(diff<86400)return Math.floor(diff/3600)+'小时前';
+  if(diff<2592000)return Math.floor(diff/86400)+'天前';
+  return d.toLocaleDateString('zh-CN');
+}
 function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 
 let currentLoggedIn=false;
@@ -490,7 +498,7 @@ function renderGuides(){
   }
   el.innerHTML=list.map(g=>`<div class="gcard">
     <h3>${esc(g.name)}</h3>
-    <div class="meta"><b>${esc(g.city)}</b>${g.languages?' · '+esc(g.languages):''}</div>
+    <div class="meta"><b>${esc(g.city)}</b>${g.languages?' · '+esc(g.languages):''} <span style="color:var(--ink-soft);font-size:12px">· ${timeAgo(g.createdAt)}</span></div>
     ${g.agency?`<div style="font-size:12px;color:var(--ink-soft);margin-bottom:6px">注册：${esc(g.agency)}</div>`:''}
     ${g.expiry?`<div style="font-size:12px;color:var(--ink-soft);margin-bottom:6px">有效期至：${esc(g.expiry)}</div>`:''}
     ${g.specialty?`<div style="font-size:13.5px;margin-bottom:6px">${esc(g.specialty)}</div>`:''}
@@ -554,7 +562,7 @@ function renderJobs(){
   const expired=list.filter(j=>isExpired(j));
   const card=(j,ex)=>`<div class="jcard" style="${ex?'opacity:.55':''}">
       <h3>${esc(j.title)} ${ex?'<span class="tag" style="background:#ddd;color:#666">已过期</span>':''} ${j.applicantsCount?`<span class="tag" style="background:#d4ead8;color:#1f5c33">${j.applicantsCount}位导游报名</span>`:''}</h3>
-      <div class="meta"><b>${esc(j.city)}</b>${j.dateRange?' · '+esc(j.dateRange):''}${j.tourists?' · '+esc(j.tourists):''}</div>
+      <div class="meta"><b>${esc(j.city)}</b>${j.dateRange?' · '+esc(j.dateRange):''}${j.tourists?' · '+esc(j.tourists):''} <span style="color:var(--ink-soft);font-size:12px">· ${timeAgo(j.createdAt)}</span></div>
       <div>${[j.language?`<span class="tag">${esc(j.language)}</span>`:'',j.budget?`<span class="tag">${esc(j.budget)}</span>`:''].join('')}</div>
       ${j.note?`<div style="font-size:13.5px;margin:8px 0;color:var(--ink-soft)">${esc(j.note)}</div>`:''}
       <div style="font-size:13px;color:var(--pine);font-weight:700">联系：${esc(j.contact)} ${j.contactMasked?'<a onclick="openAuth()" style="cursor:pointer;color:var(--ink-soft);font-weight:400;text-decoration:underline;font-size:12px">登录查看完整</a>':''}</div>
