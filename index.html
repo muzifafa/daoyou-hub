@@ -143,6 +143,12 @@ footer .links a{color:var(--gold-soft);margin:0 12px;cursor:pointer}
 <div class="view" id="view-guides">
   <header class="sub-head"><div class="wrap"><h1>找导游</h1><p>持证导游自助登记：证号留档（列表打码）、常驻地、擅长线路。领队直接联系，平台不抽佣。</p></div></header>
   <section class="section"><div class="wrap">
+    <div style="display:flex;gap:10px;margin-bottom:16px;align-items:center">
+      <label style="font-size:13px;color:var(--ink-soft)">城市筛选：</label>
+      <select id="guide-filter-city" style="padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:14px">
+        <option value="">全部</option>
+      </select>
+    </div>
     <div class="list" id="guide-list"><div class="empty">加载中…</div></div>
     <form class="form" id="guide-form">
       <h2>导游登记 / 更新信息</h2>
@@ -165,6 +171,18 @@ footer .links a{color:var(--gold-soft);margin:0 12px;cursor:pointer}
 <div class="view" id="view-jobs">
   <header class="sub-head"><div class="wrap"><h1>找团带</h1><p>领队、计调、散客拼团发布找导游需求，导游看到直接联系。平台不参与交易、不抽佣。</p></div></header>
   <section class="section"><div class="wrap">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center">
+      <label style="font-size:13px;color:var(--ink-soft)">城市筛选：</label>
+      <select id="job-filter-city" style="padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:14px">
+        <option value="">全部</option>
+      </select>
+      <label style="font-size:13px;color:var(--ink-soft);margin-left:10px">状态：</label>
+      <select id="job-filter-status" style="padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:14px">
+        <option value="">全部</option>
+        <option value="open">进行中</option>
+        <option value="expired">已过期</option>
+      </select>
+    </div>
     <div id="job-list"><div class="empty">加载中…</div></div>
     <form class="form" id="job-form">
       <h2>发布找导游需求</h2>
@@ -233,23 +251,32 @@ function show(v){
 function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 
 let guideList=[];
+function renderGuides(){
+  const city=document.getElementById('guide-filter-city').value;
+  const list=city?guideList.filter(g=>g.city?.includes(city)):guideList;
+  const el=document.getElementById('guide-list');
+  if(!list.length){el.innerHTML='<div class="empty">没有匹配的导游</div>';return;}
+  el.innerHTML=list.map(g=>`<div class="gcard">
+    <h3>${esc(g.name)}</h3>
+    <div class="meta"><b>${esc(g.city)}</b>${g.languages?' · '+esc(g.languages):''}</div>
+    ${g.licenseNo?`<div style="font-size:12px;color:var(--ink-soft);margin-bottom:6px">导游证：${esc(g.licenseNo)}</div>`:''}
+    ${g.agency?`<div style="font-size:12px;color:var(--ink-soft);margin-bottom:6px">注册：${esc(g.agency)}</div>`:''}
+    ${g.expiry?`<div style="font-size:12px;color:var(--ink-soft);margin-bottom:6px">有效期至：${esc(g.expiry)}</div>`:''}
+    ${g.specialty?`<div style="font-size:13.5px;margin-bottom:6px">${esc(g.specialty)}</div>`:''}
+    ${g.phone?`<div style="font-size:13px;color:var(--ink-soft)">联系：${esc(g.phone)}</div>`:''}
+    ${g.note?`<div style="font-size:13px;color:var(--ink-soft);margin-top:4px">${esc(g.note)}</div>`:''}
+  </div>`).join('');
+}
 async function loadGuides(){
   try{
     const r=await fetch('/api/guides');guideList=await r.json();
-    const el=document.getElementById('guide-list');
-    if(!guideList.length){el.innerHTML='<div class="empty">还没有导游登记，快来做第一个</div>';return;}
-    el.innerHTML=guideList.map(g=>`<div class="gcard">
-      <h3>${esc(g.name)}</h3>
-      <div class="meta"><b>${esc(g.city)}</b>${g.languages?' · '+esc(g.languages):''}</div>
-      ${g.licenseNo?`<div style="font-size:12px;color:var(--ink-soft);margin-bottom:6px">导游证：${esc(g.licenseNo)}</div>`:''}
-      ${g.agency?`<div style="font-size:12px;color:var(--ink-soft);margin-bottom:6px">注册：${esc(g.agency)}</div>`:''}
-      ${g.expiry?`<div style="font-size:12px;color:var(--ink-soft);margin-bottom:6px">有效期至：${esc(g.expiry)}</div>`:''}
-      ${g.specialty?`<div style="font-size:13.5px;margin-bottom:6px">${esc(g.specialty)}</div>`:''}
-      ${g.phone?`<div style="font-size:13px;color:var(--ink-soft)">联系：${esc(g.phone)}</div>`:''}
-      ${g.note?`<div style="font-size:13px;color:var(--ink-soft);margin-top:4px">${esc(g.note)}</div>`:''}
-    </div>`).join('');
+    const cities=[...new Set(guideList.map(g=>g.city).filter(Boolean))].sort();
+    const sel=document.getElementById('guide-filter-city');
+    sel.innerHTML='<option value="">全部</option>'+cities.map(c=>`<option>${esc(c)}</option>`).join('');
+    renderGuides();
   }catch(e){document.getElementById('guide-list').innerHTML='<div class="empty">加载失败</div>';}
 }
+document.getElementById('guide-filter-city').onchange=renderGuides;
 document.getElementById('guide-form').onsubmit=async(e)=>{
   e.preventDefault();
   const fd=new FormData(e.target);const body=Object.fromEntries(fd.entries());
@@ -260,26 +287,52 @@ document.getElementById('guide-form').onsubmit=async(e)=>{
 };
 
 let jobList=[];
-async function loadJobs(){
-  try{
-    const r=await fetch('/api/jobs');jobList=await r.json();
-    const el=document.getElementById('job-list');
-    if(!jobList.length){el.innerHTML='<div class="empty">还没有需求，发布第一条</div>';return;}
-    el.innerHTML=jobList.map(j=>`<div class="jcard">
-      <h3>${esc(j.title)}</h3>
+function isExpired(j){
+  if(!j.dateRange)return false;
+  const m=j.dateRange.match(/(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})\s*至?\s*(\d{4})?[-\/]?(\d{1,2})?[-\/]?(\d{1,2})?/);
+  if(!m)return false;
+  const end=m[6]?`${m[1]}-${m[5]}-${m[6]}`:`${m[1]}-${m[2]}-${m[3]}`;
+  return new Date(end) < new Date(new Date().toDateString());
+}
+function renderJobs(){
+  const city=document.getElementById('job-filter-city').value;
+  const status=document.getElementById('job-filter-status').value;
+  let list=jobList.filter(j=>{
+    if(city && !j.city?.includes(city))return false;
+    if(status==='open' && isExpired(j))return false;
+    if(status==='expired' && !isExpired(j))return false;
+    return true;
+  });
+  const el=document.getElementById('job-list');
+  if(!list.length){el.innerHTML='<div class="empty">没有匹配的需求</div>';return;}
+  el.innerHTML=list.map(j=>{
+    const ex=isExpired(j);
+    return `<div class="jcard" style="${ex?'opacity:.55':''}">
+      <h3>${esc(j.title)} ${ex?'<span class="tag" style="background:#ddd;color:#666">已过期</span>':''}</h3>
       <div class="meta"><b>${esc(j.city)}</b>${j.dateRange?' · '+esc(j.dateRange):''}${j.tourists?' · '+esc(j.tourists):''}</div>
       <div>${[j.language?`<span class="tag">${esc(j.language)}</span>`:'',j.budget?`<span class="tag">${esc(j.budget)}</span>`:''].join('')}</div>
       ${j.note?`<div style="font-size:13.5px;margin:8px 0;color:var(--ink-soft)">${esc(j.note)}</div>`:''}
       <div style="font-size:13px;color:var(--pine);font-weight:700">联系：${esc(j.contact)}</div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
+}
+async function loadJobs(){
+  try{
+    const r=await fetch('/api/jobs');jobList=await r.json();
+    const cities=[...new Set(jobList.map(j=>j.city).filter(Boolean))].sort();
+    const sel=document.getElementById('job-filter-city');
+    sel.innerHTML='<option value="">全部</option>'+cities.map(c=>`<option>${esc(c)}</option>`).join('');
+    renderJobs();
   }catch(e){document.getElementById('job-list').innerHTML='<div class="empty">加载失败</div>';}
 }
+document.getElementById('job-filter-city').onchange=renderJobs;
+document.getElementById('job-filter-status').onchange=renderJobs;
 document.getElementById('job-form').onsubmit=async(e)=>{
   e.preventDefault();
   const fd=new FormData(e.target);const body=Object.fromEntries(fd.entries());
   const msg=document.getElementById('job-msg');
   const r=await fetch('/api/jobs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(r.ok){msg.className='msg ok';msg.textContent='发布成功！已显示在列表顶部。';jobList.unshift({...body});loadJobs();e.target.reset();}
+  if(r.ok){msg.className='msg ok';msg.textContent='发布成功！已显示在列表顶部。';jobList.unshift({...body,id:Date.now()});loadJobs();e.target.reset();}
   else{msg.className='msg err';msg.textContent='发布失败，请重试';}
 };
 
