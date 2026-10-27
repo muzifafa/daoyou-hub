@@ -2,36 +2,60 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>导游 Hub · 全国导游互助平台</title>
-<meta name="description" content="面向全国持证导游的公益互助平台：持导游证免票景区核实、团导对接、A级景区名录共建。">
+<meta name="description" content="面向全国持证导游的公益互助平台：持导游证免票景区核实、团导对接、A级景区名录共建。不抽佣、不发广告、不存身份证号。">
+<link rel="canonical" href="https://daoyou.chicheng.org/">
+<meta name="theme-color" content="#2e5e4e">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://daoyou.chicheng.org/">
+<meta property="og:title" content="导游 Hub · 全国导游互助平台">
+<meta property="og:description" content="持导游证免票景区地图 + 团导对接，公益不抽佣。">
+<meta property="og:site_name" content="导游 Hub">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="导游 Hub · 全国导游互助平台">
+<meta name="twitter:description" content="持导游证免票景区地图 + 团导对接，公益不抽佣。">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%232e5e4e'/%3E%3C/svg%3E">
 <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#2e5e4e">
+<link rel="preconnect" href="https://miaoda.feishu.cn" crossorigin>
 <link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"导游 Hub","url":"https://daoyou.chicheng.org/","description":"全国持证导游公益互助平台"}
+</script>
 <style>
-:root{--paper:#f6f2e9;--paper-2:#efe8d6;--card:#fbf8f1;--ink:#26302a;--ink-soft:#5c675f;--pine:#2e5e4e;--pine-dark:#1f4437;--pine-deep:#16352b;--gold:#b9822a;--line:#e2d9c4;--radius:14px;--shadow:0 2px 8px rgba(38,48,42,.06)}
+:root{--paper:#f6f2e9;--paper-2:#efe8d6;--card:#fbf8f1;--ink:#26302a;--ink-soft:#5c675f;--pine:#2e5e4e;--pine-dark:#1f4437;--pine-deep:#16352b;--gold:#b9822a;--gold-dark:#a06f22;--line:#e2d9c4;--clay:#a8503a;--ok:#1f5c33;--ok-bg:#d4ead8;--err:#8a2a1a;--err-bg:#f3d4cd;--radius:14px;--radius-sm:10px;--shadow:0 2px 8px rgba(38,48,42,.06);--shadow-md:0 8px 24px rgba(38,48,42,.1)}
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:"Noto Sans SC",system-ui,-apple-system,"PingFang SC",sans-serif;background:var(--paper);color:var(--ink);line-height:1.65;font-size:15px;-webkit-font-smoothing:antialiased}
-h1,h2,h3{font-family:"Noto Serif SC",serif}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:"Noto Sans SC",system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--paper);color:var(--ink);line-height:1.65;font-size:15px;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:"Noto Serif SC",serif;line-height:1.25}
 a{color:var(--pine);text-decoration:none}
+a:hover{text-decoration:underline}
+button{font-family:inherit}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--pine-dark);color:#fff;padding:10px 16px;z-index:1100;border-radius:0 0 8px 0;font-size:14px}
+.skip-link:focus{left:0}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
 
-nav.top{position:sticky;top:0;z-index:100;background:rgba(246,242,233,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-nav.top .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
-.brand{font-family:"Noto Serif SC",serif;font-weight:900;font-size:19px;color:var(--pine-dark);cursor:pointer;letter-spacing:.02em}
+nav.top{position:sticky;top:0;z-index:100;background:rgba(246,242,233,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav.top .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:12px}
+.brand{font-family:"Noto Serif SC",serif;font-weight:900;font-size:19px;color:var(--pine-dark);cursor:pointer;letter-spacing:.02em;white-space:nowrap}
 .brand span{color:var(--gold)}
-.navlinks{display:flex;gap:22px;font-size:14px;align-items:center}
-.navlinks a{color:var(--ink-soft);cursor:pointer;transition:color .15s}
-.navlinks a:hover,.navlinks a.active{color:var(--pine)}
-.hamburger{display:none;background:none;border:none;font-size:24px;cursor:pointer;color:var(--pine-dark)}
-@media(max-width:720px){
-  .hamburger{display:block}
-  .navlinks{position:absolute;top:60px;left:0;right:0;background:var(--paper);flex-direction:column;padding:16px 20px;gap:14px;border-bottom:1px solid var(--line);display:none;box-shadow:0 8px 20px rgba(0,0,0,.06)}
+.navlinks{display:flex;gap:20px;font-size:14px;align-items:center}
+.navlinks a{color:var(--ink-soft);cursor:pointer;transition:color .15s;white-space:nowrap}
+.navlinks a:hover,.navlinks a.active{color:var(--pine);text-decoration:none}
+.navlinks .nav-auth{margin-left:8px;padding:6px 16px;border-radius:999px;background:var(--pine);color:#fff;font-weight:500}
+.navlinks .nav-auth:hover{background:var(--pine-dark)}
+.navlinks .nav-admin{color:var(--gold);font-weight:700}
+.hamburger{display:none;background:none;border:none;font-size:24px;cursor:pointer;color:var(--pine-dark);width:40px;height:40px;align-items:center;justify-content:center}
+@media(max-width:820px){
+  .hamburger{display:flex}
+  .navlinks{position:absolute;top:60px;left:0;right:0;background:var(--paper);flex-direction:column;padding:16px 20px;gap:14px;border-bottom:1px solid var(--line);display:none;box-shadow:0 8px 20px rgba(0,0,0,.08);align-items:stretch}
   .navlinks.open{display:flex}
+  .navlinks a{padding:8px 0;border-bottom:1px dashed var(--line)}
+  .navlinks a:last-child{border-bottom:none}
+  .navlinks .nav-auth{text-align:center;margin-left:0}
 }
-.search-box{width:100%;padding:11px 16px;border:1px solid var(--line);border-radius:10px;font-size:14px;background:#fff;margin-bottom:14px;box-shadow:var(--shadow)}
+.search-box{width:100%;padding:11px 16px;border:1px solid var(--line);border-radius:var(--radius-sm);font-size:14px;background:#fff;margin-bottom:14px;box-shadow:var(--shadow)}
 .search-box:focus{outline:none;border-color:var(--pine)}
 .map-top{position:absolute;top:60px;left:0;right:0;z-index:50;background:var(--pine-dark);color:#f4efe2;padding:10px 18px;font-size:13px;display:flex;justify-content:space-between;align-items:center}
 .map-top a{color:var(--gold);cursor:pointer}
@@ -39,13 +63,16 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;heig
 .view{display:none;min-height:calc(100vh - 60px)}
 .view.active{display:block}
 
-.hero{background:radial-gradient(1000px 300px at 80% -50%, rgba(185,130,42,.15), transparent 60%),linear-gradient(180deg,var(--pine-deep),var(--pine));color:#f4efe2;padding:64px 0 56px;text-align:center}
+.hero{background:radial-gradient(1000px 300px at 80% -50%, rgba(185,130,42,.15), transparent 60%),linear-gradient(180deg,var(--pine-deep),var(--pine));color:#f4efe2;padding:56px 0 48px;text-align:center}
 .hero .kicker{font-size:12px;letter-spacing:.3em;color:#d4b87a;margin-bottom:16px}
 .hero h1{font-size:28px;font-weight:900;line-height:1.2;margin-bottom:14px}
 .hero p.sub{font-size:14px;color:#d8dfd4;max-width:56ch;margin:0 auto 28px;line-height:1.75}
 @media(min-width:640px){.hero h1{font-size:38px}.hero p.sub{font-size:16px}}
-.cta{display:inline-block;background:var(--gold);color:#fff;padding:13px 34px;border-radius:999px;font-size:15px;font-weight:700;cursor:pointer;border:none;box-shadow:0 4px 14px rgba(185,130,42,.3)}
-.cta:hover{background:#a06f22;transform:translateY(-1px)}
+.cta{display:inline-block;background:var(--gold);color:#fff;padding:13px 30px;border-radius:999px;font-size:15px;font-weight:700;cursor:pointer;border:none;box-shadow:0 4px 14px rgba(185,130,42,.3);transition:transform .15s,background .15s;text-decoration:none}
+.cta:hover{background:var(--gold-dark);transform:translateY(-1px);text-decoration:none}
+.cta[disabled]{opacity:.6;cursor:not-allowed;transform:none}
+.cta-ghost{background:transparent;color:#f4efe2;border:2px solid #f4efe2;box-shadow:none}
+.cta-ghost:hover{background:rgba(255,255,255,.1)}
 .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(244,239,226,.25);border:1px solid rgba(244,239,226,.25);border-radius:var(--radius);overflow:hidden;margin-top:36px;max-width:680px;margin-left:auto;margin-right:auto}
 .stat{background:rgba(31,68,55,.55);padding:18px 10px}
 .stat b{display:block;font-family:"Noto Serif SC",serif;font-size:24px;color:#fff;line-height:1.1}
@@ -59,8 +86,8 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;heig
 .grid{display:grid;grid-template-columns:1fr;gap:16px}
 @media(min-width:720px){.grid{grid-template-columns:repeat(2,1fr)}}
 @media(min-width:980px){.grid{grid-template-columns:repeat(3,1fr)}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;transition:transform .15s,box-shadow .15s;cursor:pointer;box-shadow:var(--shadow)}
-.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(38,48,42,.1)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;transition:transform .15s,box-shadow .15s;cursor:pointer;box-shadow:var(--shadow);display:block}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);text-decoration:none}
 .card .icon{font-size:28px;margin-bottom:12px}
 .card h3{font-size:17px;color:var(--ink);margin-bottom:8px}
 .card p{font-size:14px;color:var(--ink-soft);margin-bottom:16px;line-height:1.65}
@@ -78,54 +105,84 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;heig
 .gcard .meta b{color:var(--ink)}
 .jcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-bottom:12px;box-shadow:var(--shadow)}
 .jcard h3{font-size:17px;color:var(--pine-dark);margin-bottom:6px}
-.tag{display:inline-block;background:#ead9ae;color:#7a5a1a;font-size:12px;padding:2px 10px;border-radius:999px;margin-right:6px}
+.tag{display:inline-block;background:#ead9ae;color:#7a5a1a;font-size:12px;padding:2px 10px;border-radius:999px;margin-right:6px;margin-bottom:4px}
+.tag.ok{background:var(--ok-bg);color:var(--ok)}
+.tag.muted{background:#e2e2e2;color:#666}
 .empty{text-align:center;padding:40px;color:var(--ink-soft);font-size:14px}
 
 .form{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px;margin-top:24px;box-shadow:var(--shadow)}
 .form h2{font-size:18px;margin-bottom:16px;color:var(--pine-dark)}
 .form label{display:block;font-size:13px;color:var(--ink-soft);margin:12px 0 4px;font-weight:500}
-.form input,.form textarea,.form select{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:14px;font-family:inherit;transition:border-color .15s}
-.form input:focus,.form textarea:focus{outline:none;border-color:var(--pine)}
+.form input,.form textarea,.form select{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:var(--radius-sm);background:#fff;font-size:14px;font-family:inherit;transition:border-color .15s}
+.form input:focus,.form textarea:focus,.form select:focus{outline:none;border-color:var(--pine)}
 .form button{margin-top:18px;background:var(--gold);color:#fff;border:none;padding:13px 32px;border-radius:999px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(185,130,42,.25)}
-.form button:hover{background:#a06f22}
+.form button:hover{background:var(--gold-dark)}
+.form button[disabled]{opacity:.6;cursor:not-allowed}
+.form .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.form .row2{grid-template-columns:1fr}}
 .msg{padding:10px 14px;border-radius:8px;margin-top:12px;font-size:14px;display:none}
-.msg.ok{background:#d4ead8;color:#1f5c33;display:block}
-.msg.err{background:#f3d4cd;color:#8a2a1a;display:block}
+.msg.ok{background:var(--ok-bg);color:var(--ok);display:block}
+.msg.err{background:var(--err-bg);color:var(--err);display:block}
+
+.contact-locked{display:inline-block;margin-top:6px;padding:6px 14px;background:var(--paper-2);border:1px dashed var(--line);border-radius:999px;font-size:13px;color:var(--ink-soft);cursor:pointer}
+.contact-locked:hover{border-color:var(--pine);color:var(--pine)}
 
 .map-frame{width:100%;height:calc(100vh - 60px);border:none}
 
 footer{background:var(--pine-deep);color:#cfd8cc;padding:36px 0;text-align:center;font-size:13px;margin-top:48px}
-footer .links{margin-bottom:14px}
-footer .links a{color:#d4b87a;margin:0 12px;cursor:pointer}
+footer .links{margin-bottom:14px;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px}
+footer .links a{color:#d4b87a;cursor:pointer}
+footer .sub-links{margin-top:10px;font-size:12px;opacity:.7}
+footer .sub-links a{color:#cfd8cc;margin:0 8px}
+
+.fab{position:fixed;bottom:max(20px,env(safe-area-inset-bottom));z-index:99;width:44px;height:44px;border-radius:50%;background:var(--pine);color:#fff;border:none;font-size:18px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center}
+.fab.share{width:auto;height:44px;padding:0 16px;border-radius:999px;background:var(--gold);font-size:14px;right:76px}
+#back-top{right:20px}
+@media(max-width:480px){.fab.share{right:20px;bottom:72px}}
+
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:none;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--card);padding:26px;border-radius:16px;width:100%;max-width:400px;max-height:90vh;overflow-y:auto;position:relative}
+.modal .close-x{position:absolute;top:12px;right:12px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--ink-soft);width:32px;height:32px;border-radius:50%}
+.modal .close-x:hover{background:var(--paper-2)}
+.modal h2{font-size:20px;margin-bottom:16px;color:var(--pine-dark)}
+.auth-tabs{display:flex;background:var(--paper-2);border-radius:999px;padding:4px;margin-bottom:18px}
+.auth-tabs button{flex:1;background:none;border:none;padding:8px;border-radius:999px;font-size:14px;cursor:pointer;color:var(--ink-soft);font-weight:500}
+.auth-tabs button.active{background:var(--pine);color:#fff}
+.modal label{display:block;font-size:13px;color:var(--ink-soft);margin:10px 0 4px;font-weight:500}
+.modal input{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;margin-bottom:4px;font-size:14px;font-family:inherit}
+.modal input:focus{outline:none;border-color:var(--pine)}
+.modal .auth-actions{display:flex;gap:10px;margin-top:16px}
+.modal .auth-actions button{flex:1;padding:11px;border-radius:999px;font-weight:700;cursor:pointer;border:none;font-size:14px}
+.modal .auth-msg{margin-top:12px;font-size:13px;text-align:center;min-height:18px;color:var(--err)}
+.modal .auth-hint{font-size:12px;color:var(--ink-soft);margin-top:12px;text-align:center}
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main">跳到主要内容</a>
 
-<nav class="top">
+<nav class="top" aria-label="主导航">
   <div class="wrap">
-    <div class="brand" onclick="show('home')">导游<span>Hub</span></div>
-    <button class="hamburger" onclick="document.querySelector('.navlinks').classList.toggle('open')">☰</button>
-    <div class="navlinks">
+    <button class="brand" onclick="show('home')" style="background:none;border:none;cursor:pointer;font-family:inherit;font-size:inherit;padding:0;text-align:left">导游<span>Hub</span></button>
+    <button class="hamburger" aria-label="打开菜单" aria-expanded="false" onclick="toggleMenu(this)">☰</button>
+    <div class="navlinks" id="navlinks">
       <a data-view="home" onclick="show('home')">首页</a>
       <a data-view="map" onclick="show('map')">景区地图</a>
       <a data-view="guides" onclick="show('guides')">找导游</a>
       <a data-view="jobs" onclick="show('jobs')">找团带</a>
       <a data-view="feedback" onclick="show('feedback')">反馈</a>
-      <a href="https://visa.chicheng.org/" target="_blank" rel="noopener">签证</a>
-      <a href="https://chicheng.org/" target="_blank" rel="noopener">景区搭建</a>
-      <a href="https://github.com/muzifafa/daoyou-hub" target="_blank" rel="noopener">GitHub</a>
-      <a id="nav-login" onclick="openAuth()">登录</a>
-      <a id="nav-user" style="display:none" onclick="show('me')">我的</a>
-      <a id="nav-admin" style="display:none;color:var(--gold)" onclick="show('admin')">管理</a>
+      <a id="nav-login" class="nav-auth" onclick="openAuth()">登录</a>
+      <a id="nav-user" class="nav-auth" style="display:none" onclick="show('me')">我的</a>
+      <a id="nav-admin" class="nav-admin" style="display:none" onclick="show('admin')">管理</a>
       <a id="nav-logout" style="display:none" onclick="logout()">退出</a>
-      <a href="https://chicheng.org/" style="color:var(--gold);font-weight:700" title="返回赤澄文化主站">赤澄主站 →</a>
     </div>
   </div>
 </nav>
 
-<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;position:fixed;bottom:24px;right:24px;z-index:99;width:44px;height:44px;border-radius:50%;background:var(--pine);color:#fff;border:none;font-size:18px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.15)">↑</button>
-<button onclick="shareSite()" style="position:fixed;bottom:24px;right:80px;z-index:99;height:44px;padding:0 16px;border-radius:999px;background:var(--gold);color:#fff;border:none;font-size:14px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.15)">分享</button>
+<button id="back-top" class="fab" aria-label="回到顶部" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none">↑</button>
+<button class="fab share" aria-label="分享本站" onclick="shareSite()">分享</button>
 
+<main id="main">
 <!-- HOME -->
 <div class="view active" id="view-home">
   <header class="hero">
@@ -135,12 +192,12 @@ footer .links a{color:#d4b87a;margin:0 12px;cursor:pointer}
       <p class="sub">不靠网上零散截图，靠全国导游实地核实。<br>持导游证免票景区名录、团导对接、A级景区共建——一个为导游服务的开放数据社区。</p>
       <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
         <button class="cta" onclick="show('jobs')">我是导游，我要接单 →</button>
-        <button class="cta" style="background:transparent;color:#f4efe2;border:2px solid #f4efe2" onclick="document.getElementById('job-form').scrollIntoView({behavior:'smooth'})">我是领队，发需求</button>
+        <button class="cta cta-ghost" onclick="goPostJob()">我是领队，发需求</button>
       </div>
       <div class="stats">
         <div class="stat"><b id="stat-guides">—</b><span>登记导游</span></div>
         <div class="stat"><b id="stat-jobs">—</b><span>团带需求</span></div>
-        <div class="stat"><b>1853</b><span>免票景区</span></div>
+        <div class="stat"><b>1853+</b><span>免票景区</span></div>
         <div class="stat"><b>公益</b><span>不抽佣不交易</span></div>
       </div>
     </div>
@@ -156,14 +213,14 @@ footer .links a{color:#d4b87a;margin:0 12px;cursor:pointer}
   </section>
   <section class="section" style="padding-top:0">
     <div class="wrap">
-      <div class="section-h"><h2>平台功能</h2><p>站内四个核心模块 + 两个关联工具，覆盖导游执业日常</p></div>
+      <div class="section-h"><h2>平台功能</h2><p>站内四个核心模块 + 关联工具，覆盖导游执业日常</p></div>
       <div class="grid">
-        <div class="card" onclick="show('map')"><div class="icon">🗺️</div><h3>免票景区地图</h3><p>全国持导游证免票景区点位可视化，区分"个人持证免/带团免/本身免费/不免/待核实"。</p><span class="go">打开地图 →</span></div>
-        <div class="card" onclick="show('guides')"><div class="icon">🧑‍🏫</div><h3>找导游</h3><p>导游自助登记：证号留档、语言、常驻地、擅长线路，直接电话联系，不抽佣。</p><span class="go">找 / 登记 →</span></div>
-        <div class="card" onclick="show('jobs')"><div class="icon">📋</div><h3>找团带</h3><p>领队发布出行日期、目的地、人数、语言、报酬，导游看到直接联系接团。</p><span class="go">看需求 / 发需求 →</span></div>
-        <div class="card" onclick="show('feedback')"><div class="icon">💬</div><h3>反馈与共建</h3><p>景区政策变了、位置错了、新景区没收录？填表告诉我们，普通导游就能提交。</p><span class="go">我要反馈 →</span></div>
-        <a class="card" href="https://visa.chicheng.org/" target="_blank" rel="noopener"><div class="icon">🛂</div><h3>签证助手</h3><p>出境团队、带外国团来华，快速查各国签证要求与办理状态。</p><span class="go">查签证 →</span></a>
-        <a class="card" href="https://chicheng.org/" target="_blank" rel="noopener"><div class="icon">🏞️</div><h3>景区搭建</h3><p>赤澄文化主站：景区规划、文旅项目打造、文创与智慧景区建设。</p><span class="go">了解业务 →</span></a>
+        <div class="card" onclick="show('map')"><div class="icon" aria-hidden="true">🗺️</div><h3>免票景区地图</h3><p>全国持导游证免票景区点位可视化，区分"个人持证免/带团免/本身免费/不免/待核实"。</p><span class="go">打开地图 →</span></div>
+        <div class="card" onclick="show('guides')"><div class="icon" aria-hidden="true">🧑‍🏫</div><h3>找导游</h3><p>导游自助登记：证号留档、语言、常驻地、擅长线路，直接电话联系，不抽佣。</p><span class="go">找 / 登记 →</span></div>
+        <div class="card" onclick="show('jobs')"><div class="icon" aria-hidden="true">📋</div><h3>找团带</h3><p>领队发布出行日期、目的地、人数、语言、报酬，导游看到直接联系接团。</p><span class="go">看需求 / 发需求 →</span></div>
+        <div class="card" onclick="show('feedback')"><div class="icon" aria-hidden="true">💬</div><h3>反馈与共建</h3><p>景区政策变了、位置错了、新景区没收录？填表告诉我们，普通导游就能提交。</p><span class="go">我要反馈 →</span></div>
+        <a class="card" href="https://visa.chicheng.org/" target="_blank" rel="noopener"><div class="icon" aria-hidden="true">🛂</div><h3>签证助手</h3><p>出境团队、带外国团来华，快速查各国签证要求与办理状态。</p><span class="go">查签证 →</span></a>
+        <a class="card" href="https://chicheng.org/" target="_blank" rel="noopener"><div class="icon" aria-hidden="true">🏞️</div><h3>景区搭建</h3><p>赤澄文化主站：景区规划、文旅项目打造、文创与智慧景区建设。</p><span class="go">了解业务 →</span></a>
       </div>
     </div>
   </section>
@@ -191,11 +248,11 @@ footer .links a{color:#d4b87a;margin:0 12px;cursor:pointer}
       </details>
       <details class="card" style="margin-bottom:10px;cursor:pointer">
         <summary style="font-weight:700;color:var(--pine-dark)">怎么验证我是真导游？</summary>
-        <p style="margin-top:8px;color:var(--ink-soft)">登记时填写导游证号（格式：3字母+4数字+1字母），系统留档。展示时证号脱敏（如 UG****3L），只有你登录后才显示完整。</p>
+        <p style="margin-top:8px;color:var(--ink-soft)">登记时填写导游证号（格式：3字母+4数字+1字母，如 UG12345L），系统留档。展示时证号脱敏（如 UG****5L），只有你登录后才显示完整。</p>
       </details>
       <details class="card" style="margin-bottom:10px;cursor:pointer">
         <summary style="font-weight:700;color:var(--pine-dark)">我的电话会被爬走吗？</summary>
-        <p style="margin-top:8px;color:var(--ink-soft)">未登录用户只能看到打码联系方式（如 138****0812）。登录后才显示完整号码。</p>
+        <p style="margin-top:8px;color:var(--ink-soft)">未登录用户看不到你的完整联系方式。登录后才显示完整号码。</p>
       </details>
       <details class="card" style="cursor:pointer">
         <summary style="font-weight:700;color:var(--pine-dark)">景区免票信息准吗？</summary>
@@ -206,10 +263,10 @@ footer .links a{color:#d4b87a;margin:0 12px;cursor:pointer}
 </div>
 <div class="view" id="view-map">
   <div class="map-top">
-    <span>🗺️ 免票景区地图</span>
+    <span aria-hidden="true">🗺️</span> 免票景区地图
     <a onclick="show('home')">← 返回首页</a>
   </div>
-  <iframe class="map-frame" src="map.html" loading="lazy" style="height:calc(100vh - 100px)"></iframe>
+  <iframe class="map-frame" src="/map" loading="lazy" title="免票景区地图" style="height:calc(100vh - 100px)"></iframe>
 </div>
 
 <!-- GUIDES -->
@@ -217,30 +274,32 @@ footer .links a{color:#d4b87a;margin:0 12px;cursor:pointer}
   <header class="sub-head"><div class="wrap">
     <h1>找导游</h1>
     <p>持证导游自助登记：证号后台留档核验、常驻地、擅长线路。领队直接联系，平台不抽佣。</p>
-    <button class="cta" onclick="document.getElementById('guide-form').scrollIntoView({behavior:'smooth'})" style="margin-top:16px">我是导游，我要登记 →</button>
+    <button class="cta" onclick="scrollToForm('guide-form')" style="margin-top:16px">我是导游，我要登记 →</button>
   </div></header>
   <section class="section"><div class="wrap">
-    <input class="search-box" id="guide-search" placeholder="🔍 搜索城市、语种、擅长线路，如：西安 英语 兵马俑">
-    <div style="display:flex;gap:10px;margin-bottom:16px;align-items:center">
-      <label style="font-size:13px;color:var(--ink-soft)">城市筛选：</label>
+    <input class="search-box" id="guide-search" placeholder="🔍 搜索城市、语种、擅长线路，如：西安 英语 兵马俑" aria-label="搜索导游">
+    <div style="display:flex;gap:10px;margin-bottom:16px;align-items:center;flex-wrap:wrap">
+      <label for="guide-filter-city" style="font-size:13px;color:var(--ink-soft)">城市筛选：</label>
       <select id="guide-filter-city" style="padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:14px">
         <option value="">全部</option>
       </select>
     </div>
     <div class="list" id="guide-list"><div class="empty">加载中…</div></div>
-    <form class="form" id="guide-form">
+    <form class="form" id="guide-form" novalidate>
       <h2>导游登记 / 更新信息</h2>
-      <label>真实姓名 *</label><input name="name" required placeholder="用于核验，列表只显示姓">
-      <label>导游证号 *</label><input name="licenseNo" required placeholder="请输入导游证号">
-      <label>常驻城市 *</label><input name="city" required placeholder="如 西安 / 杭州">
-      <label>擅长语种（可多个，用逗号分隔）</label><input name="languages" placeholder="如 普通话,英语,粤语">
-      <label>注册机构</label><input name="agency" placeholder="如 西安市旅行社协会">
-      <label>导游证有效期至</label><input name="expiry" type="date">
-      <label>擅长线路 / 景点</label><input name="specialty" placeholder="如 兵马俑讲解、川西环线">
-      <label>联系电话 / 微信 *</label><input name="phone" required placeholder="游客或计调联系你用">
-      <label>备注</label><textarea name="note" rows="2" placeholder="可接团时间、带团年限等"></textarea>
-      <button type="submit">提交登记</button>
-      <div class="msg" id="guide-msg"></div>
+      <label for="g-name">称呼 / 花名 *</label><input id="g-name" name="name" required placeholder="列表展示用，如 小李导 / 王哥">
+      <label for="g-license">导游证号 * <span style="font-weight:400;color:var(--ink-soft)">（格式：3字母+4数字+1字母，如 UG12345L）</span></label><input id="g-license" name="licenseNo" required placeholder="请输入导游证号">
+      <div class="row2">
+        <div><label for="g-city">常驻城市 *</label><input id="g-city" name="city" required placeholder="如 西安 / 杭州"></div>
+        <div><label for="g-expiry">导游证有效期至</label><input id="g-expiry" name="expiry" type="date"></div>
+      </div>
+      <label for="g-lang">擅长语种（可多个，用逗号分隔）</label><input id="g-lang" name="languages" placeholder="如 普通话,英语,粤语">
+      <label for="g-agency">注册机构</label><input id="g-agency" name="agency" placeholder="如 西安市旅行社协会">
+      <label for="g-specialty">擅长线路 / 景点</label><input id="g-specialty" name="specialty" placeholder="如 兵马俑讲解、川西环线">
+      <label for="g-phone">联系电话 / 微信 *</label><input id="g-phone" name="phone" required placeholder="游客或计调联系你用，仅登录用户可见完整号码">
+      <label for="g-note">备注</label><textarea id="g-note" name="note" rows="2" placeholder="可接团时间、带团年限等"></textarea>
+      <button type="submit" id="guide-submit">提交登记</button>
+      <div class="msg" id="guide-msg" role="status" aria-live="polite"></div>
     </form>
   </div></section>
 </div>
@@ -250,16 +309,16 @@ footer .links a{color:#d4b87a;margin:0 12px;cursor:pointer}
   <header class="sub-head"><div class="wrap">
     <h1>找团带</h1>
     <p>领队、计调、散客拼团发布找导游需求，导游看到直接联系。平台不参与交易、不抽佣。</p>
-    <button class="cta" onclick="document.getElementById('job-form').scrollIntoView({behavior:'smooth'})" style="margin-top:16px">我要发需求 →</button>
+    <button class="cta" onclick="scrollToForm('job-form')" style="margin-top:16px">我要发需求 →</button>
   </div></header>
   <section class="section"><div class="wrap">
-    <input class="search-box" id="job-search" placeholder="🔍 搜索目的地、语种、人数，如：成都 日语 20人">
+    <input class="search-box" id="job-search" placeholder="🔍 搜索目的地、语种、人数，如：成都 日语 20人" aria-label="搜索团带需求">
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center">
-      <label style="font-size:13px;color:var(--ink-soft)">城市筛选：</label>
+      <label for="job-filter-city" style="font-size:13px;color:var(--ink-soft)">城市：</label>
       <select id="job-filter-city" style="padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:14px">
         <option value="">全部</option>
       </select>
-      <label style="font-size:13px;color:var(--ink-soft);margin-left:10px">状态：</label>
+      <label for="job-filter-status" style="font-size:13px;color:var(--ink-soft);margin-left:10px">状态：</label>
       <select id="job-filter-status" style="padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:14px">
         <option value="">全部</option>
         <option value="open">进行中</option>
@@ -267,18 +326,25 @@ footer .links a{color:#d4b87a;margin:0 12px;cursor:pointer}
       </select>
     </div>
     <div id="job-list"><div class="empty">加载中…</div></div>
-    <form class="form" id="job-form">
+    <form class="form" id="job-form" novalidate>
       <h2>发布找导游需求</h2>
-      <label>需求标题 *</label><input name="title" required placeholder="如 11月西安5日游需英文导游">
-      <label>目的地 / 城市 *</label><input name="city" required placeholder="如 西安、洛阳">
-      <label>出行日期</label><input name="dateRange" placeholder="如 2026-11-15 至 11-20">
-      <label>人数</label><input name="tourists" placeholder="如 20人欧美团">
-      <label>所需语言</label><input name="language" placeholder="如 英语">
-      <label>预算 / 报酬</label><input name="budget" placeholder="选填">
-      <label>联系方式 *</label><input name="contact" required placeholder="微信 / 电话">
-      <label>备注</label><textarea name="note" rows="2" placeholder="线路、特殊要求等"></textarea>
-      <button type="submit">发布需求</button>
-      <div class="msg" id="job-msg"></div>
+      <label for="j-title">需求标题 *</label><input id="j-title" name="title" required placeholder="如 11月西安5日游需英文导游">
+      <div class="row2">
+        <div><label for="j-city">目的地 / 城市 *</label><input id="j-city" name="city" required placeholder="如 西安、洛阳"></div>
+        <div><label for="j-tourists">人数</label><input id="j-tourists" name="tourists" placeholder="如 20人欧美团"></div>
+      </div>
+      <div class="row2">
+        <div><label for="j-start">出行开始日期</label><input id="j-start" name="startDate" type="date"></div>
+        <div><label for="j-end">结束日期</label><input id="j-end" name="endDate" type="date"></div>
+      </div>
+      <div class="row2">
+        <div><label for="j-lang">所需语言</label><input id="j-lang" name="language" placeholder="如 英语"></div>
+        <div><label for="j-budget">预算 / 报酬</label><input id="j-budget" name="budget" placeholder="选填，如 面议 / 1500/天"></div>
+      </div>
+      <label for="j-contact">联系方式 *</label><input id="j-contact" name="contact" required placeholder="微信 / 电话，仅登录用户可见完整号码">
+      <label for="j-note">备注</label><textarea id="j-note" name="note" rows="2" placeholder="线路、特殊要求等"></textarea>
+      <button type="submit" id="job-submit">发布需求</button>
+      <div class="msg" id="job-msg" role="status" aria-live="polite"></div>
     </form>
   </div></section>
 </div>
@@ -295,9 +361,9 @@ footer .links a{color:#d4b87a;margin:0 12px;cursor:pointer}
 <div class="view" id="view-feedback">
   <header class="sub-head"><div class="wrap"><h1>反馈与共建</h1><p>景区政策变了、数据错了、新景区没收录？填表告诉我们，不用会编程，普通导游就能提交。</p></div></header>
   <section class="section"><div class="wrap" style="max-width:680px">
-    <form class="form" id="feedback-form">
-      <label>反馈类型 *</label>
-      <select name="type" required>
+    <form class="form" id="feedback-form" novalidate>
+      <label for="f-type">反馈类型 *</label>
+      <select id="f-type" name="type" required>
         <option value="">请选择</option>
         <option>景区免票政策有变</option>
         <option>地图上的景区位置错了</option>
@@ -306,11 +372,11 @@ footer .links a{color:#d4b87a;margin:0 12px;cursor:pointer}
         <option>网站 Bug / 建议</option>
         <option>其他</option>
       </select>
-      <label>涉及景区（如知道）</label><input name="spot" placeholder="如 台儿庄古城 / 华山">
-      <label>具体内容 *</label><textarea name="content" rows="4" required placeholder="请描述你发现的问题或实测情况"></textarea>
-      <label>你的称呼 / 联系方式（选填）</label><input name="contact" placeholder="方便我们核实后回复你">
-      <button type="submit">提交反馈</button>
-      <div class="msg" id="feedback-msg"></div>
+      <label for="f-spot">涉及景区（如知道）</label><input id="f-spot" name="spot" placeholder="如 台儿庄古城 / 华山">
+      <label for="f-content">具体内容 *</label><textarea id="f-content" name="content" rows="4" required placeholder="请描述你发现的问题或实测情况"></textarea>
+      <label for="f-contact">你的称呼 / 联系方式（选填）</label><input id="f-contact" name="contact" placeholder="方便我们核实后回复你">
+      <button type="submit" id="feedback-submit">提交反馈</button>
+      <div class="msg" id="feedback-msg" role="status" aria-live="polite"></div>
     </form>
   </div></section>
 </div>
@@ -322,23 +388,32 @@ footer .links a{color:#d4b87a;margin:0 12px;cursor:pointer}
     <div id="admin-content" style="font-size:14px">加载中…</div>
   </div></section>
 </div>
+</main>
 
-<div id="auth-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center">
-  <div style="background:var(--card);padding:24px;border-radius:14px;width:92%;max-width:380px;max-height:90vh;overflow-y:auto">
-    <h2 id="auth-title" style="font-size:20px;margin-bottom:16px">登录 / 注册</h2>
-    <label style="font-size:13px;color:var(--ink-soft)">昵称（注册时填）</label>
-    <input id="auth-name" placeholder="如 李导" style="width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:8px;margin:4px 0 10px">
-    <label style="font-size:13px;color:var(--ink-soft)">邮箱 *</label>
-    <input id="auth-email" type="email" placeholder="you@example.com" style="width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:8px;margin:4px 0 10px">
-    <label style="font-size:13px;color:var(--ink-soft)">密码 *（至少6位）</label>
-    <input id="auth-password" type="password" placeholder="••••••" style="width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:8px;margin:4px 0 14px">
-    <div style="display:flex;gap:10px">
-      <button onclick="doAuth('login')" style="flex:1;background:var(--pine);color:#fff;border:none;padding:11px;border-radius:999px;font-weight:700;cursor:pointer">登录</button>
-      <button onclick="doAuth('register')" style="flex:1;background:var(--gold);color:#fff;border:none;padding:11px;border-radius:999px;font-weight:700;cursor:pointer">注册</button>
-      <button onclick="closeAuth()" style="padding:11px 16px;background:var(--paper-2);border:none;border-radius:999px;cursor:pointer">取消</button>
+<div class="modal-overlay" id="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+  <div class="modal">
+    <button class="close-x" aria-label="关闭" onclick="closeAuth()">×</button>
+    <h2 id="auth-title">登录 / 注册</h2>
+    <div class="auth-tabs" role="tablist">
+      <button type="button" id="tab-login" class="active" onclick="setAuthMode('login')">登录</button>
+      <button type="button" id="tab-register" onclick="setAuthMode('register')">注册</button>
     </div>
-    <div id="auth-msg" style="margin-top:12px;font-size:13px;color:var(--clay);text-align:center"></div>
-    <p style="font-size:12px;color:var(--ink-soft);margin-top:12px;text-align:center">登录后才能看到完整联系方式</p>
+    <div id="auth-fields">
+      <div id="auth-name-wrap" style="display:none">
+        <label for="auth-name">昵称 *</label>
+        <input id="auth-name" placeholder="如 李导">
+      </div>
+      <label for="auth-email">邮箱 *</label>
+      <input id="auth-email" type="email" autocomplete="email" placeholder="you@example.com">
+      <label for="auth-password">密码 *（至少6位）</label>
+      <input id="auth-password" type="password" autocomplete="current-password" placeholder="••••••">
+    </div>
+    <div class="auth-actions">
+      <button type="button" id="auth-submit-btn" onclick="doAuth(currentAuthMode)">登录</button>
+      <button type="button" onclick="closeAuth()" style="background:var(--paper-2);color:var(--ink)">取消</button>
+    </div>
+    <div class="auth-msg" id="auth-msg" role="status" aria-live="polite"></div>
+    <p class="auth-hint">登录后才能看到完整联系方式</p>
   </div>
 </div>
 
@@ -350,31 +425,44 @@ footer .links a{color:#d4b87a;margin:0 12px;cursor:pointer}
       <a onclick="show('guides')">找导游</a>
       <a onclick="show('jobs')">找团带</a>
       <a onclick="show('feedback')">反馈</a>
+    </div>
+    <div class="sub-links">
+      <a href="https://visa.chicheng.org/" target="_blank" rel="noopener">签证助手</a>
+      <a href="https://chicheng.org/" target="_blank" rel="noopener">赤澄文化主站</a>
       <a href="https://github.com/muzifafa/daoyou-hub" target="_blank" rel="noopener">GitHub</a>
     </div>
-    <p>导游 Hub · 公益项目 · 代码 MIT · 数据 CC-BY-SA 4.0<br>政策可能随时间变化，出行前请以景区当日公示为准。</p>
+    <p style="margin-top:14px">导游 Hub · 公益项目 · 代码 MIT · 数据 CC-BY-SA 4.0<br>政策可能随时间变化，出行前请以景区当日公示为准。</p>
   </div>
 </footer>
 
 <script>
-if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{});}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));}
+function toggleMenu(btn){
+  const nav=document.getElementById('navlinks');
+  const open=nav.classList.toggle('open');
+  btn.setAttribute('aria-expanded',open);
+  btn.textContent=open?'✕':'☰';
+}
 function show(v){
   document.querySelectorAll('.view').forEach(e=>e.classList.remove('active'));
   document.getElementById('view-'+v).classList.add('active');
   document.querySelectorAll('.navlinks a[data-view]').forEach(a=>a.classList.toggle('active',a.dataset.view===v));
-  document.querySelector('.navlinks').classList.remove('open');
+  document.getElementById('navlinks').classList.remove('open');
+  document.querySelector('.hamburger') && (document.querySelector('.hamburger').textContent='☰',document.querySelector('.hamburger').setAttribute('aria-expanded','false'));
   window.scrollTo(0,0);
   if(v==='guides')loadGuides();
   if(v==='jobs')loadJobs();
   if(v==='me')loadMe();
   if(v==='admin')loadAdmin();
-  try{history.replaceState(null,'','#'+v)}catch(e){}
+  try{history.pushState(null,'','#'+v)}catch(e){}
 }
+function goPostJob(){show('jobs');setTimeout(()=>scrollToForm('job-form'),80);}
+function scrollToForm(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
 async function loadMe(){
   const el=document.getElementById('me-content');
   try{
     const [g,j]=await Promise.all([fetch('/api/guides').then(r=>r.json()),fetch('/api/jobs').then(r=>r.json())]);
-    if(!g.loggedIn){el.innerHTML='<div class="empty">请先登录</div>';return;}
+    if(!g.loggedIn){el.innerHTML='<div class="empty">请先<a onclick="openAuth()" style="color:var(--pine);cursor:pointer">登录</a></div>';return;}
     const myGuides=g.list.filter(x=>x.mine);
     const myJobs=j.list.filter(x=>x.mine);
     el.innerHTML=`
@@ -382,30 +470,31 @@ async function loadMe(){
       ${myGuides.length?myGuides.map(x=>`<div class="gcard">
         <h3>${esc(x.name)} · ${esc(x.city)}</h3>
         <div class="meta">${esc(x.languages||'')} · ${esc(x.specialty||'')}</div>
-        <div style="margin-top:8px;font-size:13px;color:var(--pine);cursor:pointer" onclick="delMine('guides',${x.id})">删除这条登记</div>
+        <div style="margin-top:8px;font-size:13px;color:var(--clay);cursor:pointer" onclick="delMine('guides',${x.id})">删除这条登记</div>
       </div>`).join(''):'<div class="empty" style="margin-bottom:20px">你还没登记导游信息</div>'}
       <h3 style="margin:24px 0 12px;color:var(--pine-dark)">我发布的找团需求</h3>
       ${myJobs.length?myJobs.map(x=>`<div class="jcard">
         <h3>${esc(x.title)}</h3>
         <div class="meta">${esc(x.city)} · ${esc(x.dateRange||'')}</div>
-        <div style="margin-top:8px;font-size:13px;color:var(--pine);cursor:pointer" onclick="delMine('jobs',${x.id})">删除这条需求</div>
+        <div style="margin-top:8px;font-size:13px;color:var(--clay);cursor:pointer" onclick="delMine('jobs',${x.id})">删除这条需求</div>
       </div>`).join(''):'<div class="empty">你还没发布需求</div>'}
     `;
-  }catch(e){el.innerHTML='<div class="empty">加载失败</div>';}
+  }catch(e){el.innerHTML='<div class="empty">加载失败 <a onclick="loadMe()" style="color:var(--pine);cursor:pointer">重试</a></div>';}
 }
 async function loadAdmin(){
   const el=document.getElementById('admin-content');
   try{
     const r=await fetch('/api/admin/data');
-    if(!r.ok){el.innerHTML='<div class="empty">无权限</div>';return;}
+    if(r.status===401||r.status===403){el.innerHTML='<div class="empty">无权限</div>';return;}
+    if(!r.ok){el.innerHTML='<div class="empty">加载失败</div>';return;}
     const d=await r.json();
     el.innerHTML=`
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px">
-        <div style="background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center">
+        <div style="background:var(--card);border:1px solid var(--line);border-radius:var(--radius-sm);padding:16px;text-align:center">
           <div style="font-size:28px;font-weight:900;color:var(--pine-dark)">${d.stats.guides}</div>
           <div style="font-size:12px;color:var(--ink-soft)">登记导游（今日+${d.stats.guidesToday}）</div>
         </div>
-        <div style="background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center">
+        <div style="background:var(--card);border:1px solid var(--line);border-radius:var(--radius-sm);padding:16px;text-align:center">
           <div style="font-size:28px;font-weight:900;color:var(--pine-dark)">${d.stats.jobs}</div>
           <div style="font-size:12px;color:var(--ink-soft)">团带需求（今日+${d.stats.jobsToday}）</div>
         </div>
@@ -417,7 +506,7 @@ async function loadAdmin(){
         <div class="meta">语种：${esc(g.languages||'未填')} · 机构：${esc(g.agency||'未填')}</div>
         <div class="meta">电话：${esc(g.phone||'未填')}</div>
         <div style="margin-top:6px;font-size:12px;color:var(--ink-soft)">${esc(g.note||'')}</div>
-        <div style="margin-top:8px;font-size:13px;color:#c0392b;cursor:pointer" onclick="adminDel('guides',${g.id})">删除这条</div>
+        <div style="margin-top:8px;font-size:13px;color:var(--clay);cursor:pointer" onclick="adminDel('guides',${g.id})">删除这条</div>
       </div>`).join('')||'<div class="empty">无数据</div>'}
       <h3 style="margin:24px 0 12px;color:var(--pine-dark)">团带需求（${d.jobs.length}）</h3>
       ${d.jobs.map(j=>`<div class="jcard" style="margin-bottom:8px">
@@ -425,11 +514,11 @@ async function loadAdmin(){
         <div class="meta">${esc(j.city)} · ${esc(j.dateRange||'')} · ${esc(j.tourists||'')}</div>
         <div class="meta">联系方式：${esc(j.contact||'未填')}</div>
         <div style="margin-top:6px;font-size:12px;color:var(--ink-soft)">${esc(j.note||'')}</div>
-        <div style="margin-top:8px;font-size:13px;color:#c0392b;cursor:pointer" onclick="adminDel('jobs',${j.id})">删除这条</div>
+        <div style="margin-top:8px;font-size:13px;color:var(--clay);cursor:pointer" onclick="adminDel('jobs',${j.id})">删除这条</div>
       </div>`).join('')||'<div class="empty">无数据</div>'}
       <h3 style="margin:24px 0 12px;color:var(--pine-dark)">用户反馈（${d.feedback.length}）</h3>
       ${d.feedback.map(f=>`<div class="gcard" style="margin-bottom:8px;${f.handled?'opacity:.6':''}">
-        <div class="meta">${esc(f.type||'')} · ${esc(f.spot||'')} ${f.handled?'· <span style="color:#1f5c33">已处理</span>':''}</div>
+        <div class="meta">${esc(f.type||'')} · ${esc(f.spot||'')} ${f.handled?'· <span style="color:var(--ok)">已处理</span>':''}</div>
         <div style="margin-top:4px">${esc(f.content||'')}</div>
         <div class="meta" style="margin-top:4px;font-size:12px">${esc(f.contact||'')}</div>
         ${!f.handled?`<div style="margin-top:8px;font-size:13px;color:var(--pine);cursor:pointer" onclick="handleFeedback(${f.id})">标记已处理</div>`:''}
@@ -438,7 +527,7 @@ async function loadAdmin(){
   }catch(e){el.innerHTML='<div class="empty">加载失败</div>';}
 }
 async function delMine(kind,id){
-  if(!confirm('确定删除？'))return;
+  if(!confirm('确定删除？删除后不可恢复。'))return;
   const r=await fetch('/api/'+kind+'?id='+id,{method:'DELETE'});
   if(r.ok){toast('已删除');loadMe();}
   else{const d=await r.json().catch(()=>({}));toast(d.error||'删除失败');}
@@ -453,7 +542,7 @@ async function applyJob(id){
   }catch(e){toast('网络异常，请稍后再试');}
 }
 async function adminDel(kind,id){
-  if(!confirm('确定删除这条？'))return;
+  if(!confirm('确定删除这条？删除后不可恢复。'))return;
   const r=await fetch('/api/admin/del?kind='+kind+'&id='+id,{method:'DELETE'});
   if(r.ok){toast('已删除');loadAdmin();}
   else toast('删除失败');
@@ -466,59 +555,81 @@ async function handleFeedback(id){
 function timeAgo(iso){
   if(!iso)return '';
   const d=new Date(iso);const diff=(Date.now()-d.getTime())/1000;
+  if(diff<60)return '刚刚';
   if(diff<3600)return Math.max(1,Math.floor(diff/60))+'分钟前';
   if(diff<86400)return Math.floor(diff/3600)+'小时前';
   if(diff<2592000)return Math.floor(diff/86400)+'天前';
   return d.toLocaleDateString('zh-CN');
 }
-function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 async function shareSite(){
   const data={title:'导游 Hub · 全国导游互助平台',text:'持导游证免票景区地图 + 团导对接，公益不抽佣',url:location.origin};
-  if(navigator.share){try{await navigator.share(data);}catch(e){}}
-  else{try{await navigator.clipboard.writeText(data.url);toast('链接已复制，去粘贴分享吧');}catch(e){prompt('分享链接：',data.url);}}
+  if(navigator.share){try{await navigator.share(data);return;}catch(e){}}
+  try{await navigator.clipboard.writeText(data.url);toast('链接已复制，去粘贴分享吧');}
+  catch(e){prompt('分享链接：',data.url);}
 }
 
 let currentLoggedIn=false;
+let currentAuthMode='login';
 async function checkAuth(){
   try{
     const r=await fetch('/api/auth/me');const d=await r.json();
     currentLoggedIn=d.loggedIn;
-    document.getElementById('nav-login').style.display=d.loggedIn?'none':'inline';
-    document.getElementById('nav-user').style.display=d.loggedIn?'inline':'none';
-    document.getElementById('nav-logout').style.display=d.loggedIn?'inline':'none';
+    document.getElementById('nav-login').style.display=d.loggedIn?'none':'inline-block';
+    document.getElementById('nav-user').style.display=d.loggedIn?'inline-block':'none';
+    document.getElementById('nav-logout').style.display=d.loggedIn?'inline-block':'none';
+    document.getElementById('nav-user').textContent=d.name?('我的 · '+d.name):'我的';
     if(d.isAdmin){
-      document.getElementById('nav-admin').style.display='inline';
+      document.getElementById('nav-admin').style.display='inline-block';
     }
   }catch(e){}
 }
-function openAuth(){
-  document.getElementById('auth-modal').style.display='flex';
+function openAuth(mode){
+  setAuthMode(mode||'login');
+  document.getElementById('auth-modal').classList.add('open');
   document.getElementById('auth-msg').textContent='';
-  document.getElementById('auth-name').parentElement.style.display='none';
+  setTimeout(()=>document.getElementById('auth-email').focus(),50);
 }
-function closeAuth(){document.getElementById('auth-modal').style.display='none';}
+function closeAuth(){document.getElementById('auth-modal').classList.remove('open');}
+function setAuthMode(mode){
+  currentAuthMode=mode;
+  document.getElementById('tab-login').classList.toggle('active',mode==='login');
+  document.getElementById('tab-register').classList.toggle('active',mode==='register');
+  document.getElementById('auth-name-wrap').style.display=mode==='register'?'block':'none';
+  document.getElementById('auth-submit-btn').textContent=mode==='register'?'注册':'登录';
+  document.getElementById('auth-msg').textContent='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAuth();});
+document.getElementById('auth-modal').addEventListener('click',e=>{if(e.target.id==='auth-modal')closeAuth();});
 async function doAuth(mode){
-  document.getElementById('auth-name').parentElement.style.display=mode==='register'?'block':'none';
   const email=document.getElementById('auth-email').value.trim();
   const password=document.getElementById('auth-password').value;
   const name=document.getElementById('auth-name').value.trim();
   const msg=document.getElementById('auth-msg');
+  if(!email){msg.textContent='请输入邮箱';return;}
+  if(!password||password.length<6){msg.textContent='密码至少6位';return;}
+  if(mode==='register'&&!name){msg.textContent='请填昵称';return;}
+  const btn=document.getElementById('auth-submit-btn');
+  btn.disabled=true;btn.textContent='请稍候…';
   const body=mode==='register'?{email,password,name}:{email,password};
-  const r=await fetch('/api/auth/'+mode,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  const d=await r.json();
-  if(r.ok){closeAuth();await checkAuth();loadGuides();loadJobs();toast(mode==='register'?'注册成功，欢迎！':'登录成功');}
-  else{msg.style.color='#8a2a1a';msg.textContent=d.error||'失败';}
+  try{
+    const r=await fetch('/api/auth/'+mode,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const d=await r.json().catch(()=>({}));
+    if(r.ok){closeAuth();await checkAuth();loadGuides();loadJobs();toast(mode==='register'?'注册成功，欢迎！':'登录成功');}
+    else{msg.textContent=d.error||'失败，请重试';}
+  }catch(e){msg.textContent='网络异常，请稍后再试';}
+  finally{btn.disabled=false;btn.textContent=mode==='register'?'注册':'登录';}
 }
 function toast(t){
   const d=document.createElement('div');
   d.textContent=t;
-  d.style.cssText='position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--pine-dark);color:#fff;padding:12px 24px;border-radius:999px;z-index:2000;font-size:14px;box-shadow:0 4px 16px rgba(0,0,0,.2)';
+  d.style.cssText='position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--pine-dark);color:#fff;padding:12px 24px;border-radius:999px;z-index:2000;font-size:14px;box-shadow:0 4px 16px rgba(0,0,0,.2);max-width:90vw;text-align:center';
   document.body.appendChild(d);
   setTimeout(()=>d.remove(),2500);
 }
 async function logout(){
   await fetch('/api/auth/logout',{method:'POST'});
-  location.reload();
+  location.href='#home';location.reload();
 }
 
 let guideList=[];
@@ -528,7 +639,7 @@ function renderGuides(){
   let list=guideList.filter(g=>{
     if(city && !g.city?.includes(city))return false;
     if(q){
-      const hay=((g.city||'')+(g.languages||'')+(g.specialty||'')+(g.agency||'')+(g.note||'')).toLowerCase();
+      const hay=((g.city||'')+(g.languages||'')+(g.specialty||'')+(g.agency||'')+(g.note||'')+(g.name||'')).toLowerCase();
       if(!q.split(/\s+/).every(k=>hay.includes(k)))return false;
     }
     return true;
@@ -536,10 +647,10 @@ function renderGuides(){
   const el=document.getElementById('guide-list');
   if(!list.length){
     el.innerHTML=`<div class="empty" style="padding:60px 20px">
-      <div style="font-size:40px;margin-bottom:12px">🧑‍🏫</div>
+      <div style="font-size:40px;margin-bottom:12px" aria-hidden="true">🧑‍🏫</div>
       <div style="font-size:16px;margin-bottom:6px">这里还没有登记的导游</div>
       <div style="font-size:13px;color:var(--ink-soft);margin-bottom:20px">持证导游自助登记，领队直接联系，不抽佣</div>
-      <button class="cta" onclick="document.getElementById('guide-form').scrollIntoView({behavior:'smooth'})">我是导游，去登记 →</button>
+      <button class="cta" onclick="scrollToForm('guide-form')">我是导游，去登记 →</button>
     </div>`;return;
   }
   el.innerHTML=list.map(g=>`<div class="gcard">
@@ -549,7 +660,7 @@ function renderGuides(){
     ${g.agency?`<div style="font-size:12px;color:var(--ink-soft);margin-bottom:6px">注册：${esc(g.agency)}</div>`:''}
     ${g.expiry?`<div style="font-size:12px;color:var(--ink-soft);margin-bottom:6px">有效期至：${esc(g.expiry)}</div>`:''}
     ${g.specialty?`<div style="font-size:13.5px;margin-bottom:6px">${esc(g.specialty)}</div>`:''}
-    ${g.phone?`<div style="font-size:13px;color:var(--ink-soft)">联系：${esc(g.phone)} ${g.phoneMasked?'<a onclick="openAuth()" style="cursor:pointer;color:var(--pine);text-decoration:underline">登录查看完整号码</a>':''}</div>`:''}
+    ${g.phone?(g.phoneMasked?`<span class="contact-locked" onclick="openAuth()">🔒 登录查看完整联系方式</span>`:`<div style="font-size:13px;color:var(--ink-soft)">联系：${esc(g.phone)}</div>`):''}
     ${g.note?`<div style="font-size:13px;color:var(--ink-soft);margin-top:4px">${esc(g.note)}</div>`:''}
   </div>`).join('');
 }
@@ -561,26 +672,33 @@ async function loadGuides(){
     const sel=document.getElementById('guide-filter-city');
     sel.innerHTML='<option value="">全部</option>'+cities.map(c=>`<option>${esc(c)}</option>`).join('');
     renderGuides();checkAuth();
-  }catch(e){document.getElementById('guide-list').innerHTML='<div class="empty">加载失败</div>';}
+  }catch(e){document.getElementById('guide-list').innerHTML='<div class="empty">加载失败 <a onclick="loadGuides()" style="color:var(--pine);cursor:pointer">重试</a></div>';}
 }
 document.getElementById('guide-filter-city').onchange=renderGuides;
 document.getElementById('guide-search').oninput=renderGuides;
 document.getElementById('guide-form').onsubmit=async(e)=>{
   e.preventDefault();
-  const fd=new FormData(e.target);const body=Object.fromEntries(fd.entries());
+  const form=e.target;
+  const btn=document.getElementById('guide-submit');
   const msg=document.getElementById('guide-msg');
-  const r=await fetch('/api/guides',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(r.ok){msg.className='msg ok';msg.textContent='提交成功！已显示在列表顶部。';guideList.unshift({...body});loadGuides();e.target.reset();toast('登记成功')}
-  else{const d=await r.json().catch(()=>({}));msg.className='msg err';msg.textContent=d.error||'提交失败';}
+  const fd=new FormData(form);const body=Object.fromEntries(fd.entries());
+  if(!body.name||!body.licenseNo||!body.city||!body.phone){msg.className='msg err';msg.textContent='请填写所有必填项';return;}
+  btn.disabled=true;btn.textContent='提交中…';
+  try{
+    const r=await fetch('/api/guides',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const d=await r.json().catch(()=>({}));
+    if(r.ok){msg.className='msg ok';msg.textContent='提交成功！已显示在列表顶部。';form.reset();toast('登记成功');loadGuides();}
+    else{msg.className='msg err';msg.textContent=d.error||'提交失败，请重试';}
+  }catch(e){msg.className='msg err';msg.textContent='网络异常，请稍后再试';}
+  finally{btn.disabled=false;btn.textContent='提交登记';}
 };
 
 let jobList=[];
 function isExpired(j){
-  if(!j.dateRange)return false;
-  const m=j.dateRange.match(/(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})\s*至?\s*(\d{4})?[-\/]?(\d{1,2})?[-\/]?(\d{1,2})?/);
-  if(!m)return false;
-  const end=m[6]?`${m[1]}-${m[5]}-${m[6]}`:`${m[1]}-${m[2]}-${m[3]}`;
-  return new Date(end) < new Date(new Date().toDateString());
+  if(!j.endDate)return false;
+  const end=new Date(j.endDate);
+  if(isNaN(end))return false;
+  return end < new Date(new Date().toDateString());
 }
 function renderJobs(){
   const city=document.getElementById('job-filter-city').value;
@@ -599,21 +717,23 @@ function renderJobs(){
   const el=document.getElementById('job-list');
   if(!list.length){
     el.innerHTML=`<div class="empty" style="padding:60px 20px">
-      <div style="font-size:40px;margin-bottom:12px">📋</div>
+      <div style="font-size:40px;margin-bottom:12px" aria-hidden="true">📋</div>
       <div style="font-size:16px;margin-bottom:6px">这里还没有团带需求</div>
       <div style="font-size:13px;color:var(--ink-soft);margin-bottom:20px">领队、计调、散客拼团都可以发布找导游需求</div>
-      <button class="cta" onclick="document.getElementById('job-form').scrollIntoView({behavior:'smooth'})">发布第一条需求 →</button>
+      <button class="cta" onclick="scrollToForm('job-form')">发布第一条需求 →</button>
     </div>`;return;
   }
   const active=list.filter(j=>!isExpired(j));
   const expired=list.filter(j=>isExpired(j));
   const card=(j,ex)=>`<div class="jcard" style="${ex?'opacity:.55':''}">
-      <h3>${esc(j.title)} ${ex?'<span class="tag" style="background:#ddd;color:#666">已过期</span>':''} ${j.applicantsCount?`<span class="tag" style="background:#d4ead8;color:#1f5c33">${j.applicantsCount}位导游报名</span>`:''}</h3>
+      <h3>${esc(j.title)} ${ex?'<span class="tag muted">已过期</span>':''} ${j.applicantsCount?`<span class="tag ok">${j.applicantsCount}位导游报名</span>`:''}</h3>
       <div class="meta"><b>${esc(j.city)}</b>${j.dateRange?' · '+esc(j.dateRange):''}${j.tourists?' · '+esc(j.tourists):''} <span style="color:var(--ink-soft);font-size:12px">· ${timeAgo(j.createdAt)}</span></div>
       <div>${[j.language?`<span class="tag">${esc(j.language)}</span>`:'',j.budget?`<span class="tag">${esc(j.budget)}</span>`:''].join('')}</div>
       ${j.note?`<div style="font-size:13.5px;margin:8px 0;color:var(--ink-soft)">${esc(j.note)}</div>`:''}
-      <div style="font-size:13px;color:var(--pine);font-weight:700">联系：${esc(j.contact)} ${j.contactMasked?'<a onclick="openAuth()" style="cursor:pointer;color:var(--ink-soft);font-weight:400;text-decoration:underline;font-size:12px">登录查看完整</a>':''}</div>
-      ${j.mine&&j.applicants&&j.applicants.length?`<div style="margin-top:10px;font-size:13px;color:#1f5c33;background:#eef5ef;border:1px solid #cfe3d2;padding:8px 12px;border-radius:8px">👥 已报名的导游：${j.applicants.map(a=>esc(a.name)).join('、')}（请通过上方联系方式主动联系）</div>`:''}
+      <div style="font-size:13px;color:var(--pine);font-weight:700">
+        ${j.contactMasked?'<span class="contact-locked" onclick="openAuth()">🔒 登录查看完整联系方式</span>':'联系：'+esc(j.contact)}
+      </div>
+      ${j.mine&&j.applicants&&j.applicants.length?`<div style="margin-top:10px;font-size:13px;color:var(--ok);background:var(--ok-bg);border:1px solid #cfe3d2;padding:8px 12px;border-radius:8px">👥 已报名的导游：${j.applicants.map(a=>esc(a.name)).join('、')}（请通过上方联系方式主动联系）</div>`:''}
       ${!j.mine?'<button onclick="applyJob('+j.id+')" style="margin-top:10px;background:var(--pine);color:#fff;border:none;padding:8px 18px;border-radius:999px;font-size:13px;cursor:pointer">我要接单</button>':''}
     </div>`;
   el.innerHTML=active.map(j=>card(j,false)).join('')+
@@ -627,33 +747,60 @@ async function loadJobs(){
     const sel=document.getElementById('job-filter-city');
     sel.innerHTML='<option value="">全部</option>'+cities.map(c=>`<option>${esc(c)}</option>`).join('');
     renderJobs();checkAuth();
-  }catch(e){document.getElementById('job-list').innerHTML='<div class="empty">加载失败</div>';}
+  }catch(e){document.getElementById('job-list').innerHTML='<div class="empty">加载失败 <a onclick="loadJobs()" style="color:var(--pine);cursor:pointer">重试</a></div>';}
 }
 document.getElementById('job-filter-city').onchange=renderJobs;
 document.getElementById('job-filter-status').onchange=renderJobs;
 document.getElementById('job-search').oninput=renderJobs;
 document.getElementById('job-form').onsubmit=async(e)=>{
   e.preventDefault();
-  const fd=new FormData(e.target);const body=Object.fromEntries(fd.entries());
+  const form=e.target;
+  const btn=document.getElementById('job-submit');
   const msg=document.getElementById('job-msg');
-  const r=await fetch('/api/jobs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(r.ok){msg.className='msg ok';msg.textContent='发布成功！已显示在列表顶部。';jobList.unshift({...body,id:Date.now()});loadJobs();e.target.reset();toast('发布成功')}
-  else{msg.className='msg err';msg.textContent='发布失败，请重试';}
+  const fd=new FormData(form);
+  const body=Object.fromEntries(fd.entries());
+  if(!body.title||!body.city||!body.contact){msg.className='msg err';msg.textContent='请填写标题、目的地和联系方式';return;}
+  // 拼接日期范围
+  if(body.startDate||body.endDate){
+    const s=body.startDate||'',en=body.endDate||'';
+    body.dateRange=s+(en?' 至 '+en:'');
+  }
+  delete body.startDate;delete body.endDate;
+  btn.disabled=true;btn.textContent='发布中…';
+  try{
+    const r=await fetch('/api/jobs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const d=await r.json().catch(()=>({}));
+    if(r.ok){msg.className='msg ok';msg.textContent='发布成功！已显示在列表顶部。';form.reset();toast('发布成功');loadJobs();}
+    else{msg.className='msg err';msg.textContent=d.error||'发布失败，请重试';}
+  }catch(e){msg.className='msg err';msg.textContent='网络异常，请稍后再试';}
+  finally{btn.disabled=false;btn.textContent='发布需求';}
 };
 
 document.getElementById('feedback-form').onsubmit=async(e)=>{
   e.preventDefault();
-  const fd=new FormData(e.target);const body=Object.fromEntries(fd.entries());
+  const form=e.target;
+  const btn=document.getElementById('feedback-submit');
   const msg=document.getElementById('feedback-msg');
-  const r=await fetch('/api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(r.ok){msg.className='msg ok';msg.textContent='收到！感谢你的贡献，我们核实后会更新。';e.target.reset();toast('反馈已提交')}
-  else{msg.className='msg err';msg.textContent='提交失败，请重试';}
+  const fd=new FormData(form);const body=Object.fromEntries(fd.entries());
+  if(!body.type||!body.content){msg.className='msg err';msg.textContent='请选择反馈类型并填写内容';return;}
+  btn.disabled=true;btn.textContent='提交中…';
+  try{
+    const r=await fetch('/api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const d=await r.json().catch(()=>({}));
+    if(r.ok){msg.className='msg ok';msg.textContent='收到！感谢你的贡献，我们核实后会更新。';form.reset();toast('反馈已提交');}
+    else{msg.className='msg err';msg.textContent=d.error||'提交失败，请重试';}
+  }catch(e){msg.className='msg err';msg.textContent='网络异常，请稍后再试';}
+  finally{btn.disabled=false;btn.textContent='提交反馈';}
 };
 
 window.addEventListener('scroll',()=>{
-  document.getElementById('back-top').style.display=window.scrollY>400?'block':'none';
+  document.getElementById('back-top').style.display=window.scrollY>400?'flex':'none';
+},{passive:true});
+// 浏览器前进后退
+window.addEventListener('popstate',()=>{
+  const h=location.hash.replace('#','');
+  if(h&&document.getElementById('view-'+h))show(h);
 });
-// hash 路由
 const h=location.hash.replace('#','');
 if(h&&document.getElementById('view-'+h))show(h);
 checkAuth();
@@ -679,7 +826,9 @@ async function loadLatest(){
         <div style="font-size:12px;color:var(--ink-soft)">${esc(x.dateRange||'')} ${x.tourists?'· '+esc(x.tourists):''}</div>
       </div>`).join('');
     }else lj.innerHTML='<div style="padding:8px 0">还没有团带需求</div>';
-  }catch(e){}
+  }catch(e){
+    document.getElementById('stat-guides').textContent='—';
+  }
 }
 </script>
 </body>

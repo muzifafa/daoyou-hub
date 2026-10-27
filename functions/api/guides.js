@@ -30,7 +30,7 @@ export async function onRequestGet(context){
   const safe=list.map(g=>({
     id:g.id,
     mine:!!g.ownerUid && g.ownerUid===uid,
-    name:g.name?g.name[0]+'**':'',
+    name:g.name||'',
     licenseNo:g.licenseNo?g.licenseNo.slice(0,2)+'****'+g.licenseNo.slice(-2):'',
     city:g.city,
     languages:g.languages,
@@ -47,9 +47,9 @@ export async function onRequestGet(context){
 export async function onRequestPost(context){
   const {request,env}=context;
   const body=await request.json();
-  if(!body.name||!body.city||!body.licenseNo)return new Response(JSON.stringify({error:'缺少必填项'}),{status:400});
+  if(!body.name||!body.city||!body.licenseNo||!body.phone)return new Response(JSON.stringify({error:'请填写所有必填项（称呼、证号、城市、联系方式）'}),{status:400});
   const licenseNo=String(body.licenseNo).trim().toUpperCase();
-  if(!/^[A-Z]{3}\d{4}[A-Z]$/.test(licenseNo))return new Response(JSON.stringify({error:'导游证号格式不正确，请核对后重填'}),{status:400});
+  if(!/^[A-Z]{3}\d{4}[A-Z]$/.test(licenseNo))return new Response(JSON.stringify({error:'导游证号格式不正确，应为3字母+4数字+1字母，如 UG12345L'}),{status:400});
   let expiry=String(body.expiry||'').trim();
   if(!/^\d{4}-\d{2}-\d{2}$/.test(expiry))expiry='';
   const uid=await currentUid(request,env);

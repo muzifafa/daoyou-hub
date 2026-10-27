@@ -13,6 +13,18 @@ function maskContact(c){
   if(/^1\d{10}$/.test(c))return c.slice(0,3)+'****'+c.slice(-4);
   return c.length<7?c:c.slice(0,2)+'****'+c.slice(-3);
 }
+// 从 dateRange 字符串提取结束日期，兼容旧格式 "2026-11-15 至 11-20" 和新 ISO "2026-11-20"
+function parseEndDate(j){
+  if(j.endDate)return j.endDate;
+  const dr=String(j.dateRange||'');
+  // 新格式：dateRange 本身就是 "YYYY-MM-DD 至 YYYY-MM-DD"
+  let m=dr.match(/(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})\s*至?\s*(?:(\d{4})[-\/])?(\d{1,2})[-\/](\d{1,2})/);
+  if(m){
+    const y=m[4]?m[4]:m[1];
+    return `${y}-${m[5].padStart(2,'0')}-${m[6].padStart(2,'0')}`;
+  }
+  return '';
+}
 export async function onRequestGet(context){
   const {request,env}=context;
   const sid=getSession(request);
@@ -27,6 +39,7 @@ export async function onRequestGet(context){
     id:j.id,
     mine:isMine,
     title:j.title,city:j.city,dateRange:j.dateRange,tourists:j.tourists,
+    endDate:parseEndDate(j),
     language:j.language,budget:j.budget,
     contact:loggedIn?j.contact:maskContact(j.contact),
     contactMasked:!loggedIn,
@@ -40,7 +53,7 @@ export async function onRequestGet(context){
 export async function onRequestPost(context){
   const {request,env}=context;
   const body=await request.json();
-  if(!body.title||!body.city)return new Response(JSON.stringify({error:'缺少标题或目的地'}),{status:400});
+  if(!body.title||!body.city||!body.contact)return new Response(JSON.stringify({error:'请填写标题、目的地和联系方式'}),{status:400});
   const uid=await currentUid(request,env);
   const raw=await env.DAOYOU_DATA.get('jobs');
   const list=raw?JSON.parse(raw):[];
