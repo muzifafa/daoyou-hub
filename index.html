@@ -128,7 +128,10 @@ footer .links a{color:#d4b87a;margin:0 12px;cursor:pointer}
       <div class="kicker">全国持证导游 · 公益互助</div>
       <h1>导游互助平台</h1>
       <p class="sub">不靠网上零散截图，靠全国导游实地核实。<br>持导游证免票景区名录、团导对接、A级景区共建——一个为导游服务的开放数据社区。</p>
-      <button class="cta" onclick="show('jobs')">我是导游，我要接单 →</button>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <button class="cta" onclick="show('jobs')">我是导游，我要接单 →</button>
+        <button class="cta" style="background:transparent;color:#f4efe2;border:2px solid #f4efe2" onclick="document.getElementById('job-form').scrollIntoView({behavior:'smooth'})">我是领队，发需求</button>
+      </div>
       <div class="stats">
         <div class="stat"><b id="stat-guides">—</b><span>登记导游</span></div>
         <div class="stat"><b id="stat-jobs">—</b><span>团带需求</span></div>
