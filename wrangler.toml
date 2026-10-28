@@ -14,7 +14,7 @@ database_id = "6bf3527a-051b-47e2-a1ef-fde5e4970ab0"
 migrations_dir = "migrations"
 
 [vars]
-ADMIN_UIDS = ""
+ADMIN_UIDS = "8fea5789242bac94afe81affb4713a65"
 
 [[env.preview.kv_namespaces]]
 binding = "DAOYOU_DATA"
