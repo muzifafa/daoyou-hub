@@ -33,23 +33,30 @@ export const onRequestGet = endpoint(async ({ request, env }) => {
   await rateLimit(env, request, "read-jobs", 60, 60);
   const user = await currentUser(request, env);
   const rows = await listRecords(env, "jobs");
+  const countRows = await db(env)
+    .prepare(
+      "SELECT a.job_id,COUNT(*) AS n FROM applications a JOIN records r ON r.kind='jobs' AND r.id=a.job_id GROUP BY a.job_id",
+    )
+    .all();
+  const counts = new Map(countRows.results.map((row) => [row.job_id, row.n]));
+  const applicationsByJob = new Map();
+  if (user) {
+    const applications = await db(env)
+      .prepare(
+        "SELECT a.job_id,a.name FROM applications a JOIN records r ON r.kind='jobs' AND r.id=a.job_id WHERE r.owner_uid=? ORDER BY a.created_at",
+      )
+      .bind(user.uid)
+      .all();
+    for (const entry of applications.results) {
+      if (!applicationsByJob.has(entry.job_id))
+        applicationsByJob.set(entry.job_id, []);
+      applicationsByJob.get(entry.job_id).push({ name: entry.name });
+    }
+  }
   const list = [];
   for (const j of rows) {
     const mine = !!user && j.ownerUid === user.uid;
-    const count = await db(env)
-      .prepare("SELECT COUNT(*) AS n FROM applications WHERE job_id=?")
-      .bind(j.id)
-      .first();
-    const apps = mine
-      ? (
-          await db(env)
-            .prepare(
-              "SELECT name FROM applications WHERE job_id=? ORDER BY created_at",
-            )
-            .bind(j.id)
-            .all()
-        ).results
-      : [];
+    const apps = mine ? applicationsByJob.get(j.id) || [] : [];
     list.push({
       id: j.id,
       mine,
@@ -63,7 +70,7 @@ export const onRequestGet = endpoint(async ({ request, env }) => {
       contact: user ? j.contact : mask(j.contact),
       contactMasked: !user,
       applicants: apps,
-      applicantsCount: count.n,
+      applicantsCount: counts.get(j.id) || 0,
       note: j.note,
       createdAt: j.createdAt,
     });

@@ -33,14 +33,14 @@ Pages Functions 使用 D1 的 `DAOYOU_DB` 保存账号、会话、记录、报�
 
 ## 部署
 
-仓库中的 CI 在 PR 和 main 提交上执行测试及构建。main 发布任务需要：
+`docs/ci-workflow.yml` 提供可审查的 CI/自动发布模板。目前 GitHub 集成不允许写入工作流文件，模板尚未启用。获得工作流写权限后，将它放入 `.github/workflows/ci.yml`；它会在 PR 和 main 提交上执行测试及构建。main 发布任务还需要：
 
 - GitHub Secret `CLOUDFLARE_API_TOKEN`：限制在本账号、网站发布所需权限的专用凭证。
 - GitHub Variable `CLOUDFLARE_ACCOUNT_ID`：Cloudflare 账号 ID。
 - GitHub Variable `CLOUDFLARE_DEPLOY_ENABLED=true`：仅在专用凭证配置完成后启用自动发布；未配置时只运行验证。
 - 如有管理员，确保 `wrangler.toml` 对应环境的 `ADMIN_UIDS` 与已核对的账号一致。
 
-不把本机个人 OAuth 凭证上传到 GitHub。没有专用部署凭证时，CI 不会假装发布成功；可以使用本机已授权 Wrangler 执行：
+不把本机个人 OAuth 凭证上传到 GitHub。没有专用部署凭证时，不启用自动发布；可以使用本机已授权 Wrangler 执行：
 
 ```sh
 npm run build

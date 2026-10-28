@@ -10,17 +10,22 @@ import {
   onRequestGet as getGuides,
   onRequestDelete as deleteGuide,
 } from "../functions/api/guides.js";
-import { onRequestPost as postJob } from "../functions/api/jobs.js";
+import {
+  onRequestGet as getJobs,
+  onRequestPost as postJob,
+} from "../functions/api/jobs.js";
 import { onRequestPost as logout } from "../functions/api/auth/logout.js";
 import { onRequestPost as login } from "../functions/api/auth/login.js";
 
 class LocalD1 {
   constructor() {
     this.db = new DatabaseSync(":memory:");
+    this.queryCount = 0;
     const path = new URL("../migrations/0001.sql", import.meta.url);
     if (existsSync(path)) this.db.exec(readFileSync(path, "utf8"));
   }
   prepare(sql) {
+    this.queryCount++;
     const state = { params: [] };
     const db = this.db;
     return {
@@ -366,4 +371,31 @@ test("logout revokes a legacy session even if its old KV entry remains cached", 
     context(f.env, req("/api/auth/me", undefined, { method: "GET", cookie })),
   );
   assert.equal((await result.json()).loggedIn, false);
+});
+
+test("listing a busy job board stays within a bounded database query budget", async () => {
+  const f = fixture();
+  f.records.set(
+    "jobs",
+    JSON.stringify(
+      Array.from({ length: 60 }, (_, i) => ({
+        id: 100 + i,
+        title: "Tour " + i,
+        city: "Test",
+        contact: "audit@example.test",
+        createdAt: "2026-10-28T00:00:00Z",
+      })),
+    ),
+  );
+  await getJobs(context(f.env, req("/api/jobs", undefined, { method: "GET" })));
+  f.env.DAOYOU_DB.queryCount = 0;
+  const result = await getJobs(
+    context(f.env, req("/api/jobs", undefined, { method: "GET" })),
+  );
+  assert.equal(result.status, 200);
+  assert.equal((await result.json()).list.length, 60);
+  assert.ok(
+    f.env.DAOYOU_DB.queryCount <= 12,
+    "a public list must not issue one database query per job",
+  );
 });
