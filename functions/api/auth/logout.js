@@ -1,11 +1,16 @@
-const COOKIE_NAME='daoyou_session';
-export async function onRequestPost(context){
-  const sid=(context.request.headers.get('Cookie')||'').match(new RegExp(COOKIE_NAME+'=([a-f0-9]+)'));
-  if(sid)await context.env.DAOYOU_DATA.delete('session:'+sid[1]);
-  return new Response(JSON.stringify({ok:true}),{
-    headers:{
-      'Content-Type':'application/json',
-      'Set-Cookie':COOKIE_NAME+'=; Path=/; HttpOnly; Secure; Max-Age=0'
-    }
-  });
-}
+import { endpoint, json, requireSameOrigin } from "../../../lib/http.js";
+import { db } from "../../../lib/storage.js";
+import { sidFrom, sessionCookie, currentUser } from "../../../lib/auth.js";
+export const onRequestPost = endpoint(async ({ request, env }) => {
+  requireSameOrigin(request);
+  const sid = sidFrom(request);
+  if (sid) {
+    await currentUser(request, env);
+    await db(env)
+      .prepare("UPDATE sessions SET expires_at=0 WHERE sid=?")
+      .bind(sid)
+      .run();
+    await env.DAOYOU_DATA?.delete("session:" + sid);
+  }
+  return json({ ok: true }, 200, { "Set-Cookie": sessionCookie("", 0) });
+});

@@ -1,88 +1,84 @@
-const COOKIE_NAME='daoyou_session';
-function getSession(request){
-  const cookie=request.headers.get('Cookie')||'';
-  const m=cookie.match(new RegExp(COOKIE_NAME+'=([a-f0-9]+)'));
-  return m?m[1]:null;
+import {
+  endpoint,
+  json,
+  bodyJson,
+  requireSameOrigin,
+  required,
+  text,
+  recordId,
+  HttpError,
+} from "../../lib/http.js";
+import {
+  listRecords,
+  createRecord,
+  deleteOwned,
+  rateLimit,
+} from "../../lib/storage.js";
+import { currentUser, requireUser } from "../../lib/auth.js";
+function mask(value) {
+  const v = String(value || "");
+  if (!v) return "";
+  if (v.includes("@")) return v[0] + "***@" + v.split("@")[1];
+  return v.length > 6 ? v.slice(0, 2) + "****" + v.slice(-2) : "***";
 }
-async function currentUid(request,env){
-  const sid=getSession(request);
-  if(!sid)return null;
-  return await env.DAOYOU_DATA.get('session:'+sid);
-}
-function maskPhone(p){
-  p=String(p||'');
-  if(!p)return '';
-  if(/^1\d{10}$/.test(p))return p.slice(0,3)+'****'+p.slice(-4);
-  if(p.includes('@')){
-    const [u,d]=p.split('@');
-    return u[0]+'***@'+d;
-  }
-  if(p.length<=6)return p;
-  return p.slice(0,2)+'****'+p.slice(-2);
-}
-export async function onRequestGet(context){
-  const {request,env}=context;
-  const sid=getSession(request);
-  const uid=sid?await env.DAOYOU_DATA.get('session:'+sid):null;
-  const loggedIn=!!uid;
-  const raw=await env.DAOYOU_DATA.get('guides');
-  const list=raw?JSON.parse(raw):[];
-  const safe=list.map(g=>({
-    id:g.id,
-    mine:!!g.ownerUid && g.ownerUid===uid,
-    name:g.name||'',
-    licenseNo:g.licenseNo?g.licenseNo.slice(0,2)+'****'+g.licenseNo.slice(-2):'',
-    city:g.city,
-    languages:g.languages,
-    agency:g.agency,
-    expiry:g.expiry,
-    specialty:g.specialty,
-    phone:loggedIn?g.phone:maskPhone(g.phone),
-    phoneMasked:!loggedIn,
-    note:g.note,
-    createdAt:g.createdAt
-  }));
-  return new Response(JSON.stringify({list:safe,loggedIn}),{headers:{'Content-Type':'application/json'}});
-}
-export async function onRequestPost(context){
-  const {request,env}=context;
-  const body=await request.json();
-  if(!body.name||!body.city||!body.licenseNo||!body.phone)return new Response(JSON.stringify({error:'请填写所有必填项（称呼、证号、城市、联系方式）'}),{status:400});
-  const licenseNo=String(body.licenseNo).trim().toUpperCase();
-  if(!/^[A-Z]{3}\d{4}[A-Z]$/.test(licenseNo))return new Response(JSON.stringify({error:'导游证号格式不正确，应为3字母+4数字+1字母，如 UG12345L'}),{status:400});
-  let expiry=String(body.expiry||'').trim();
-  if(!/^\d{4}-\d{2}-\d{2}$/.test(expiry))expiry='';
-  const uid=await currentUid(request,env);
-  const raw=await env.DAOYOU_DATA.get('guides');
-  const list=raw?JSON.parse(raw):[];
-  list.unshift({
-    id:Date.now(),
-    ownerUid:uid||null,
-    name:String(body.name).slice(0,30),
-    licenseNo,
-    city:String(body.city).slice(0,20),
-    languages:String(body.languages||'').slice(0,60),
-    agency:String(body.agency||'').slice(0,60),
-    expiry,
-    specialty:String(body.specialty||'').slice(0,100),
-    phone:String(body.phone||'').slice(0,30),
-    note:String(body.note||'').slice(0,200),
-    createdAt:new Date().toISOString()
+export const onRequestGet = endpoint(async ({ request, env }) => {
+  await rateLimit(env, request, "read-guides", 60, 60);
+  const user = await currentUser(request, env);
+  const list = await listRecords(env, "guides");
+  return json({
+    loggedIn: !!user,
+    list: list.map((g) => ({
+      id: g.id,
+      mine: !!user && g.ownerUid === user.uid,
+      name: g.name || "",
+      licenseNo: mask(g.licenseNo),
+      city: g.city,
+      languages: g.languages,
+      agency: g.agency,
+      expiry: g.expiry,
+      specialty: g.specialty,
+      phone: user ? g.phone : mask(g.phone),
+      phoneMasked: !user,
+      note: g.note,
+      createdAt: g.createdAt,
+    })),
   });
-  await env.DAOYOU_DATA.put('guides',JSON.stringify(list));
-  return new Response(JSON.stringify({ok:true}),{headers:{'Content-Type':'application/json'}});
-}
-export async function onRequestDelete(context){
-  const {request,env}=context;
-  const uid=await currentUid(request,env);
-  if(!uid)return new Response(JSON.stringify({error:'未登录'}),{status:401});
-  const url=new URL(request.url);
-  const id=Number(url.searchParams.get('id'));
-  const raw=await env.DAOYOU_DATA.get('guides');
-  let list=raw?JSON.parse(raw):[];
-  const before=list.length;
-  list=list.filter(g=>!(g.id===id && g.ownerUid===uid));
-  if(list.length===before)return new Response(JSON.stringify({error:'找不到这条记录或不是你提交的'}),{status:403});
-  await env.DAOYOU_DATA.put('guides',JSON.stringify(list));
-  return new Response(JSON.stringify({ok:true}),{headers:{'Content-Type':'application/json'}});
-}
+});
+export const onRequestPost = endpoint(async ({ request, env }) => {
+  requireSameOrigin(request);
+  const user = await requireUser(request, env);
+  await rateLimit(env, request, "create-guide", 10, 3600, user.uid);
+  const b = await bodyJson(request);
+  const name = required(b.name, 30, "称呼"),
+    city = required(b.city, 20, "常驻城市"),
+    licenseNo = required(b.licenseNo, 20, "导游证号").toUpperCase(),
+    phone = required(b.phone, 60, "联系方式");
+  if (!/^[A-Z0-9]{8,20}$/.test(licenseNo))
+    throw new HttpError(400, "请填写8至20位字母或数字的导游证号");
+  const expiry = text(b.expiry, 10);
+  if (expiry && !/^\d{4}-\d{2}-\d{2}$/.test(expiry))
+    throw new HttpError(400, "有效期日期格式不正确");
+  const id = await createRecord(
+    env,
+    "guides",
+    {
+      name,
+      city,
+      licenseNo,
+      phone,
+      expiry,
+      languages: text(b.languages, 60),
+      agency: text(b.agency, 60),
+      specialty: text(b.specialty, 100),
+      note: text(b.note, 200),
+    },
+    user.uid,
+  );
+  return json({ ok: true, id });
+});
+export const onRequestDelete = endpoint(async ({ request, env }) => {
+  requireSameOrigin(request);
+  const user = await requireUser(request, env);
+  await deleteOwned(env, "guides", recordId(request), user.uid);
+  return json({ ok: true });
+});

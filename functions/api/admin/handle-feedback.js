@@ -1,24 +1,29 @@
-const COOKIE_NAME='daoyou_session';
-const ADMIN_EMAILS=['xinhua.felix@icloud.com','920719197@qq.com'];
-async function isAdmin(request,env){
-  const cookie=request.headers.get('Cookie')||'';
-  const m=cookie.match(new RegExp(COOKIE_NAME+'=([a-f0-9]+)'));
-  if(!m)return false;
-  const uid=await env.DAOYOU_DATA.get('session:'+m[1]);
-  if(!uid)return false;
-  const u=await env.DAOYOU_DATA.get('user:'+uid);
-  if(!u)return false;
-  return ADMIN_EMAILS.includes(JSON.parse(u).email);
-}
-export async function onRequestPost(context){
-  const {request,env}=context;
-  if(!await isAdmin(request,env))return new Response(JSON.stringify({error:'无权限'}),{status:403});
-  const url=new URL(request.url);
-  const id=Number(url.searchParams.get('id'));
-  const raw=await env.DAOYOU_DATA.get('feedback');
-  let list=raw?JSON.parse(raw):[];
-  const f=list.find(x=>x.id===id);
-  if(f)f.handled=true;
-  await env.DAOYOU_DATA.put('feedback',JSON.stringify(list));
-  return new Response(JSON.stringify({ok:true}),{headers:{'Content-Type':'application/json'}});
-}
+import {
+  endpoint,
+  json,
+  requireSameOrigin,
+  recordId,
+  HttpError,
+} from "../../../lib/http.js";
+import { db, getRecord } from "../../../lib/storage.js";
+import { requireAdmin } from "../../../lib/auth.js";
+export const onRequestPost = endpoint(async ({ request, env }) => {
+  requireSameOrigin(request);
+  const user = await requireAdmin(request, env);
+  const id = recordId(request);
+  const record = await getRecord(env, "feedback", id);
+  if (!record) throw new HttpError(404, "反馈不存在");
+  await db(env).batch([
+    db(env)
+      .prepare(
+        "UPDATE records SET payload=json_set(payload,'$.handled',json('true')) WHERE kind='feedback' AND id=?",
+      )
+      .bind(id),
+    db(env)
+      .prepare(
+        "INSERT INTO audit_log(actor_uid,action,target,created_at) VALUES(?,?,?,?)",
+      )
+      .bind(user.uid, "handle", "feedback:" + id, new Date().toISOString()),
+  ]);
+  return json({ ok: true });
+});

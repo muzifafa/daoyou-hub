@@ -1,35 +1,50 @@
-async function sha256(s){
-  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));
-  return [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
-}
-function randomId(n=16){return [...crypto.getRandomValues(new Uint8Array(n))].map(b=>b.toString(16).padStart(2,'0')).join('');}
-const COOKIE_NAME='daoyou_session';
-
-export async function onRequestPost(context){
-  const {request,env}=context;
-  try{
-    const body=await request.json();
-    const email=String(body.email||'').trim().toLowerCase();
-    const password=String(body.password||'');
-    const name=String(body.name||'').trim();
-    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return json({error:'邮箱格式不正确'},400);
-    if(password.length<6)return json({error:'密码至少6位'},400);
-    if(!name)return json({error:'请填昵称'},400);
-    const exist=await env.DAOYOU_DATA.get('user:email:'+email);
-    if(exist)return json({error:'该邮箱已注册'},400);
-    const uid=randomId(16);
-    const salt=randomId(8);
-    const hash=await sha256(salt+password);
-    await env.DAOYOU_DATA.put('user:'+uid,JSON.stringify({uid,email,name,salt,hash,createdAt:new Date().toISOString()}));
-    await env.DAOYOU_DATA.put('user:email:'+email,uid);
-    const sid=[...crypto.getRandomValues(new Uint8Array(32))].map(b=>b.toString(16).padStart(2,'0')).join('');
-    await env.DAOYOU_DATA.put('session:'+sid,uid,{expirationTtl:60*60*24*30});
-    return new Response(JSON.stringify({ok:true,name}),{
-      headers:{
-        'Content-Type':'application/json',
-        'Set-Cookie':COOKIE_NAME+'='+sid+'; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=2592000'
-      }
-    });
-  }catch(e){return json({error:'注册失败'},500)}
-}
-function json(o,s=200){return new Response(JSON.stringify(o),{status:s,headers:{'Content-Type':'application/json'}})}
+import {
+  endpoint,
+  json,
+  bodyJson,
+  requireSameOrigin,
+  required,
+  text,
+  HttpError,
+} from "../../../lib/http.js";
+import { db, rateLimit } from "../../../lib/storage.js";
+import {
+  findEmail,
+  hashPassword,
+  createSession,
+  sessionCookie,
+} from "../../../lib/auth.js";
+export const onRequestPost = endpoint(async ({ request, env }) => {
+  requireSameOrigin(request);
+  await rateLimit(env, request, "register", 5, 3600);
+  const body = await bodyJson(request);
+  const email = text(body.email, 254).toLowerCase();
+  const password = typeof body.password === "string" ? body.password : "";
+  const name = required(body.name, 30, "昵称");
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))
+    throw new HttpError(400, "邮箱格式不正确");
+  if (password.length < 12 || password.length > 128)
+    throw new HttpError(400, "新密码需为12至128位");
+  if (await findEmail(env, email))
+    throw new HttpError(409, "该邮箱已注册，请直接登录");
+  const uid = Buffer.from(crypto.getRandomValues(new Uint8Array(16))).toString(
+    "hex",
+  );
+  const hash = await hashPassword(password);
+  try {
+    await db(env)
+      .prepare(
+        "INSERT INTO users(uid,email,name,password_hash,created_at,email_verified) VALUES(?,?,?,?,?,0)",
+      )
+      .bind(uid, email, name, hash, new Date().toISOString())
+      .run();
+  } catch (error) {
+    if (String(error.message).includes("UNIQUE"))
+      throw new HttpError(409, "该邮箱已注册，请直接登录");
+    throw error;
+  }
+  const sid = await createSession(env, uid);
+  return json({ ok: true, name, emailVerified: false }, 200, {
+    "Set-Cookie": sessionCookie(sid),
+  });
+});
