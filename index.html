@@ -157,7 +157,7 @@ footer .sub-links a{color:#cfd8cc;margin:0 8px}
 .modal .auth-msg{margin-top:12px;font-size:13px;text-align:center;min-height:18px;color:var(--err)}
 .modal .auth-hint{font-size:12px;color:var(--ink-soft);margin-top:12px;text-align:center}
 </style>
-</head>
+<meta property="og:image" content="https://daoyou.chicheng.org/share.svg"><meta name="twitter:card" content="summary_large_image"></head>
 <body>
 <noscript><div style="padding:40px;text-align:center;font-family:sans-serif">本站需要启用 JavaScript 才能浏览。请在浏览器设置中启用 JS 后刷新。</div></noscript>
 <a class="skip-link" href="#main">跳到主要内容</a>
@@ -198,7 +198,7 @@ footer .sub-links a{color:#cfd8cc;margin:0 8px}
       <div class="stats">
         <div class="stat"><b id="stat-guides">—</b><span>登记导游</span></div>
         <div class="stat"><b id="stat-jobs">—</b><span>团带需求</span></div>
-        <div class="stat"><b>1827+</b><span>已核实景区</span></div>
+        <div class="stat"><b>1827+</b><span>已收录景区</span></div>
         <div class="stat"><b>公益</b><span>不抽佣不交易</span></div>
       </div>
     </div>
@@ -249,7 +249,7 @@ footer .sub-links a{color:#cfd8cc;margin:0 8px}
       </details>
       <details class="card" style="margin-bottom:10px;cursor:pointer">
         <summary style="font-weight:700;color:var(--pine-dark)">怎么验证我是真导游？</summary>
-        <p style="margin-top:8px;color:var(--ink-soft)">登记时填写导游证号（格式：3字母+4数字+1字母，如 UG12345L），系统留档。展示时证号脱敏（如 UG****5L），只有你登录后才显示完整。</p>
+        <p style="margin-top:8px;color:var(--ink-soft)">登记时填写导游证号（8至20位字母或数字，如 UG12345L），系统留档。展示时证号脱敏（如 UG****5L），不在公开列表显示完整证号。登记不等于平台已核验执业资格。</p>
       </details>
       <details class="card" style="margin-bottom:10px;cursor:pointer">
         <summary style="font-weight:700;color:var(--pine-dark)">我的电话会被爬走吗？</summary>
@@ -289,7 +289,7 @@ footer .sub-links a{color:#cfd8cc;margin:0 8px}
     <form class="form" id="guide-form" novalidate>
       <h2>导游登记 / 更新信息</h2>
       <label for="g-name">称呼 / 花名 *</label><input id="g-name" name="name" required placeholder="列表展示用，如 小李导 / 王哥">
-      <label for="g-license">导游证号 * <span style="font-weight:400;color:var(--ink-soft)">（格式：3字母+4数字+1字母，如 UG12345L）</span></label><input id="g-license" name="licenseNo" required placeholder="请输入导游证号">
+      <label for="g-license">导游证号 * <span style="font-weight:400;color:var(--ink-soft)">（8至20位字母或数字，如 UG12345L）</span></label><input id="g-license" name="licenseNo" required placeholder="请输入导游证号">
       <div class="row2">
         <div><label for="g-city">常驻城市 *</label><input id="g-city" name="city" required placeholder="如 西安 / 杭州"></div>
         <div><label for="g-expiry">导游证有效期至</label><input id="g-expiry" name="expiry" type="date"></div>
@@ -299,7 +299,7 @@ footer .sub-links a{color:#cfd8cc;margin:0 8px}
       <label for="g-specialty">擅长线路 / 景点</label><input id="g-specialty" name="specialty" placeholder="如 兵马俑讲解、川西环线">
       <label for="g-phone">联系电话 / 微信 *</label><input id="g-phone" name="phone" required placeholder="游客或计调联系你用，仅登录用户可见完整号码">
       <label for="g-note">备注</label><textarea id="g-note" name="note" rows="2" placeholder="可接团时间、带团年限等"></textarea>
-      <button type="submit" id="guide-submit">提交登记</button>
+      <p style="font-size:13px">提交后称呼、城市和服务介绍公开展示，联系方式向登录用户展示。证号不作为已认证标识。可在“我的”撤回登记。<a href="/privacy.html">隐私与数据说明</a></p><button type="submit" id="guide-submit">提交登记</button>
       <div class="msg" id="guide-msg" role="status" aria-live="polite"></div>
     </form>
   </div></section>
@@ -344,7 +344,7 @@ footer .sub-links a{color:#cfd8cc;margin:0 8px}
       </div>
       <label for="j-contact">联系方式 *</label><input id="j-contact" name="contact" required placeholder="微信 / 电话，仅登录用户可见完整号码">
       <label for="j-note">备注</label><textarea id="j-note" name="note" rows="2" placeholder="线路、特殊要求等"></textarea>
-      <button type="submit" id="job-submit">发布需求</button>
+      <p style="font-size:13px">发布后登录用户可查看联系方式，可在“我的”撤回需求。请勿提交身份证、护照或银行卡资料。</p><button type="submit" id="job-submit">发布需求</button>
       <div class="msg" id="job-msg" role="status" aria-live="polite"></div>
     </form>
   </div></section>
@@ -406,7 +406,7 @@ footer .sub-links a{color:#cfd8cc;margin:0 8px}
       </div>
       <label for="auth-email">邮箱 *</label>
       <input id="auth-email" type="email" autocomplete="email" placeholder="you@example.com">
-      <label for="auth-password">密码 *（至少6位）</label>
+      <label for="auth-password">密码 *（新账号至少12位）</label>
       <input id="auth-password" type="password" autocomplete="current-password" placeholder="••••••">
     </div>
     <div class="auth-actions">
@@ -414,7 +414,7 @@ footer .sub-links a{color:#cfd8cc;margin:0 8px}
       <button type="button" onclick="closeAuth()" style="background:var(--paper-2);color:var(--ink)">取消</button>
     </div>
     <div class="auth-msg" id="auth-msg" role="status" aria-live="polite"></div>
-    <p class="auth-hint">登录后才能看到完整联系方式</p>
+    <p class="auth-hint">登录后可查看联系方式；邮箱未做归属认证，联系交易前请自行核实身份</p>
   </div>
 </div>
 
@@ -432,7 +432,7 @@ footer .sub-links a{color:#cfd8cc;margin:0 8px}
       <a href="https://chicheng.org/" target="_blank" rel="noopener">赤澄文化主站</a>
       <a href="https://github.com/muzifafa/daoyou-hub" target="_blank" rel="noopener">GitHub</a>
     </div>
-    <p style="margin-top:14px">导游 Hub · 公益项目 · 代码 MIT · 数据 CC-BY-SA 4.0<br>政策可能随时间变化，出行前请以景区当日公示为准。</p>
+    <p style="margin-top:14px">导游 Hub · 公益项目 · <a href="/privacy.html">隐私与数据说明</a> · 代码 MIT · 数据 CC-BY-SA 4.0<br>政策可能随时间变化，出行前请以景区当日公示为准。</p>
   </div>
 </footer>
 
@@ -583,9 +583,7 @@ async function checkAuth(){
     document.getElementById('nav-user').style.display=d.loggedIn?'inline-block':'none';
     document.getElementById('nav-logout').style.display=d.loggedIn?'inline-block':'none';
     document.getElementById('nav-user').textContent=d.name?('我的 · '+d.name):'我的';
-    if(d.isAdmin){
-      document.getElementById('nav-admin').style.display='inline-block';
-    }
+    document.getElementById('nav-admin').style.display=d.isAdmin?'inline-block':'none';
   }catch(e){}
 }
 function openAuth(mode){
@@ -611,7 +609,7 @@ async function doAuth(mode){
   const name=document.getElementById('auth-name').value.trim();
   const msg=document.getElementById('auth-msg');
   if(!email){msg.textContent='请输入邮箱';return;}
-  if(!password||password.length<6){msg.textContent='密码至少6位';return;}
+  if(!password||(mode==='register'&&password.length<12)){msg.textContent=mode==='register'?'新密码至少12位':'请输入密码';return;}
   if(mode==='register'&&!name){msg.textContent='请填昵称';return;}
   const btn=document.getElementById('auth-submit-btn');
   btn.disabled=true;btn.textContent='请稍候…';
@@ -686,6 +684,7 @@ document.getElementById('guide-form').onsubmit=async(e)=>{
   const btn=document.getElementById('guide-submit');
   const msg=document.getElementById('guide-msg');
   const fd=new FormData(form);const body=Object.fromEntries(fd.entries());
+  if(!currentLoggedIn){openAuth();msg.textContent='请先登录，登记将绑定你的账号，方便自行撤回';return;}
   if(!body.name||!body.licenseNo||!body.city||!body.phone){msg.className='msg err';msg.textContent='请填写所有必填项';return;}
   btn.disabled=true;btn.textContent='提交中…';
   try{
@@ -763,13 +762,14 @@ document.getElementById('job-form').onsubmit=async(e)=>{
   const msg=document.getElementById('job-msg');
   const fd=new FormData(form);
   const body=Object.fromEntries(fd.entries());
+  if(!currentLoggedIn){openAuth();msg.textContent='请先登录后发布，方便自行管理需求';return;}
   if(!body.title||!body.city||!body.contact){msg.className='msg err';msg.textContent='请填写标题、目的地和联系方式';return;}
   // 拼接日期范围
   if(body.startDate||body.endDate){
     const s=body.startDate||'',en=body.endDate||'';
     body.dateRange=s+(en?' 至 '+en:'');
   }
-  delete body.startDate;delete body.endDate;
+  // Keep explicit dates for backend validation and expiry checks.
   btn.disabled=true;btn.textContent='发布中…';
   try{
     const r=await fetch('/api/jobs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});

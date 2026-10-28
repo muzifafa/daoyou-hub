@@ -1,63 +1,54 @@
-# 🧭 导游互助平台 · 持导游证免票景区地图
+# 导游 Hub
 
-> 一个面向全国导游的免费开放数据平台：持导游证到底哪些景区免票？政策有没有变？大家一起核实、一起维护。
+全国导游互助、景区政策共建和团导对接的公益网站。
 
-🌐 **在线使用：[https://daoyou.chicheng.org](https://daoyou.chicheng.org)**
+在线：https://daoyou.chicheng.org
 
----
+## 本地开发和验证
 
-## 🤔 这是什么？
+需要 Node.js 22 或更高版本。
 
-导游证（电子导游证）在中国很多景区可以免首道门票，但**政策会变、名单不全、信息分散**。这个网站把目前能查到的"持导游证免票"景区汇总到一张地图上，并且**开放给所有导游一起补充和纠错**。
+```sh
+npm ci
+npm test
+npm run build
+npx wrangler pages dev dist
+```
 
-当前收录：**1800+ 条景区记录**，覆盖全国 31 个省级行政区，包含：
-- ✅ 个人持证免票（自己一个人带证就能进）
-- 👥 仅带团免票（须带团才可免）
-- 🆓 本身免费开放（对公众免费的 A 级景区）
-- ❓ 待核实（名单已收录，政策待确认）
+`data/scenic.json` 是景区数据源，构建时生成 `dist/scenic-data.js`。每条来源使用 `sources: [{url,title}]`，不能把多个网址拼成一个字符串。政策状态和证据等级是两个不同字段；“已收录”不等于已查证或仍然有效。
 
----
+## 数据与账号
 
-## 🙋 普通导游怎么参与？（不需要会编程）
+Pages Functions 使用 D1 的 `DAOYOU_DB` 保存账号、会话、记录、报名及审计记录。数据库迁移位于 `migrations/`。原 KV 绑定 `DAOYOU_DATA` 保留为历史迁移来源，业务记录首次读取时幂等导入，旧用户在使用原会话或成功登录时迁移；不覆盖或删除原业务数组。旧密码成功登录后自动升级为 scrypt。
 
-你不需要懂代码，只需要会用浏览器，就能帮大家把数据弄准。
+生产与预览的 D1、KV 完全分离。发布前在两个环境应用数据库迁移。迁移前的 Pages 部署 ID 和原 KV 保留用于恢复；回滚静态版本不等于回滚数据库，请先检查写入兼容性。
 
-### 方式一：发现错误 / 政策变了 → 提一个 Issue
-1. 打开本仓库的 **[Issues](https://github.com/muzifafa/daoyou-hub/issues)** 页面
-2. 点绿色按钮 **New issue**
-3. 选一个模板（景区核实反馈 / 报错 / 建议），按格式填：
-   - 景区叫什么名字、在哪个省市
-   - 你实测的情况（免票？不免？要换票？要带团？）
-   - 大概什么时候去的、有没有凭证（照片/门票）
-4. 点 **Submit new issue** 提交
+管理员只由 `ADMIN_UIDS` 中明确配置的现有用户 ID 决定，不能通过注册某个邮箱获得。空配置表示不开放后台。维护者应核对账号归属后，从可信管理渠道读取该账号的 UID 并配置，不接受访客自称身份。邮箱目前未做归属认证，不作实名或执业资格认证。后台响应不包含密码哈希或盐。
 
-维护者看到后会核实、更新数据，更新后网站自动上线。
+登记和发团必须登录；公开列表脱敏证号，联系方式仅向登录用户展示。用户可在“我的”撤回内容。历史匿名记录由维护者核实后处理；源 KV 保留时，删除请求还需要纳入恢复来源/备份清理。
 
-### 方式二：补充一个新景区
-如果你知道某个持导游证免票的景区还没收录，同样开一个 Issue，写上：
-- 景区名称、所在省市
-- 免票方式（个人持证 / 带团）
-- 信息来源或你的实测时间
+## 参与共建
 
-### 方式三：会改代码的朋友 → 直接提 Pull Request
-Fork 本仓库，修改 `data/` 目录下的数据文件，提交 Pull Request，维护者会 review 后合并。
+普通访客使用站内“反馈”表单，无需 GitHub 账号。开发者可修改 `data/scenic.json` 后提 PR。GitHub Issues 亦提供景区反馈模板。请提供实测时间、政策条件和公开证据，不上传私人证件资料。
 
----
+## 部署
 
-## 📊 数据说明
+仓库中的 CI 在 PR 和 main 提交上执行测试及构建。main 发布任务需要：
 
-- 数据来源于：各省文旅厅公告、景区官方公众号、导游实测分享（导游之家等）、新闻报道，均附来源。
-- **政策可能随时间变化**，出行前建议以景区当日公示为准。
-- 标注"待核实"的条目是已列入 A 级景区名录、但免票政策尚未确认的，请有实测经验的导游补充。
-- 本项目为公益互助性质，不与任何景区、旅行社产生商业关系。
+- GitHub Secret `CLOUDFLARE_API_TOKEN`：限制在本账号、网站发布所需权限的专用凭证。
+- GitHub Variable `CLOUDFLARE_ACCOUNT_ID`：Cloudflare 账号 ID。
+- GitHub Variable `CLOUDFLARE_DEPLOY_ENABLED=true`：仅在专用凭证配置完成后启用自动发布；未配置时只运行验证。
+- 如有管理员，确保 `wrangler.toml` 对应环境的 `ADMIN_UIDS` 与已核对的账号一致。
 
-## 🛠️ 技术栈
+不把本机个人 OAuth 凭证上传到 GitHub。没有专用部署凭证时，CI 不会假装发布成功；可以使用本机已授权 Wrangler 执行：
 
-- 前端：原生 HTML + Leaflet 地图（高德地图瓦片）
-- 数据：JSON 静态文件，部署在 Cloudflare Pages
-- 开源协议：代码 MIT，数据 CC-BY-SA 4.0（署名-相同方式共享）
+```sh
+npm run build
+npx wrangler pages deploy dist --project-name daoyou --branch maintenance-audit
+# 验证预览后发布 main
+npx wrangler pages deploy dist --project-name daoyou --branch main
+```
 
-## 📄 License
+## License
 
-- 代码：[MIT](LICENSE)
-- 数据：[CC-BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.zh)
+代码 MIT；景区整理数据 CC-BY-SA 4.0，保留原始来源与署名。

@@ -1,0 +1,33 @@
+name: 景区政策实测反馈
+description: 提交实测结果、日期与公开来源，协助维护者核验。
+title: "[景区反馈] "
+body:
+  - type: markdown
+    attributes:
+      value: "普通访客也可使用 https://daoyou.chicheng.org/#feedback 。请勿上传身份证、导游证照片、电话或私人行程信息。"
+  - type: input
+    id: scenic
+    attributes:
+      label: 景区名称及省市
+    validations:
+      required: true
+  - type: input
+    id: date
+    attributes:
+      label: 实测日期
+      placeholder: YYYY-MM-DD
+    validations:
+      required: true
+  - type: dropdown
+    id: result
+    attributes:
+      label: 实际政策
+      options: [个人持证免票, 仅带团免票, 本身免费, 不免票, 需进一步核实]
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 条件、官方公开来源和需要更正的内容
+    validations:
+      required: true

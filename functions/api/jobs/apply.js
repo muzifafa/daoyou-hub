@@ -1,33 +1,36 @@
-const COOKIE_NAME='daoyou_session';
-function getSession(request){
-  const cookie=request.headers.get('Cookie')||'';
-  const m=cookie.match(new RegExp(COOKIE_NAME+'=([a-f0-9]+)'));
-  return m?m[1]:null;
-}
-const JSON_HEADERS={'Content-Type':'application/json'};
-
-export async function onRequestPost(context){
-  const {request,env}=context;
-  const sid=getSession(request);
-  const uid=sid?await env.DAOYOU_DATA.get('session:'+sid):null;
-  if(!uid)return new Response(JSON.stringify({error:'请先登录后再接单'}),{status:401,headers:JSON_HEADERS});
-
-  let body;
-  try{body=await request.json();}catch(e){return new Response(JSON.stringify({error:'参数错误'}),{status:400,headers:JSON_HEADERS});}
-  const id=Number(body.id);
-
-  const raw=await env.DAOYOU_DATA.get('jobs');
-  const list=raw?JSON.parse(raw):[];
-  const j=list.find(x=>x.id===id);
-  if(!j)return new Response(JSON.stringify({error:'需求不存在或已下架'}),{status:404,headers:JSON_HEADERS});
-  if(j.ownerUid && j.ownerUid===uid)return new Response(JSON.stringify({error:'这是你自己发布的需求，无需报名'}),{status:400,headers:JSON_HEADERS});
-
-  const u=await env.DAOYOU_DATA.get('user:'+uid);
-  const uname=u?JSON.parse(u).name:'导游';
-
-  j.applicants=j.applicants||[];
-  const has=j.applicants.some(a=>(typeof a==='object'?a.uid:a)===uid);
-  if(!has)j.applicants.push({uid,name:uname,at:Date.now()});
-  await env.DAOYOU_DATA.put('jobs',JSON.stringify(list));
-  return new Response(JSON.stringify({ok:true,count:j.applicants.length}),{headers:JSON_HEADERS});
-}
+import {
+  endpoint,
+  json,
+  bodyJson,
+  requireSameOrigin,
+  HttpError,
+} from "../../../lib/http.js";
+import { db, getRecord, rateLimit } from "../../../lib/storage.js";
+import { requireUser } from "../../../lib/auth.js";
+import { endDate } from "../jobs.js";
+export const onRequestPost = endpoint(async ({ request, env }) => {
+  requireSameOrigin(request);
+  const user = await requireUser(request, env);
+  await rateLimit(env, request, "apply", 20, 3600, user.uid);
+  const body = await bodyJson(request);
+  const id = Number(body.id);
+  if (!Number.isSafeInteger(id)) throw new HttpError(400, "编号不正确");
+  const job = await getRecord(env, "jobs", id);
+  if (!job) throw new HttpError(404, "需求不存在或已下架");
+  if (job.ownerUid === user.uid)
+    throw new HttpError(400, "无需报名自己发布的需求");
+  const end = endDate(job);
+  if (end && end < new Date().toISOString().slice(0, 10))
+    throw new HttpError(410, "这条需求已过期");
+  await db(env)
+    .prepare(
+      "INSERT OR IGNORE INTO applications(job_id,uid,name,created_at) VALUES(?,?,?,?)",
+    )
+    .bind(id, user.uid, user.name, new Date().toISOString())
+    .run();
+  const row = await db(env)
+    .prepare("SELECT COUNT(*) AS n FROM applications WHERE job_id=?")
+    .bind(id)
+    .first();
+  return json({ ok: true, count: row.n });
+});
