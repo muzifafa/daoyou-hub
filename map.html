@@ -241,7 +241,7 @@ document.getElementById('stats').innerHTML =
   `<div class="stat"><b>${nTour}</b><span>带团免票</span></div>`+
   `<div class="stat"><b>${nNo}</b><span>不免</span></div>`+
   `<div class="stat"><b>${nPend}</b><span>待核实</span></div>`+
-  `<div class="stat"><b>${nCoord}</b><span>坐标已核实</span></div>`+
+  `<div class="stat"><b>${nCoord}</b><span>已标注坐标</span></div>`+
   `<div class="stat"><b>${nNoCoord}</b><span>坐标待核实</span></div>`;
 
 document.getElementById('nationalBox').innerHTML =
@@ -291,7 +291,7 @@ function getFiltered(){
 }
 function srcHtml(r){
   const links=(r.sources||[]).map(source=>`<a href="${esc(source.url)}" target="_blank" rel="noopener noreferrer">${esc(source.title)}</a>`).join(' · ');
-  return `${r.platform?`<span class="plat">${esc(r.platform)}</span>`:''}<span>来源：</span>${links||`<span class="nosrc">${esc(r.source_title||'未记录来源')}（暂无直达链接，需进一步核验）</span>`}${r.time?`<span class="nosrc"> · 来源记录日期：${esc(r.time)}</span>`:''}`;
+  return `${r.platform?`<span class="plat">${esc(r.platform)}</span>`:''}<span>来源：</span>${(r.sources||[]).length>1?`<span class="nosrc">${esc(r.source_title||'')}</span> · `:''}${links||`<span class="nosrc">${esc(r.source_title||'未记录来源')}（暂无直达链接，需进一步核验）</span>`}${r.time?`<span class="nosrc"> · 来源记录日期：${esc(r.time)}</span>`:''}`;
 }
 function cardHtml(r){
   const badges=[
