@@ -11,6 +11,7 @@ for (const name of [
   "privacy.html",
   "reset-password.html",
   "reset-password.js",
+  "account.js",
   "sw.js",
   "manifest.json",
   "robots.txt",
