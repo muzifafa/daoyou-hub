@@ -7,7 +7,7 @@ export async function onRequest(context) {
   headers.set("X-Frame-Options", "SAMEORIGIN");
   headers.set(
     "Content-Security-Policy",
-    "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https://cdn.jsdelivr.net https://*.autonavi.com https://*.amap.com; connect-src 'self' https://cloudflareinsights.com; frame-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'",
+    "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https://cdn.jsdelivr.net https://*.autonavi.com https://*.amap.com https://server.arcgisonline.com https://*.basemaps.cartocdn.com; connect-src 'self' https://cloudflareinsights.com; frame-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'",
   );
   const path = new URL(context.request.url).pathname;
   if (path.startsWith("/api/") || path.startsWith("/reset-password"))
