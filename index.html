@@ -143,7 +143,7 @@ footer .sub-links a{color:#cfd8cc;margin:0 8px}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:none;align-items:center;justify-content:center;padding:16px}
 .modal-overlay.open{display:flex}
 .modal{background:var(--card);padding:26px;border-radius:16px;width:100%;max-width:400px;max-height:90vh;overflow-y:auto;position:relative}
-.modal .close-x{position:absolute;top:12px;right:12px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--ink-soft);width:32px;height:32px;border-radius:50%}
+.modal .close-x{position:absolute;top:12px;right:12px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--ink-soft);width:44px;height:44px;border-radius:50%}
 .modal .close-x:hover{background:var(--paper-2)}
 .modal h2{font-size:20px;margin-bottom:16px;color:var(--pine-dark)}
 .auth-tabs{display:flex;background:var(--paper-2);border-radius:999px;padding:4px;margin-bottom:18px}
@@ -154,6 +154,9 @@ footer .sub-links a{color:#cfd8cc;margin:0 8px}
 .modal input:focus{outline:none;border-color:var(--pine)}
 .modal .auth-actions{display:flex;gap:10px;margin-top:16px}
 .modal .auth-actions button{flex:1;padding:11px;border-radius:999px;font-weight:700;cursor:pointer;border:none;font-size:14px}
+.modal #auth-submit-btn{background:var(--pine);color:#fff;min-height:44px}
+.modal #auth-submit-btn:disabled{opacity:.65;cursor:wait}
+.modal input:focus-visible{outline:3px solid var(--gold-dark);outline-offset:2px}
 .modal .auth-msg{margin-top:12px;font-size:13px;text-align:center;min-height:18px;color:var(--err)}
 .modal .auth-hint{font-size:12px;color:var(--ink-soft);margin-top:12px;text-align:center}
 
