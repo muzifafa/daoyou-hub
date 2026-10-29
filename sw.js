@@ -14,7 +14,7 @@ self.addEventListener('fetch',e=>{
   const url=new URL(e.request.url);
   if(e.request.method!=='GET')return;
   // API 请求不缓存
-  if(url.pathname.startsWith('/api/'))return;
+  if(url.pathname.startsWith('/api/')||url.pathname.startsWith('/reset-password'))return;
   // 跨域请求（字体、CDN）不缓存
   if(url.origin!==location.origin)return;
   // 导航请求：network-first，离线时 fallback cache

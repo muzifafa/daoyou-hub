@@ -43,7 +43,7 @@ export const onRequestPost = endpoint(async ({ request, env }) => {
       throw new HttpError(409, "该邮箱已注册，请直接登录");
     throw error;
   }
-  const sid = await createSession(env, uid);
+  const sid = await createSession(env, uid, hash);
   return json({ ok: true, name, emailVerified: false }, 200, {
     "Set-Cookie": sessionCookie(sid),
   });

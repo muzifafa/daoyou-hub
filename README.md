@@ -25,6 +25,20 @@ Pages Functions 使用 D1 的 `DAOYOU_DB` 保存账号、会话、记录、报�
 
 管理员只由 `ADMIN_UIDS` 中明确配置的现有用户 ID 决定，不能通过注册某个邮箱获得。空配置表示不开放后台。维护者应核对账号归属后，从可信管理渠道读取该账号的 UID 并配置，不接受访客自称身份。邮箱目前未做归属认证，不作实名或执业资格认证。后台响应不包含密码哈希或盐。
 
+### 忘记密码
+
+邮件找回服务尚未接入。核实账号归属后，持有该 Cloudflare 账号管理权限的维护者可执行：
+
+```sh
+CLOUDFLARE_ACCOUNT_ID=YOUR_ACCOUNT_ID node scripts/issue-password-reset.mjs ACCOUNT_EMAIL /private/path/recovery.json
+```
+
+先在生产和预览应用 `0002_password_recovery.sql`。脚本只对生产数据库中已有账号签发链接，不创建账号，不改变权限，不设置或显示新密码。私有 JSON 文件包含登录恢复凭证，应通过已核实的私密渠道交给账号本人，不能放入源码包、公共目录、Issue 或 PR；使用后删除该私有文件。凭证由 32 字节安全随机数生成，数据库仅保存 SHA-256 摘要，15 分钟过期且只能消费一次；重新签发会撤销该账号原有未使用链接。
+
+用户在独立重置页自行输入两次新密码，随后重新登录。成功重置会原子撤销该账号全部 D1 会话，并禁止旧 KV 会话重新迁移，其他未使用重置链接同时作废。页面无第三方资源、禁止缓存及 Referrer，URL 片段中的凭证在页面加载时移除；服务端不以邮箱或用户 ID 作为重置授权。
+
+设计参考：[OWASP 密码找回指南](https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html)、[D1 batch 事务](https://developers.cloudflare.com/d1/worker-api/d1-database/#batch)。
+
 登记和发团必须登录；公开列表脱敏证号，联系方式仅向登录用户展示。用户可在“我的”撤回内容。历史匿名记录由维护者核实后处理；源 KV 保留时，删除请求还需要纳入恢复来源/备份清理。
 
 ## 参与共建

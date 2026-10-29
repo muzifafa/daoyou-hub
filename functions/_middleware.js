@@ -9,8 +9,14 @@ export async function onRequest(context) {
     "Content-Security-Policy",
     "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https://cdn.jsdelivr.net https://*.autonavi.com https://*.amap.com; connect-src 'self' https://cloudflareinsights.com; frame-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'",
   );
-  if (new URL(context.request.url).pathname.startsWith("/api/"))
+  const path = new URL(context.request.url).pathname;
+  if (path.startsWith("/api/") || path.startsWith("/reset-password"))
     headers.set("Cache-Control", "no-store");
+  if (path.startsWith("/reset-password")) {
+    headers.set("Referrer-Policy", "no-referrer");
+    headers.set("Content-Security-Policy", "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'");
+    headers.set("X-Frame-Options", "DENY");
+  }
   return new Response(response.body, {
     status: response.status,
     statusText: response.statusText,
