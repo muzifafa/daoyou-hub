@@ -1,0 +1,1 @@
+Local browser assets from the npm registry: leaflet 1.9.4 (BSD-2-Clause), leaflet.markercluster 1.4.1 (MIT). Versions match the prior CDN references. Original notices and licence files are preserved beside each package. No package install scripts were executed.

@@ -17,6 +17,10 @@ npx wrangler pages dev dist
 
 `data/scenic.json` 是景区数据源，构建时生成 `dist/scenic-data.js`。每条来源使用 `sources: [{url,title}]`，不能把多个网址拼成一个字符串。政策状态和证据等级是两个不同字段；“已收录”不等于已查证或仍然有效。
 
+地图逻辑位于 `map.js`，筛选逻辑位于 `map-filters.js`。支持省份、政策类型、关键词和“只看已查证”组合；`q`、`province`、`category`、`verified=1` 保存在地图页 URL 中，可复制链接后恢复。证据筛选只使用已有标签，不代表重新核实政策。
+
+Leaflet 1.9.4 和 markercluster 1.4.1 的固定浏览器文件、图标及原许可证保存在 `vendor/`，随站点构建提供。地图组件不可用时列表仍可搜索；没有 IntersectionObserver 时提供“加载更多景区”按钮。底图提供方仍需要网络连接，按原先高德、Esri、CARTO 顺序回退。更新组件版本时同步更改资源版本路径或查询参数并验证许可证和浏览器功能。
+
 ## 数据与账号
 
 Pages Functions 使用 D1 的 `DAOYOU_DB` 保存账号、会话、记录、报名及审计记录。数据库迁移位于 `migrations/`。原 KV 绑定 `DAOYOU_DATA` 保留为历史迁移来源，业务记录首次读取时幂等导入，旧用户在使用原会话或成功登录时迁移；不覆盖或删除原业务数组。旧密码成功登录后自动升级为 scrypt。
