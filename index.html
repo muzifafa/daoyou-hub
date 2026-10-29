@@ -208,7 +208,7 @@ footer .sub-links a{color:#cfd8cc;margin:0 8px}
       <p class="sub">不靠网上零散截图，靠全国导游实地核实。<br>持导游证免票景区名录、团导对接、A级景区共建——一个为导游服务的开放数据社区。</p>
       <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
         <button class="cta" onclick="show('jobs')">我是导游，我要接单 →</button>
-        <button class="cta cta-ghost" onclick="goPostJob()">我是领队，发需求</button>
+        <button class="cta cta-ghost" onclick="goPostJob()">我是计调，发布用导需求</button>
       </div>
       <div class="stats">
         <div class="stat"><b id="stat-guides">—</b><span>登记导游</span></div>
@@ -223,7 +223,7 @@ footer .sub-links a{color:#cfd8cc;margin:0 8px}
       <p style="color:var(--ink-soft);font-size:14px;line-height:1.8">
         这是一个由导游自己维护的公益小站。<br>
         景区免票政策经常变、网上信息真假难辨——我们把全国持证导游拉进来，谁去过、谁核实过，就把结果写在这里。<br>
-        领队找导游、导游找团带，直接联系，<b>不抽佣、不发广告、不存你身份证号</b>。
+        计调找导游、导游找团带，直接联系，<b>不抽佣、不发广告、不存你身份证号</b>。
       </p>
     </div>
   </section>
@@ -233,7 +233,7 @@ footer .sub-links a{color:#cfd8cc;margin:0 8px}
       <div class="grid">
         <a class="card" href="#map"><div class="icon" aria-hidden="true">🗺️</div><h3>免票景区地图</h3><p>全国持导游证免票景区点位可视化，区分"个人持证免/带团免/本身免费/不免/待核实"。</p><span class="go">打开地图 →</span></a>
         <a class="card" href="#guides"><div class="icon" aria-hidden="true">🧑‍🏫</div><h3>找导游</h3><p>导游自助登记：证号留档、语言、常驻地、擅长线路，直接电话联系，不抽佣。</p><span class="go">找 / 登记 →</span></a>
-        <a class="card" href="#jobs"><div class="icon" aria-hidden="true">📋</div><h3>找团带</h3><p>领队发布出行日期、目的地、人数、语言、报酬，导游看到直接联系接团。</p><span class="go">看需求 / 发需求 →</span></a>
+        <a class="card" href="#jobs"><div class="icon" aria-hidden="true">📋</div><h3>找团带</h3><p>计调/旅行社发布出行日期、目的地、人数、语言、报酬，导游看到直接联系接团。</p><span class="go">看需求 / 发需求 →</span></a>
         <a class="card" href="#feedback"><div class="icon" aria-hidden="true">💬</div><h3>反馈与共建</h3><p>景区政策变了、位置错了、新景区没收录？填表告诉我们，普通导游就能提交。</p><span class="go">我要反馈 →</span></a>
         <a class="card" href="https://visa.chicheng.org/" target="_blank" rel="noopener"><div class="icon" aria-hidden="true">🛂</div><h3>签证助手</h3><p>出境团队、带外国团来华，快速查各国签证要求与办理状态。</p><span class="go">查签证 →</span></a>
         <a class="card" href="https://chicheng.org/" target="_blank" rel="noopener"><div class="icon" aria-hidden="true">🏞️</div><h3>景区搭建</h3><p>赤澄文化主站：景区规划、文旅项目打造、文创与智慧景区建设。</p><span class="go">了解业务 →</span></a>
@@ -260,7 +260,7 @@ footer .sub-links a{color:#cfd8cc;margin:0 8px}
       <div class="section-h"><h2>常见问题</h2></div>
       <details class="card" style="margin-bottom:10px;cursor:pointer">
         <summary style="font-weight:700;color:var(--pine-dark)">这个平台收费吗？</summary>
-        <p style="margin-top:8px;color:var(--ink-soft)">完全公益。不抽佣、不发广告、不卖会员。导游和领队直接联系，平台不参与交易。</p>
+        <p style="margin-top:8px;color:var(--ink-soft)">完全公益。不抽佣、不发广告、不卖会员。导游和需求发布方直接联系，平台不参与交易。</p>
       </details>
       <details class="card" style="margin-bottom:10px;cursor:pointer">
         <summary style="font-weight:700;color:var(--pine-dark)">怎么验证我是真导游？</summary>
@@ -289,7 +289,7 @@ footer .sub-links a{color:#cfd8cc;margin:0 8px}
 <div class="view" id="view-guides">
   <header class="sub-head"><div class="wrap">
     <h1>找导游</h1>
-    <p>持证导游自助登记：证号后台留档核验、常驻地、擅长线路。领队直接联系，平台不抽佣。</p>
+    <p>持证导游自助登记：证号后台留档核验、常驻地、擅长线路。计调/旅行社直接联系，平台不抽佣。</p>
     <button class="cta" onclick="scrollToForm('guide-form')" style="margin-top:16px">我是导游，我要登记 →</button>
   </div></header>
   <section class="section"><div class="wrap">
@@ -324,7 +324,7 @@ footer .sub-links a{color:#cfd8cc;margin:0 8px}
 <div class="view" id="view-jobs">
   <header class="sub-head"><div class="wrap">
     <h1>找团带</h1>
-    <p>领队、计调、散客拼团发布找导游需求，导游看到直接联系。平台不参与交易、不抽佣。</p>
+    <p>计调、旅行社等需求方发布用导需求，导游看到直接联系。平台不参与交易、不抽佣。</p>
     <button class="cta" onclick="scrollToForm('job-form')" style="margin-top:16px">我要发需求 →</button>
   </div></header>
   <section class="section"><div class="wrap">
@@ -577,7 +577,7 @@ async function applyJob(id){
   try{
     const r=await fetch('/api/jobs/apply',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})});
     const d=await r.json().catch(()=>({}));
-    if(r.ok){toast('报名成功！领队会在这条需求下看到你');loadJobs();}
+    if(r.ok){toast('报名成功！需求发布方可在这条需求下看到你');loadJobs();}
     else toast(d.error||'报名失败，请重试');
   }catch(e){toast('网络异常，请稍后再试');}
 }
@@ -692,7 +692,7 @@ function renderGuides(){
     el.innerHTML=`<div class="empty" style="padding:60px 20px">
       <div style="font-size:40px;margin-bottom:12px" aria-hidden="true">🧑‍🏫</div>
       <div style="font-size:16px;margin-bottom:6px">这里还没有登记的导游</div>
-      <div style="font-size:13px;color:var(--ink-soft);margin-bottom:20px">持证导游自助登记，领队直接联系，不抽佣</div>
+      <div style="font-size:13px;color:var(--ink-soft);margin-bottom:20px">持证导游自助登记，计调/旅行社直接联系，不抽佣</div>
       <button class="cta" onclick="scrollToForm('guide-form')">我是导游，去登记 →</button>
     </div>`;return;
   }
@@ -764,7 +764,7 @@ function renderJobs(){
     el.innerHTML=`<div class="empty" style="padding:60px 20px">
       <div style="font-size:40px;margin-bottom:12px" aria-hidden="true">📋</div>
       <div style="font-size:16px;margin-bottom:6px">这里还没有团带需求</div>
-      <div style="font-size:13px;color:var(--ink-soft);margin-bottom:20px">领队、计调、散客拼团都可以发布找导游需求</div>
+      <div style="font-size:13px;color:var(--ink-soft);margin-bottom:20px">计调/旅行社等有实际用导需求的用户可以发布需求</div>
       <button class="cta" onclick="scrollToForm('job-form')">发布第一条需求 →</button>
     </div>`;return;
   }
