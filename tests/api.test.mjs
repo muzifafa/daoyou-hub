@@ -23,6 +23,8 @@ class LocalD1 {
     this.queryCount = 0;
     const path = new URL("../migrations/0001.sql", import.meta.url);
     if (existsSync(path)) this.db.exec(readFileSync(path, "utf8"));
+    const recovery = new URL("../migrations/0002_password_recovery.sql", import.meta.url);
+    if (existsSync(recovery)) this.db.exec(readFileSync(recovery, "utf8"));
   }
   prepare(sql) {
     this.queryCount++;
@@ -398,4 +400,81 @@ test("listing a busy job board stays within a bounded database query budget", as
     f.env.DAOYOU_DB.queryCount <= 12,
     "a public list must not issue one database query per job",
   );
+});
+
+async function recoveryFixture(expires = Math.floor(Date.now()/1000)+900) {
+  assert.ok(existsSync(new URL("../migrations/0002_password_recovery.sql",import.meta.url)),"password recovery persistence is not implemented");
+  const f=fixture(); const cookie=await seedUser(f,"trusted-owner-uid","owner@example.test");
+  await me(context(f.env,req("/api/auth/me",undefined,{method:"GET",cookie})));
+  const token="a".repeat(64);
+  const hash=Buffer.from(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(token))).toString("hex");
+  f.env.DAOYOU_DB.db.prepare("INSERT INTO password_resets(token_hash,uid,expires_at) VALUES(?,?,?)").run(hash,"trusted-owner-uid",expires);
+  const {onRequestPost:reset}=await import("../functions/api/auth/reset-password.js");
+  return {...f,cookie,token,reset};
+}
+test("password recovery requires a valid token and never accepts an email as authorization",async()=>{
+  const f=await recoveryFixture();
+  const r=await f.reset(context(f.env,req("/api/auth/reset-password",{email:"owner@example.test",password:"NewPassword123!"})));
+  assert.equal(r.status,400);
+});
+test("expired recovery links cannot change a password",async()=>{
+  const f=await recoveryFixture(1);
+  const r=await f.reset(context(f.env,req("/api/auth/reset-password",{token:f.token,password:"NewPassword123!"})));
+  assert.equal(r.status,400);
+  const old=await login(context(f.env,req("/api/auth/login",{email:"owner@example.test",password:"LegacyPassword!"})));
+  assert.equal(old.status,200);
+});
+test("recovery consumes the token, preserves the account role and revokes D1 and uncached legacy sessions",async()=>{
+  const f=await recoveryFixture();
+  const legacySid="b".repeat(64);f.records.set("session:"+legacySid,"trusted-owner-uid");
+  const r=await f.reset(context(f.env,req("/api/auth/reset-password",{token:f.token,password:"NewPassword123!"})));
+  assert.equal(r.status,200);assert.equal(r.headers.get("Set-Cookie"),null);
+  const again=await f.reset(context(f.env,req("/api/auth/reset-password",{token:f.token,password:"OtherPassword123!"})));
+  assert.equal(again.status,400);
+  for(const cookie of [f.cookie,"daoyou_session="+legacySid]){
+    const current=await me(context(f.env,req("/api/auth/me",undefined,{method:"GET",cookie})));
+    assert.equal((await current.json()).loggedIn,false);
+  }
+  const old=await login(context(f.env,req("/api/auth/login",{email:"owner@example.test",password:"LegacyPassword!"})));
+  assert.equal(old.status,400);
+  const fresh=await login(context(f.env,req("/api/auth/login",{email:"owner@example.test",password:"NewPassword123!"})));
+  assert.equal(fresh.status,200);
+  const current=await me(context(f.env,req("/api/auth/me",undefined,{method:"GET",cookie:fresh.headers.get("Set-Cookie").split(";")[0]})));
+  assert.equal((await current.json()).isAdmin,true);
+});
+test("invalid password and cross-origin attempts leave a recovery token usable",async()=>{
+  const f=await recoveryFixture();
+  let r=await f.reset(context(f.env,req("/api/auth/reset-password",{token:f.token,password:"short"})));
+  assert.equal(r.status,400);
+  r=await f.reset(context(f.env,req("/api/auth/reset-password",{token:f.token,password:"NewPassword123!"},{origin:"https://other.example"})));
+  assert.equal(r.status,403);
+  r=await f.reset(context(f.env,req("/api/auth/reset-password",{token:f.token,password:"NewPassword123!"})));
+  assert.equal(r.status,200);
+});
+
+test("a database failure rolls back token consumption and the password update",async()=>{
+  const f=await recoveryFixture();
+  f.env.DAOYOU_DB.db.exec("CREATE TRIGGER fail_reset_audit BEFORE INSERT ON audit_log WHEN NEW.action='password_reset' BEGIN SELECT RAISE(ABORT,'fixture'); END;");
+  const response=await f.reset(context(f.env,req("/api/auth/reset-password",{token:f.token,password:"NewPassword123!"})));
+  assert.equal(response.status,503);
+  assert.equal(f.env.DAOYOU_DB.db.prepare("SELECT used_at FROM password_resets").get().used_at,null);
+  const old=await login(context(f.env,req("/api/auth/login",{email:"owner@example.test",password:"LegacyPassword!"})));
+  assert.equal(old.status,200);
+});
+test("reset pages disable caching, referrers, external scripts and embedding",async()=>{
+  const {onRequest:middleware}=await import("../functions/_middleware.js");
+  const response=await middleware({request:new Request("https://daoyou.chicheng.org/reset-password"),next:async()=>new Response("reset form")});
+  assert.equal(response.headers.get("Cache-Control"),"no-store");
+  assert.equal(response.headers.get("Referrer-Policy"),"no-referrer");
+  assert.equal(response.headers.get("X-Frame-Options"),"DENY");
+  assert.ok(response.headers.get("Content-Security-Policy").includes("script-src 'self';"));
+});
+
+test("a login verified before recovery cannot create a session after the reset",async()=>{
+  const f=await recoveryFixture();
+  const staleHash=f.env.DAOYOU_DB.db.prepare("SELECT password_hash FROM users WHERE uid=?").get("trusted-owner-uid").password_hash;
+  const response=await f.reset(context(f.env,req("/api/auth/reset-password",{token:f.token,password:"NewPassword123!"})));
+  assert.equal(response.status,200);
+  const {createSession}=await import("../lib/auth.js");
+  await assert.rejects(()=>createSession(f.env,"trusted-owner-uid",staleHash),error=>error.status===400);
 });

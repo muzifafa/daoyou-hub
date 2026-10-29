@@ -25,12 +25,16 @@ export const onRequestPost = endpoint(async ({ request, env }) => {
   const user = await findEmail(env, email);
   if (!user || !(await verifyPassword(password, user.password_hash)))
     throw new HttpError(400, "邮箱或密码不正确");
-  if (user.password_hash.startsWith("legacy-sha256$"))
-    await db(env)
-      .prepare("UPDATE users SET password_hash=? WHERE uid=?")
-      .bind(await hashPassword(password), user.uid)
+  if (user.password_hash.startsWith("legacy-sha256$")) {
+    const upgraded = await hashPassword(password);
+    const result = await db(env)
+      .prepare("UPDATE users SET password_hash=? WHERE uid=? AND password_hash=?")
+      .bind(upgraded, user.uid, user.password_hash)
       .run();
-  const sid = await createSession(env, user.uid);
+    if (result.meta.changes !== 1) throw new HttpError(400, "邮箱或密码不正确");
+    user.password_hash = upgraded;
+  }
+  const sid = await createSession(env, user.uid, user.password_hash);
   return json({ ok: true, name: user.name }, 200, {
     "Set-Cookie": sessionCookie(sid),
   });

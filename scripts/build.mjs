@@ -9,6 +9,8 @@ for (const name of [
   "jobs.html",
   "feedback.html",
   "privacy.html",
+  "reset-password.html",
+  "reset-password.js",
   "sw.js",
   "manifest.json",
   "robots.txt",
