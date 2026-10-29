@@ -27,6 +27,8 @@ Pages Functions 使用 D1 的 `DAOYOU_DB` 保存账号、会话、记录、报�
 
 ### 忘记密码
 
+已登录用户可在“我的 → 账号安全”输入当前密码后自行修改密码。新密码需为 12 至 128 位并与当前密码不同。更新会保留本次登录、撤销其他会话及旧恢复链接，管理员角色不变；当前密码不正确或登录过期时不允许修改。
+
 邮件找回服务尚未接入。核实账号归属后，持有该 Cloudflare 账号管理权限的维护者可执行：
 
 ```sh
@@ -38,6 +40,10 @@ CLOUDFLARE_ACCOUNT_ID=YOUR_ACCOUNT_ID node scripts/issue-password-reset.mjs ACCO
 用户在独立重置页自行输入两次新密码，随后重新登录。成功重置会原子撤销该账号全部 D1 会话，并禁止旧 KV 会话重新迁移，其他未使用重置链接同时作废。页面无第三方资源、禁止缓存及 Referrer，URL 片段中的凭证在页面加载时移除；服务端不以邮箱或用户 ID 作为重置授权。
 
 设计参考：[OWASP 密码找回指南](https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html)、[D1 batch 事务](https://developers.cloudflare.com/d1/worker-api/d1-database/#batch)。
+
+## 使用与无障碍
+
+导航使用真实片段链接，支持直接分享公开模块和浏览器前进后退。菜单支持键盘和 Esc；登录弹窗支持 Enter 提交、登录/注册标签的方向键切换、焦点循环和关闭后的焦点恢复。输入新密码时正确提示长度要求；历史账号登录不强行套用新账号的最短长度。
 
 登记和发团必须登录；公开列表脱敏证号，联系方式仅向登录用户展示。用户可在“我的”撤回内容。历史匿名记录由维护者核实后处理；源 KV 保留时，删除请求还需要纳入恢复来源/备份清理。
 

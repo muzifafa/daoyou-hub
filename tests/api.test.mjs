@@ -478,3 +478,40 @@ test("a login verified before recovery cannot create a session after the reset",
   const {createSession}=await import("../lib/auth.js");
   await assert.rejects(()=>createSession(f.env,"trusted-owner-uid",staleHash),error=>error.status===400);
 });
+
+async function changeHandler() {
+  assert.ok(existsSync(new URL('../functions/api/auth/change-password.js',import.meta.url)), 'authenticated password change is not implemented');
+  return (await import('../functions/api/auth/change-password.js')).onRequestPost;
+}
+test('password change requires an authenticated session',async()=>{
+  const change=await changeHandler();const f=fixture();
+  const response=await change(context(f.env,req('/api/auth/change-password',{currentPassword:'LegacyPassword!',password:'ChangedPassword123!'})));
+  assert.equal(response.status,401);
+});
+test('wrong current password and invalid new password preserve the current session',async()=>{
+  const change=await changeHandler();const f=await recoveryFixture();
+  for(const body of [{currentPassword:'WrongPassword!',password:'ChangedPassword123!'},{currentPassword:'LegacyPassword!',password:'short'},{currentPassword:'LegacyPassword!',password:'LegacyPassword!'}]){
+    assert.equal((await change(context(f.env,req('/api/auth/change-password',body,{cookie:f.cookie})))).status,400);
+  }
+  const current=await me(context(f.env,req('/api/auth/me',undefined,{method:'GET',cookie:f.cookie})));
+  assert.equal((await current.json()).loggedIn,true);
+});
+test('authenticated password change rotates the session, revokes recovery and preserves the role',async()=>{
+  const change=await changeHandler();const f=await recoveryFixture();
+  const response=await change(context(f.env,req('/api/auth/change-password',{currentPassword:'LegacyPassword!',password:'ChangedPassword123!'},{cookie:f.cookie})));
+  assert.equal(response.status,200);
+  const cookie=response.headers.get('Set-Cookie').split(';')[0];assert.notEqual(cookie,f.cookie);
+  const old=await me(context(f.env,req('/api/auth/me',undefined,{method:'GET',cookie:f.cookie})));
+  assert.equal((await old.json()).loggedIn,false);
+  const fresh=await me(context(f.env,req('/api/auth/me',undefined,{method:'GET',cookie})));
+  const user=await fresh.json();assert.equal(user.loggedIn,true);assert.equal(user.isAdmin,true);
+  assert.equal((await f.reset(context(f.env,req('/api/auth/reset-password',{token:f.token,password:'OtherPassword123!'})))).status,400);
+  assert.equal((await login(context(f.env,req('/api/auth/login',{email:'owner@example.test',password:'LegacyPassword!'})))).status,400);
+  assert.equal((await login(context(f.env,req('/api/auth/login',{email:'owner@example.test',password:'ChangedPassword123!'})))).status,200);
+});
+test('cross-origin authenticated password change is rejected without changing credentials',async()=>{
+  const change=await changeHandler();const f=await recoveryFixture();
+  const response=await change(context(f.env,req('/api/auth/change-password',{currentPassword:'LegacyPassword!',password:'ChangedPassword123!'},{cookie:f.cookie,origin:'https://other.example'})));
+  assert.equal(response.status,403);
+  assert.equal((await login(context(f.env,req('/api/auth/login',{email:'owner@example.test',password:'LegacyPassword!'})))).status,200);
+});
