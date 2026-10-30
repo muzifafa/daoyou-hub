@@ -10,6 +10,8 @@ export async function onRequest(context) {
     "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https://cdn.jsdelivr.net https://*.autonavi.com https://*.amap.com https://server.arcgisonline.com https://*.basemaps.cartocdn.com; connect-src 'self' https://cloudflareinsights.com; frame-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'",
   );
   const path = new URL(context.request.url).pathname;
+  if (path === "/scenic-data.js" || path === "/sw.js")
+    headers.set("Cache-Control", "no-cache, max-age=0, must-revalidate");
   if (path.startsWith("/api/") || path.startsWith("/reset-password"))
     headers.set("Cache-Control", "no-store");
   if (path.startsWith("/reset-password")) {

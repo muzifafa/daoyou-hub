@@ -1,4 +1,13 @@
 import { parseFilters, filterRows, filterURL } from "./map-filters.js?v=20261029b";
+const freshness=document.getElementById('data-freshness');
+if(freshness){
+ const meta=typeof SCENIC_META==='undefined'?null:SCENIC_META;
+ const delivery=globalThis.SCENIC_DELIVERY||{};
+ const time=delivery.fetchedAt||meta?.generatedAt;
+ const timestamp=time?new Date(time).toLocaleString('zh-CN'):"未知";
+ freshness.textContent=meta?(delivery.offline?'离线副本，请勿视为当日确认；':'当前资料；')+'版本 '+meta.version+' · '+(delivery.fetchedAt?'获取于 ':'构建于 ')+timestamp:'资料版本待确认，请联网后重新读取。';
+ freshness.setAttribute('data-offline',String(!!delivery.offline));
+}
 const NATIONAL = {"title":"《导游管理办法》第二十七条（国家层面鼓励性依据）","issuer":"国家旅游局令第44号，自2018年1月1日起施行","quote":"鼓励景区对持有导游证从事执业活动或者与执业相关活动的导游免除门票。","note":"该条款性质为「鼓励」而非强制性法律义务，因此是否免票、是否要求带团、是否仅限首道门票，由各地景区/文旅部门自行制定；这也是各省、各景区政策口径不一的根本原因。","source_title":"导游管理办法_文化和旅游部_中国政府网","source_url":"https://www.gov.cn/zhengce/2017-11/01/content_5712513.htm"};
 /* ================= 状态与工具 ================= */
 const state = parseFilters(location.search, RAW_DATA);
