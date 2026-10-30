@@ -11,7 +11,7 @@ export async function onRequest(context) {
   );
   const path = new URL(context.request.url).pathname;
   if (path === "/scenic-data.js" || path === "/sw.js")
-    headers.set("Cache-Control", "no-cache, max-age=0, must-revalidate");
+    headers.set("Cache-Control", "no-store, no-cache, max-age=0, must-revalidate");
   if (path.startsWith("/api/") || path.startsWith("/reset-password"))
     headers.set("Cache-Control", "no-store");
   if (path.startsWith("/reset-password")) {
