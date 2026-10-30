@@ -1,22 +1,23 @@
 <!-- map page v2 -->
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>导游互助平台 · 全国A级景区持证优待核实</title>
-<link rel="canonical" href="https://daoyou.chicheng.org/map">
-<meta property="og:type" content="website">
-<meta property="og:title" content="全国A级景区持证优待资料 · 导游 Hub">
-<meta property="og:url" content="https://daoyou.chicheng.org/map">
-<meta property="og:image" content="https://daoyou.chicheng.org/share.svg">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%232e5e4e'/%3Cpath d='M8 21l5-9 4 6 3-4 4 7z' fill='%23f6f2e9'/%3E%3Ccircle cx='16' cy='12' r='2.4' fill='%23c08a2d'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<meta name="description" content="全国持导游证免票景区地图，区分个人持证免/带团免/本身免费/不免/待核实，资料按来源分级，欢迎导游实测反馈。">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
-<link rel="stylesheet" href="/vendor/leaflet/leaflet.css">
-<link rel="stylesheet" href="/vendor/markercluster/MarkerCluster.css">
-<link rel="stylesheet" href="/vendor/markercluster/MarkerCluster.Default.css">
+<link href="https://daoyou.chicheng.org/map" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="导游互助平台 · 全国A级景区持证优待核实" property="og:title"/>
+<meta content="https://daoyou.chicheng.org/map" property="og:url"/>
+<meta content="https://daoyou.chicheng.org/share.png" property="og:image"/>
+<link href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%232e5e4e'/%3Cpath d='M8 21l5-9 4 6 3-4 4 7z' fill='%23f6f2e9'/%3E%3Ccircle cx='16' cy='12' r='2.4' fill='%23c08a2d'/%3E%3C/svg%3E" rel="icon"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<meta content="查看全国景区持证优待资料、证据等级与资料版本，出行前请向景区确认。" name="description"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&amp;family=Noto+Sans+SC:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="/vendor/leaflet/leaflet.css" rel="stylesheet"/>
+<link href="/vendor/markercluster/MarkerCluster.css" rel="stylesheet"/>
+<link href="/vendor/markercluster/MarkerCluster.Default.css" rel="stylesheet"/>
 <style>
 :root{
   --paper:#f6f2e9; --paper-2:#efe8d6; --card:#fbf8f1;
@@ -143,83 +144,77 @@ footer.site .disc{border-top:1px solid rgba(255,255,255,.15);margin-top:18px;pad
 .dot{width:12px;height:12px;border-radius:50%;display:inline-block;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.2)}
 .filter-tools{display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap;margin-top:10px}.filter-tools label{font-size:14px;display:flex;align-items:center;gap:7px}.filter-tools input{width:18px;height:18px}.filter-tools button,#load-more{font:inherit;min-height:44px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--pine-dark);cursor:pointer}#load-more{width:100%;margin:12px 0}#result-count{font-size:13px;margin-top:8px}.filter-hint,#share-status,#map-message{font-size:12px;color:var(--ink-soft);margin-top:5px}#share-link{width:100%;font:inherit;padding:10px}.chiprow button.t-pend.active{color:var(--ink)}.vfy-one{color:#855817}[hidden]{display:none!important}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
-</head>
+<meta content="查看全国景区持证优待资料、证据等级与资料版本，出行前请向景区确认。" property="og:description"/><meta content="zh_CN" property="og:locale"/><meta content="1200" property="og:image:width"/><meta content="630" property="og:image:height"/><meta content="image/png" property="og:image:type"/><meta content="summary_large_image" name="twitter:card"/><meta content="导游互助平台 · 全国A级景区持证优待核实" name="twitter:title"/><meta content="查看全国景区持证优待资料、证据等级与资料版本，出行前请向景区确认。" name="twitter:description"/><meta content="https://daoyou.chicheng.org/share.png" name="twitter:image"/></head>
 <body>
-
 <header class="site">
-  <div class="wrap">
-    <div style="margin-bottom:12px"><a href="/" target="_top" style="color:var(--gold-soft);text-decoration:none;font-size:14px">← 返回导游 Hub</a></div>
-    <div class="kicker">全国A级景区 · 导游共建核实</div>
-    <h1>全国A级景区导游互助核实平台</h1>
-    <p class="sub">汇集官方公告、公开资料与导游反馈：每个景区标注「持导游证是否免票 / 本身免费 / 不免 / 待核实」，政策随时间变化，欢迎你提交实测反馈持续纠错。覆盖 31 个省级行政区。</p>
-    <div class="compare"><span id="verification-summary">已收录景区，正在加载数据分级…</span></div>
-    <div style="margin-top:12px">
-      <a href="/#feedback" target="_blank" rel="noopener" style="display:inline-block;background:var(--gold);color:#fff;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:700;text-decoration:none">✏️ 我要提交实测反馈</a>
-    </div>
-    <div class="stats" id="stats"></div>
-  </div>
+<div class="wrap">
+<div style="margin-bottom:12px"><a href="/" style="color:var(--gold-soft);text-decoration:none;font-size:14px" target="_top">← 返回导游 Hub</a></div>
+<div class="kicker">全国A级景区 · 导游共建核实</div>
+<h1>全国A级景区导游互助核实平台</h1>
+<p class="sub">汇集官方公告、公开资料与导游反馈：每个景区标注「持导游证是否免票 / 本身免费 / 不免 / 待核实」，政策随时间变化，欢迎你提交实测反馈持续纠错。覆盖 31 个省级行政区。</p>
+<div class="compare"><span id="verification-summary">已收录景区，正在加载数据分级…</span></div>
+<div style="margin-top:12px">
+<a href="/#feedback" rel="noopener" style="display:inline-block;background:var(--gold);color:#fff;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:700;text-decoration:none" target="_blank">✏️ 我要提交实测反馈</a>
+</div>
+<p id="data-freshness" role="status" style="font-size:13px;margin-top:12px">正在读取景区资料版本…</p><button onclick="location.reload()" style="margin-top:8px;padding:8px 12px" type="button">重新读取资料</button>
+<div class="stats" id="stats"></div>
+</div>
 </header>
-
 <div class="wrap">
-  <div class="national" id="nationalBox"></div>
+<div class="national" id="nationalBox"></div>
 </div>
-
 <div class="toolbar">
-  <div class="wrap">
-    <div class="searchbox">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input type="search" id="search" maxlength="120" placeholder="搜索景区名 / 省份 / 城市，即时过滤列表与地图" aria-label="搜索景区">
-    </div>
-    <nav class="chiprow" id="typeNav" aria-label="政策类型筛选"></nav>
-    <nav class="chiprow" id="provnav" aria-label="省份筛选"></nav>
-    <div class="filter-tools"><label><input type="checkbox" id="verified-only"> 只看已查证记录</label><button id="clear-filters" type="button">清除筛选</button><button id="copy-filters" type="button">复制筛选链接</button></div>
-    <p id="result-count" role="status" aria-live="polite"></p><span id="share-status" role="status" aria-live="polite"></span><input id="share-link" aria-label="筛选链接" readonly hidden>
-    <p class="filter-hint">证据等级不代表政策当日仍有效，出行前请向景区确认。</p>
-  </div>
-</div>
-
 <div class="wrap">
-  <div class="tabs" role="tablist">
-    <button id="tabList" type="button" role="tab" aria-selected="true">已收录名录</button>
-    <button id="tabMap" type="button" role="tab" aria-selected="false">地图分布</button>
-  </div>
-  <p id="map-message" role="status" aria-live="polite"></p>
-  <div class="layout">
-    <section class="pane-list" id="listPane" aria-label="景区列表"><div id="list"></div><button type="button" id="load-more" hidden>加载更多景区</button></section>
-    <section class="pane-map" id="mapPane" aria-label="地图"></section>
-  </div>
+<div class="searchbox">
+<svg fill="none" stroke-width="2" viewbox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+<input aria-label="搜索景区" id="search" maxlength="120" placeholder="搜索景区名 / 省份 / 城市，即时过滤列表与地图" type="search"/>
 </div>
-
+<nav aria-label="政策类型筛选" class="chiprow" id="typeNav"></nav>
+<nav aria-label="省份筛选" class="chiprow" id="provnav"></nav>
+<div class="filter-tools"><label><input id="verified-only" type="checkbox"/> 只看已查证记录</label><button id="clear-filters" type="button">清除筛选</button><button id="copy-filters" type="button">复制筛选链接</button></div>
+<p aria-live="polite" id="result-count" role="status"></p><span aria-live="polite" id="share-status" role="status"></span><input aria-label="筛选链接" hidden="" id="share-link" readonly=""/>
+<p class="filter-hint">证据等级不代表政策当日仍有效，出行前请向景区确认。</p>
+</div>
+</div>
+<div class="wrap">
+<div class="tabs" role="tablist">
+<button aria-selected="true" id="tabList" role="tab" type="button">已收录名录</button>
+<button aria-selected="false" id="tabMap" role="tab" type="button">地图分布</button>
+</div>
+<p aria-live="polite" id="map-message" role="status"></p>
+<div class="layout">
+<section aria-label="景区列表" class="pane-list" id="listPane"><div id="list"></div><button hidden="" id="load-more" type="button">加载更多景区</button></section>
+<section aria-label="地图" class="pane-map" id="mapPane"></section>
+</div>
+</div>
 <footer class="site">
-  <div class="wrap">
-    <h3>🤝 导游共建 · 如何参与？</h3>
-    <p style="margin-bottom:8px">本库由公开资料整理，并欢迎导游共同补充实测记录。你实地去过某个景区，不管是确认免票、发现政策变了、还是发现这里根本不免票，都欢迎反馈：</p>
-    <ul style="margin:0 0 14px 20px;line-height:2">
-      <li>点本页顶部「✏️ 我要提交实测反馈」按钮，在站内填写景区名、实测结论、时间和来源，无需 GitHub 账号</li>
-      <li>提交后进入维护者审核队列，核实无误就更新到本库</li>
-      <li>会代码的导游可以直接 <a href="https://github.com/muzifafa/daoyou-hub" target="_blank" rel="noopener" style="color:var(--gold-soft)">Fork GitHub 仓库</a> 改数据提 PR</li>
-    </ul>
-    <h3>数据来源与口径说明</h3>
-    <p>本页为公开信息镜像整理：v6 版以元宝主数据集为基础，叠加 v3 扩充数据与导游之家《持导游证全国免票景区一览表》（镜像站 daoyouhome.com），并收录官方信源：江苏省文旅厅 2026-09-22 新政（25 家 5A 级景区）、连云港文旅局全域 18 家景区公开信，以及黄山、泰山、井冈山、红旗渠、安阳、长春、重庆、甘南等景区/文旅部门的官方公开政策。“已收录”表示进入名录，不等于已逐条实地核验。信源涵盖公众号、官方公告、政府公告、景区官网、新闻媒体，以及抖音、携程、微博、豆瓣等多平台网友分享。</p>
-    <p><strong style="color:#fff">「已查证 / 一方称」口径：</strong>「已查证」表示已核对到官方公告、景区官网或权威媒体报道原文；「一方称」来自网友亲测分享或平台整理，未见官方文件直接背书，可信度需自行判断。</p>
-    <p><strong style="color:#fff">「不免 / 待核实」说明：</strong>「不免」<span id="count-no">—</span> 条为反向确认——明确不免导游证门票的景区；「待核实」<span id="count-pending">—</span> 条为资料不足或来源口径冲突，出行前务必自行核实。两者均按真实口径展示，不做免票推荐。</p>
-    <p><strong style="color:#fff">「评论补充」徽标：</strong>该徽标用于标记来自文章评论区网友补充的景区条目。是否属于评论补充以各条目实际标记为准，不代表已获得官方确认。</p>
-    <p><strong style="color:#fff">坐标说明：</strong>坐标用于概略定位，可能存在偏差，不能作为入口或导航精度保证；当前 <span id="count-no-coord">—</span> 条集合类/待核实记录无坐标，不在地图上打点，列表中以「坐标待核实」标出。另有大量公众号来源无直达链接，来源处仅显示文章名纯文本。</p>
-    <ul class="legend">
-      <li><span class="dot" style="background:var(--pine)"></span> 持证免票 · 已查证</li>
-      <li><span class="dot" style="background:rgba(255,255,255,.85);border:2px solid #b9822a"></span> 持证免票 · 一方称</li>
-      <li><span class="dot" style="background:var(--clay)"></span> 本身免费</li>
-      <li><span class="dot" style="background:var(--no)"></span> 不免（反向确认）</li>
-      <li><span class="dot" style="background:var(--pend)"></span> 待核实</li>
-    </ul>
-    <p class="disc">免责声明：景区免票政策随时间、淡旺季、带团与否而变动，是否要求电子导游证、是否含索道/摆渡车、是否仅限首道门票均以景区当日规定为准。本页仅供参考，不构成出行承诺。</p>
-  </div>
+<div class="wrap">
+<h3>🤝 导游共建 · 如何参与？</h3>
+<p style="margin-bottom:8px">本库由公开资料整理，并欢迎导游共同补充实测记录。你实地去过某个景区，不管是确认免票、发现政策变了、还是发现这里根本不免票，都欢迎反馈：</p>
+<ul style="margin:0 0 14px 20px;line-height:2">
+<li>点本页顶部「✏️ 我要提交实测反馈」按钮，在站内填写景区名、实测结论、时间和来源，无需 GitHub 账号</li>
+<li>提交后进入维护者审核队列，核实无误就更新到本库</li>
+<li>会代码的导游可以直接 <a href="https://github.com/muzifafa/daoyou-hub" rel="noopener" style="color:var(--gold-soft)" target="_blank">Fork GitHub 仓库</a> 改数据提 PR</li>
+</ul>
+<h3>数据来源与口径说明</h3>
+<p>本页为公开信息镜像整理：v6 版以元宝主数据集为基础，叠加 v3 扩充数据与导游之家《持导游证全国免票景区一览表》（镜像站 daoyouhome.com），并收录官方信源：江苏省文旅厅 2026-09-22 新政（25 家 5A 级景区）、连云港文旅局全域 18 家景区公开信，以及黄山、泰山、井冈山、红旗渠、安阳、长春、重庆、甘南等景区/文旅部门的官方公开政策。“已收录”表示进入名录，不等于已逐条实地核验。信源涵盖公众号、官方公告、政府公告、景区官网、新闻媒体，以及抖音、携程、微博、豆瓣等多平台网友分享。</p>
+<p><strong style="color:#fff">「已查证 / 一方称」口径：</strong>「已查证」表示已核对到官方公告、景区官网或权威媒体报道原文；「一方称」来自网友亲测分享或平台整理，未见官方文件直接背书，可信度需自行判断。</p>
+<p><strong style="color:#fff">「不免 / 待核实」说明：</strong>「不免」<span id="count-no">—</span> 条为反向确认——明确不免导游证门票的景区；「待核实」<span id="count-pending">—</span> 条为资料不足或来源口径冲突，出行前务必自行核实。两者均按真实口径展示，不做免票推荐。</p>
+<p><strong style="color:#fff">「评论补充」徽标：</strong>该徽标用于标记来自文章评论区网友补充的景区条目。是否属于评论补充以各条目实际标记为准，不代表已获得官方确认。</p>
+<p><strong style="color:#fff">坐标说明：</strong>坐标用于概略定位，可能存在偏差，不能作为入口或导航精度保证；当前 <span id="count-no-coord">—</span> 条集合类/待核实记录无坐标，不在地图上打点，列表中以「坐标待核实」标出。另有大量公众号来源无直达链接，来源处仅显示文章名纯文本。</p>
+<ul class="legend">
+<li><span class="dot" style="background:var(--pine)"></span> 持证免票 · 已查证</li>
+<li><span class="dot" style="background:rgba(255,255,255,.85);border:2px solid #b9822a"></span> 持证免票 · 一方称</li>
+<li><span class="dot" style="background:var(--clay)"></span> 本身免费</li>
+<li><span class="dot" style="background:var(--no)"></span> 不免（反向确认）</li>
+<li><span class="dot" style="background:var(--pend)"></span> 待核实</li>
+</ul>
+<p class="disc">免责声明：景区免票政策随时间、淡旺季、带团与否而变动，是否要求电子导游证、是否含索道/摆渡车、是否仅限首道门票均以景区当日规定为准。本页仅供参考，不构成出行承诺。</p>
+</div>
 </footer>
-
-<script defer src="/vendor/leaflet/leaflet.js"></script>
-<script defer src="/vendor/markercluster/leaflet.markercluster.js"></script>
-<script defer src="/scenic-data.js"></script>
-<script type="module" src="/map.js?v=20261029b2"></script>
-
+<script defer="" src="/vendor/leaflet/leaflet.js"></script>
+<script defer="" src="/vendor/markercluster/leaflet.markercluster.js"></script>
+<script defer="" src="/scenic-data.js"></script>
+<script src="/map.js?v=20261030-fixes1" type="module"></script>
 </body>
 </html>

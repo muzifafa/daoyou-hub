@@ -1,25 +1,26 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <title>导游 Hub · 全国导游互助平台</title>
-<meta name="description" content="面向全国持证导游的公益互助平台：持导游证免票景区核实、团导对接、A级景区名录共建。不抽佣、不发广告、不存身份证号。">
-<link rel="canonical" href="https://daoyou.chicheng.org/">
-<meta name="theme-color" content="#2e5e4e">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://daoyou.chicheng.org/">
-<meta property="og:title" content="导游 Hub · 全国导游互助平台">
-<meta property="og:description" content="持导游证免票景区地图 + 团导对接，公益不抽佣。">
-<meta property="og:site_name" content="导游 Hub">
-<meta property="og:locale" content="zh_CN">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="导游 Hub · 全国导游互助平台">
-<meta name="twitter:description" content="持导游证免票景区地图 + 团导对接，公益不抽佣。">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%232e5e4e'/%3E%3C/svg%3E">
-<link rel="manifest" href="/manifest.json">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+<meta content="计调与旅行社发布用导需求，导游自助登记，景区资料按来源分级展示。" name="description"/>
+<link href="https://daoyou.chicheng.org/" rel="canonical"/>
+<meta content="#2e5e4e" name="theme-color"/>
+<meta content="website" property="og:type"/>
+<meta content="https://daoyou.chicheng.org/" property="og:url"/>
+<meta content="导游 Hub · 全国导游互助平台" property="og:title"/>
+<meta content="计调与旅行社发布用导需求，导游自助登记，景区资料按来源分级展示。" property="og:description"/>
+<meta content="导游 Hub" property="og:site_name"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="导游 Hub · 全国导游互助平台" name="twitter:title"/>
+<meta content="计调与旅行社发布用导需求，导游自助登记，景区资料按来源分级展示。" name="twitter:description"/>
+<link href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%232e5e4e'/%3E%3C/svg%3E" rel="icon"/>
+<link href="/manifest.json" rel="manifest"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&amp;family=Noto+Sans+SC:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebSite","name":"导游 Hub","url":"https://daoyou.chicheng.org/","description":"全国持证导游公益互助平台"}
 </script>
@@ -172,296 +173,285 @@ footer .sub-links a{color:#cfd8cc;margin:0 8px}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
 .text-action{font:inherit;background:none;border:0;color:var(--pine);cursor:pointer;text-decoration:underline}
 </style>
-<meta property="og:image" content="https://daoyou.chicheng.org/share.svg"><meta name="twitter:card" content="summary_large_image"></head>
+<meta content="https://daoyou.chicheng.org/share.png" property="og:image"/><meta content="summary_large_image" name="twitter:card"/><meta content="1200" property="og:image:width"/><meta content="630" property="og:image:height"/><meta content="image/png" property="og:image:type"/><meta content="https://daoyou.chicheng.org/share.png" name="twitter:image"/></head>
 <body>
 <noscript><div style="padding:40px;text-align:center;font-family:sans-serif">本站需要启用 JavaScript 才能浏览。请在浏览器设置中启用 JS 后刷新。</div></noscript>
 <a class="skip-link" href="#main">跳到主要内容</a>
-
-<nav class="top" aria-label="主导航">
-  <div class="wrap">
-    <button class="brand" onclick="show('home')" aria-label="返回首页">导游<span>Hub</span></button>
-    <button class="hamburger" aria-label="打开菜单" aria-expanded="false" aria-controls="navlinks" onclick="toggleMenu(this)">☰</button>
-    <div class="navlinks" id="navlinks">
-      <a data-view="home" href="#home">首页</a>
-      <a data-view="map" href="#map">景区地图</a>
-      <a data-view="guides" href="#guides">找导游</a>
-      <a data-view="jobs" href="#jobs">找团带</a>
-      <a data-view="feedback" href="#feedback">反馈</a>
-      <button type="button" id="nav-login" class="nav-auth" onclick="openAuth()">登录</button>
-      <a id="nav-user" class="nav-auth" style="display:none" href="#me">我的</a>
-      <a id="nav-admin" class="nav-admin" style="display:none" href="#admin">管理</a>
-      <button type="button" id="nav-logout" style="display:none" onclick="logout()">退出</button>
-    </div>
-  </div>
+<nav aria-label="主导航" class="top">
+<div class="wrap">
+<button aria-label="返回首页" class="brand" onclick="show('home')">导游<span>Hub</span></button>
+<button aria-controls="navlinks" aria-expanded="false" aria-label="打开菜单" class="hamburger" onclick="toggleMenu(this)">☰</button>
+<div class="navlinks" id="navlinks">
+<a data-view="home" href="#home">首页</a>
+<a data-view="map" href="#map">景区地图</a>
+<a data-view="guides" href="#guides">找导游</a>
+<a data-view="jobs" href="#jobs">找团带</a>
+<a data-view="feedback" href="#feedback">反馈</a>
+<button class="nav-auth" id="nav-login" onclick="openAuth()" type="button">登录</button>
+<a class="nav-auth" href="#me" id="nav-user" style="display:none">我的</a>
+<a class="nav-admin" href="#admin" id="nav-admin" style="display:none">管理</a>
+<button id="nav-logout" onclick="logout()" style="display:none" type="button">退出</button>
+</div>
+</div>
 </nav>
-
-<button id="back-top" class="fab" aria-label="回到顶部" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none">↑</button>
-<button class="fab share" aria-label="分享本站" onclick="shareSite()">分享</button>
-
+<button aria-label="回到顶部" class="fab" id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none">↑</button>
+<button aria-label="分享本站" class="fab share" onclick="shareSite()">分享</button>
 <main id="main">
 <!-- HOME -->
 <div class="view active" id="view-home">
-  <header class="hero">
-    <div class="wrap">
-      <div class="kicker">全国持证导游 · 公益互助</div>
-      <h1>导游互助平台</h1>
-      <p class="sub">汇集公开资料与导游反馈，按来源分级展示。<br>持导游证免票景区名录、团导对接、A级景区共建——一个为导游服务的开放数据社区。</p>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-        <button class="cta" onclick="show('jobs')">我是导游，我要接单 →</button>
-        <button class="cta cta-ghost" onclick="goPostJob()">我是计调，发布用导需求</button>
-      </div>
-      <div class="stats">
-        <div class="stat"><b id="stat-guides">—</b><span>登记导游</span></div>
-        <div class="stat"><b id="stat-jobs">—</b><span>团带需求</span></div>
-        <div class="stat"><b>1827+</b><span>已收录景区</span></div>
-        <div class="stat"><b>公益</b><span>不抽佣不交易</span></div>
-      </div>
-    </div>
-  </header>
-  <section class="section">
-    <div class="wrap" style="max-width:780px;text-align:center">
-      <p style="color:var(--ink-soft);font-size:14px;line-height:1.8">
-        这是一个由导游自己维护的公益小站。<br>
-        景区优待资料来自官方公告、公开整理与导游反馈，并标注证据等级。欢迎提供带时间与来源的实测记录，帮助维护者核对更新。<br>
+<header class="hero">
+<div class="wrap">
+<div class="kicker">全国持证导游 · 公益互助</div>
+<h1>导游互助平台</h1>
+<p class="sub">汇集公开资料与导游反馈，按来源分级展示。<br/>持导游证免票景区名录、团导对接、A级景区共建——一个为导游服务的开放数据社区。</p>
+<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+<button class="cta" onclick="show('jobs')">我是导游，我要接单 →</button>
+<button class="cta cta-ghost" onclick="goPostJob()">我是计调，发布用导需求</button>
+</div>
+<div class="stats">
+<div class="stat"><b id="stat-guides">—</b><span>登记导游</span></div>
+<div class="stat"><b id="stat-jobs">—</b><span>团带需求</span></div>
+<div class="stat"><b>1827+</b><span>已收录景区</span></div>
+<div class="stat"><b>公益</b><span>不抽佣不交易</span></div>
+</div>
+</div>
+</header>
+<section class="section">
+<div class="wrap" style="max-width:780px;text-align:center">
+<p style="color:var(--ink-soft);font-size:14px;line-height:1.8">
+        这是一个由导游自己维护的公益小站。<br/>
+        景区优待资料来自官方公告、公开整理与导游反馈，并标注证据等级。欢迎提供带时间与来源的实测记录，帮助维护者核对更新。<br/>
         计调找导游、导游找团带，直接联系，<b>不抽佣、不发广告、不存你身份证号</b>。
       </p>
-    </div>
-  </section>
-  <section class="section" style="padding-top:0">
-    <div class="wrap">
-      <div class="section-h"><h2>平台功能</h2><p>站内四个核心模块 + 关联工具，覆盖导游执业日常</p></div>
-      <div class="grid">
-        <a class="card" href="#map"><div class="icon" aria-hidden="true">🗺️</div><h3>免票景区地图</h3><p>全国持导游证免票景区点位可视化，区分"个人持证免/带团免/本身免费/不免/待核实"。</p><span class="go">打开地图 →</span></a>
-        <a class="card" href="#guides"><div class="icon" aria-hidden="true">🧑‍🏫</div><h3>找导游</h3><p>导游自助登记：证号留档、语言、常驻地、擅长线路，直接电话联系，不抽佣。</p><span class="go">找 / 登记 →</span></a>
-        <a class="card" href="#jobs"><div class="icon" aria-hidden="true">📋</div><h3>找团带</h3><p>计调/旅行社发布出行日期、目的地、人数、语言、报酬，导游看到直接联系接团。</p><span class="go">看需求 / 发需求 →</span></a>
-        <a class="card" href="#feedback"><div class="icon" aria-hidden="true">💬</div><h3>反馈与共建</h3><p>景区政策变了、位置错了、新景区没收录？填表告诉我们，普通导游就能提交。</p><span class="go">我要反馈 →</span></a>
-        <a class="card" href="https://visa.chicheng.org/" target="_blank" rel="noopener"><div class="icon" aria-hidden="true">🛂</div><h3>签证助手</h3><p>查看已收录目的地的短期访问提示与官方来源。当前结论主要覆盖中国大陆普通护照旅游，不提供来华规则或办理进度查询。</p><span class="go">查签证 →</span></a>
-        <a class="card" href="https://chicheng.org/" target="_blank" rel="noopener"><div class="icon" aria-hidden="true">🏞️</div><h3>景区搭建</h3><p>赤澄文化主站：景区规划、文旅项目打造、文创与智慧景区建设。</p><span class="go">了解业务 →</span></a>
-      </div>
-    </div>
-  </section>
-  <section class="section" style="padding-top:0">
-    <div class="wrap" style="max-width:880px">
-      <div class="section-h"><h2>最近动态</h2><p>最新登记的导游、最新发布的团带需求</p></div>
-      <div class="grid">
-        <div class="card" style="cursor:default">
-          <h3 style="margin-bottom:12px">🧑‍🏫 最新登记导游 <a href="#guides" style="font-size:13px;color:var(--pine);cursor:pointer;float:right">查看全部 →</a></h3>
-          <div id="latest-guides" style="font-size:14px;color:var(--ink-soft)">加载中…</div>
-        </div>
-        <div class="card" style="cursor:default">
-          <h3 style="margin-bottom:12px">📋 最新团带需求 <a href="#jobs" style="font-size:13px;color:var(--pine);cursor:pointer;float:right">查看全部 →</a></h3>
-          <div id="latest-jobs" style="font-size:14px;color:var(--ink-soft)">加载中…</div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="section" style="padding-top:0">
-    <div class="wrap" style="max-width:780px">
-      <div class="section-h"><h2>常见问题</h2></div>
-      <details class="card" style="margin-bottom:10px;cursor:pointer">
-        <summary style="font-weight:700;color:var(--pine-dark)">这个平台收费吗？</summary>
-        <p style="margin-top:8px;color:var(--ink-soft)">完全公益。不抽佣、不发广告、不卖会员。导游和需求发布方直接联系，平台不参与交易。</p>
-      </details>
-      <details class="card" style="margin-bottom:10px;cursor:pointer">
-        <summary style="font-weight:700;color:var(--pine-dark)">怎么验证我是真导游？</summary>
-        <p style="margin-top:8px;color:var(--ink-soft)">登记时填写导游证号（8至20位字母或数字，如 UG12345L），系统留档。展示时证号脱敏（如 UG****5L），不在公开列表显示完整证号。登记不等于平台已核验执业资格。</p>
-      </details>
-      <details class="card" style="margin-bottom:10px;cursor:pointer">
-        <summary style="font-weight:700;color:var(--pine-dark)">我的电话会被爬走吗？</summary>
-        <p style="margin-top:8px;color:var(--ink-soft)">未登录用户看不到完整联系方式，登录后才显示。登录限制无法完全防止复制或抓取，请只填写愿意用于业务联系的信息。</p>
-      </details>
-      <details class="card" style="cursor:pointer">
-        <summary style="font-weight:700;color:var(--pine-dark)">景区免票信息准吗？</summary>
-        <p style="margin-top:8px;color:var(--ink-soft)">资料按证据分为“已查证”和“一方称”，政策结论另含“待核实”，并非所有条目均经实地验证；景区政策也可能随时间变化。出行前请以景区当日公示为准。发现错误点"反馈"告诉我们。</p>
-      </details>
-    </div>
-  </section>
+</div>
+</section>
+<section class="section" style="padding-top:0">
+<div class="wrap">
+<div class="section-h"><h2>平台功能</h2><p>站内四个核心模块 + 关联工具，覆盖导游执业日常</p></div>
+<div class="grid">
+<a class="card" href="#map"><div aria-hidden="true" class="icon">🗺️</div><h3>免票景区地图</h3><p>全国持导游证免票景区点位可视化，区分"个人持证免/带团免/本身免费/不免/待核实"。</p><span class="go">打开地图 →</span></a>
+<a class="card" href="#guides"><div aria-hidden="true" class="icon">🧑‍🏫</div><h3>找导游</h3><p>导游自助登记：证号留档、语言、常驻地、擅长线路，直接电话联系，不抽佣。</p><span class="go">找 / 登记 →</span></a>
+<a class="card" href="#jobs"><div aria-hidden="true" class="icon">📋</div><h3>找团带</h3><p>计调/旅行社发布出行日期、目的地、人数、语言、报酬，导游看到直接联系接团。</p><span class="go">看需求 / 发需求 →</span></a>
+<a class="card" href="#feedback"><div aria-hidden="true" class="icon">💬</div><h3>反馈与共建</h3><p>景区政策变了、位置错了、新景区没收录？填表告诉我们，普通导游就能提交。</p><span class="go">我要反馈 →</span></a>
+<a class="card" href="https://visa.chicheng.org/" rel="noopener" target="_blank"><div aria-hidden="true" class="icon">🛂</div><h3>签证助手</h3><p>查看已收录目的地的短期访问提示与官方来源。当前结论主要覆盖中国大陆普通护照旅游，不提供来华规则或办理进度查询。</p><span class="go">查签证 →</span></a>
+<a class="card" href="https://chicheng.org/" rel="noopener" target="_blank"><div aria-hidden="true" class="icon">🏞️</div><h3>景区搭建</h3><p>赤澄文化主站：景区规划、文旅项目打造、文创与智慧景区建设。</p><span class="go">了解业务 →</span></a>
+</div>
+</div>
+</section>
+<section class="section" style="padding-top:0">
+<div class="wrap" style="max-width:880px">
+<div class="section-h"><h2>最近动态</h2><p>最新登记的导游、最新发布的团带需求</p></div>
+<div class="grid">
+<div class="card" style="cursor:default">
+<h3 style="margin-bottom:12px">🧑‍🏫 最新登记导游 <a href="#guides" style="font-size:13px;color:var(--pine);cursor:pointer;float:right">查看全部 →</a></h3>
+<div id="latest-guides" style="font-size:14px;color:var(--ink-soft)">加载中…</div>
+</div>
+<div class="card" style="cursor:default">
+<h3 style="margin-bottom:12px">📋 最新团带需求 <a href="#jobs" style="font-size:13px;color:var(--pine);cursor:pointer;float:right">查看全部 →</a></h3>
+<div id="latest-jobs" style="font-size:14px;color:var(--ink-soft)">加载中…</div>
+</div>
+</div>
+</div>
+</section>
+<section class="section" style="padding-top:0">
+<div class="wrap" style="max-width:780px">
+<div class="section-h"><h2>常见问题</h2></div>
+<details class="card" style="margin-bottom:10px;cursor:pointer">
+<summary style="font-weight:700;color:var(--pine-dark)">这个平台收费吗？</summary>
+<p style="margin-top:8px;color:var(--ink-soft)">完全公益。不抽佣、不发广告、不卖会员。导游和需求发布方直接联系，平台不参与交易。</p>
+</details>
+<details class="card" style="margin-bottom:10px;cursor:pointer">
+<summary style="font-weight:700;color:var(--pine-dark)">怎么验证我是真导游？</summary>
+<p style="margin-top:8px;color:var(--ink-soft)">登记时填写导游证号（8至20位字母或数字，如 UG12345L），系统留档。展示时证号脱敏（如 UG****5L），不在公开列表显示完整证号。登记不等于平台已核验执业资格。</p>
+</details>
+<details class="card" style="margin-bottom:10px;cursor:pointer">
+<summary style="font-weight:700;color:var(--pine-dark)">我的电话会被爬走吗？</summary>
+<p style="margin-top:8px;color:var(--ink-soft)">未登录用户看不到完整联系方式，登录后才显示。登录限制无法完全防止复制或抓取，请只填写愿意用于业务联系的信息。</p>
+</details>
+<details class="card" style="cursor:pointer">
+<summary style="font-weight:700;color:var(--pine-dark)">景区免票信息准吗？</summary>
+<p style="margin-top:8px;color:var(--ink-soft)">资料按证据分为“已查证”和“一方称”，政策结论另含“待核实”，并非所有条目均经实地验证；景区政策也可能随时间变化。出行前请以景区当日公示为准。发现错误点"反馈"告诉我们。</p>
+</details>
+</div>
+</section>
 </div>
 <div class="view" id="view-map">
-  <div class="map-top">
-    <span aria-hidden="true">🗺️</span> 免票景区地图
+<div class="map-top">
+<span aria-hidden="true">🗺️</span> 免票景区地图
     <a href="#home">← 返回首页</a>
-  </div>
-  <iframe class="map-frame" src="/map" loading="lazy" title="免票景区地图" style="height:calc(100vh - 100px)"></iframe>
 </div>
-
+<iframe class="map-frame" loading="lazy" src="/map" style="height:calc(100vh - 100px)" title="免票景区地图"></iframe>
+</div>
 <!-- GUIDES -->
 <div class="view" id="view-guides">
-  <header class="sub-head"><div class="wrap">
-    <h1>找导游</h1>
-    <p>持证导游自助登记：证号仅作登记留档、常驻地、擅长线路。计调/旅行社直接联系，平台不抽佣。</p>
-    <button class="cta" onclick="scrollToForm('guide-form')" style="margin-top:16px">我是导游，我要登记 →</button>
-  </div></header>
-  <section class="section"><div class="wrap">
-    <input class="search-box" id="guide-search" placeholder="🔍 搜索城市、语种、擅长线路，如：西安 英语 兵马俑" aria-label="搜索导游">
-    <div style="display:flex;gap:10px;margin-bottom:16px;align-items:center;flex-wrap:wrap">
-      <label for="guide-filter-city" style="font-size:13px;color:var(--ink-soft)">城市筛选：</label>
-      <select id="guide-filter-city" style="padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:14px">
-        <option value="">全部</option>
-      </select>
-    </div>
-    <div class="list" id="guide-list"><div class="empty">加载中…</div></div>
-    <form class="form" id="guide-form" novalidate>
-      <h2>导游登记 / 更新信息</h2>
-      <label for="g-name">称呼 / 花名 *</label><input id="g-name" name="name" required placeholder="列表展示用，如 小李导 / 王哥">
-      <label for="g-license">导游证号 * <span style="font-weight:400;color:var(--ink-soft)">（8至20位字母或数字，如 UG12345L）</span></label><input id="g-license" name="licenseNo" required placeholder="请输入导游证号">
-      <div class="row2">
-        <div><label for="g-city">常驻城市 *</label><input id="g-city" name="city" required placeholder="如 西安 / 杭州"></div>
-        <div><label for="g-expiry">导游证有效期至</label><input id="g-expiry" name="expiry" type="date"></div>
-      </div>
-      <label for="g-lang">擅长语种（可多个，用逗号分隔）</label><input id="g-lang" name="languages" placeholder="如 普通话,英语,粤语">
-      <label for="g-agency">注册机构</label><input id="g-agency" name="agency" placeholder="如 西安市旅行社协会">
-      <label for="g-specialty">擅长线路 / 景点</label><input id="g-specialty" name="specialty" placeholder="如 兵马俑讲解、川西环线">
-      <label for="g-phone">联系电话 / 微信 *</label><input id="g-phone" name="phone" required placeholder="游客或计调联系你用，仅登录用户可见完整号码">
-      <label for="g-note">备注</label><textarea id="g-note" name="note" rows="2" placeholder="可接团时间、带团年限等"></textarea>
-      <p style="font-size:13px">提交后称呼、城市和服务介绍公开展示，联系方式向登录用户展示。证号不作为已认证标识。可在“我的”撤回登记。<a href="/privacy.html">隐私与数据说明</a></p><button type="submit" id="guide-submit">提交登记</button>
-      <div class="msg" id="guide-msg" role="status" aria-live="polite"></div>
-    </form>
-  </div></section>
+<header class="sub-head"><div class="wrap">
+<h1>找导游</h1>
+<p>持证导游自助登记：证号仅作登记留档、常驻地、擅长线路。计调/旅行社直接联系，平台不抽佣。</p>
+<button class="cta" onclick="scrollToForm('guide-form')" style="margin-top:16px">我是导游，我要登记 →</button>
+</div></header>
+<section class="section"><div class="wrap">
+<input aria-label="搜索导游" class="search-box" id="guide-search" placeholder="🔍 搜索城市、语种、擅长线路，如：西安 英语 兵马俑"/>
+<div style="display:flex;gap:10px;margin-bottom:16px;align-items:center;flex-wrap:wrap">
+<label for="guide-filter-city" style="font-size:13px;color:var(--ink-soft)">城市筛选：</label>
+<select id="guide-filter-city" style="padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:14px">
+<option value="">全部</option>
+</select>
 </div>
-
+<div class="list" id="guide-list"><div class="empty">加载中…</div></div>
+<form class="form" id="guide-form" novalidate="">
+<h2>导游登记 / 更新信息</h2>
+<label for="g-name">称呼 / 花名 *</label><input id="g-name" name="name" placeholder="列表展示用，如 小李导 / 王哥" required=""/>
+<label for="g-license">导游证号 * <span style="font-weight:400;color:var(--ink-soft)">（8至20位字母或数字，如 UG12345L）</span></label><input id="g-license" name="licenseNo" placeholder="请输入导游证号" required=""/>
+<div class="row2">
+<div><label for="g-city">常驻城市 *</label><input id="g-city" name="city" placeholder="如 西安 / 杭州" required=""/></div>
+<div><label for="g-expiry">导游证有效期至</label><input id="g-expiry" name="expiry" type="date"/></div>
+</div>
+<label for="g-lang">擅长语种（可多个，用逗号分隔）</label><input id="g-lang" name="languages" placeholder="如 普通话,英语,粤语"/>
+<label for="g-agency">注册机构</label><input id="g-agency" name="agency" placeholder="如 西安市旅行社协会"/>
+<label for="g-specialty">擅长线路 / 景点</label><input id="g-specialty" name="specialty" placeholder="如 兵马俑讲解、川西环线"/>
+<label for="g-phone">联系电话 / 微信 *</label><input id="g-phone" name="phone" placeholder="游客或计调联系你用，仅登录用户可见完整号码" required=""/>
+<label for="g-note">备注</label><textarea id="g-note" name="note" placeholder="可接团时间、带团年限等" rows="2"></textarea>
+<p style="font-size:13px">提交后称呼、城市和服务介绍公开展示，联系方式向登录用户展示。证号不作为已认证标识。可在“我的”撤回登记。<a href="/privacy.html">隐私与数据说明</a></p><button id="guide-submit" type="submit">提交登记</button>
+<div aria-live="polite" class="msg" id="guide-msg" role="status"></div>
+</form>
+</div></section>
+</div>
 <!-- JOBS -->
 <div class="view" id="view-jobs">
-  <header class="sub-head"><div class="wrap">
-    <h1>找团带</h1>
-    <p>计调、旅行社等需求方发布用导需求，导游看到直接联系。平台不参与交易、不抽佣。</p>
-    <button class="cta" onclick="scrollToForm('job-form')" style="margin-top:16px">我要发需求 →</button>
-  </div></header>
-  <section class="section"><div class="wrap">
-    <input class="search-box" id="job-search" placeholder="🔍 搜索目的地、语种、人数，如：成都 日语 20人" aria-label="搜索团带需求">
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center">
-      <label for="job-filter-city" style="font-size:13px;color:var(--ink-soft)">城市：</label>
-      <select id="job-filter-city" style="padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:14px">
-        <option value="">全部</option>
-      </select>
-      <label for="job-filter-status" style="font-size:13px;color:var(--ink-soft);margin-left:10px">状态：</label>
-      <select id="job-filter-status" style="padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:14px">
-        <option value="">全部</option>
-        <option value="open">进行中</option>
-        <option value="expired">已过期</option>
-      </select>
-    </div>
-    <div id="job-list"><div class="empty">加载中…</div></div>
-    <form class="form" id="job-form" novalidate>
-      <h2>发布找导游需求</h2>
-      <label for="j-title">需求标题 *</label><input id="j-title" name="title" required placeholder="如 11月西安5日游需英文导游">
-      <div class="row2">
-        <div><label for="j-city">目的地 / 城市 *</label><input id="j-city" name="city" required placeholder="如 西安、洛阳"></div>
-        <div><label for="j-tourists">人数</label><input id="j-tourists" name="tourists" placeholder="如 20人欧美团"></div>
-      </div>
-      <div class="row2">
-        <div><label for="j-start">出行开始日期</label><input id="j-start" name="startDate" type="date"></div>
-        <div><label for="j-end">结束日期</label><input id="j-end" name="endDate" type="date"></div>
-      </div>
-      <div class="row2">
-        <div><label for="j-lang">所需语言</label><input id="j-lang" name="language" placeholder="如 英语"></div>
-        <div><label for="j-budget">预算 / 报酬</label><input id="j-budget" name="budget" placeholder="选填，如 面议 / 1500/天"></div>
-      </div>
-      <label for="j-contact">联系方式 *</label><input id="j-contact" name="contact" required placeholder="微信 / 电话，仅登录用户可见完整号码">
-      <label for="j-note">备注</label><textarea id="j-note" name="note" rows="2" placeholder="线路、特殊要求等"></textarea>
-      <p style="font-size:13px">发布后登录用户可查看联系方式，可在“我的”撤回需求。请勿提交身份证、护照或银行卡资料。</p><button type="submit" id="job-submit">发布需求</button>
-      <div class="msg" id="job-msg" role="status" aria-live="polite"></div>
-    </form>
-  </div></section>
+<header class="sub-head"><div class="wrap">
+<h1>找团带</h1>
+<p>计调、旅行社等需求方发布用导需求，导游看到直接联系。平台不参与交易、不抽佣。</p>
+<button class="cta" onclick="scrollToForm('job-form')" style="margin-top:16px">我要发需求 →</button>
+</div></header>
+<section class="section"><div class="wrap">
+<input aria-label="搜索团带需求" class="search-box" id="job-search" placeholder="🔍 搜索目的地、语种、人数，如：成都 日语 20人"/>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center">
+<label for="job-filter-city" style="font-size:13px;color:var(--ink-soft)">城市：</label>
+<select id="job-filter-city" style="padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:14px">
+<option value="">全部</option>
+</select>
+<label for="job-filter-status" style="font-size:13px;color:var(--ink-soft);margin-left:10px">状态：</label>
+<select id="job-filter-status" style="padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:14px">
+<option value="">全部</option>
+<option value="open">进行中</option>
+<option value="expired">已过期</option>
+</select>
 </div>
-
+<div id="job-list"><div class="empty">加载中…</div></div>
+<form class="form" id="job-form" novalidate="">
+<h2>发布找导游需求</h2>
+<label for="j-title">需求标题 *</label><input id="j-title" name="title" placeholder="如 11月西安5日游需英文导游" required=""/>
+<div class="row2">
+<div><label for="j-city">目的地 / 城市 *</label><input id="j-city" name="city" placeholder="如 西安、洛阳" required=""/></div>
+<div><label for="j-tourists">人数</label><input id="j-tourists" name="tourists" placeholder="如 20人欧美团"/></div>
+</div>
+<div class="row2">
+<div><label for="j-start">出行开始日期</label><input id="j-start" name="startDate" type="date"/></div>
+<div><label for="j-end">结束日期</label><input id="j-end" name="endDate" type="date"/></div>
+</div>
+<div class="row2">
+<div><label for="j-lang">所需语言</label><input id="j-lang" name="language" placeholder="如 英语"/></div>
+<div><label for="j-budget">预算 / 报酬</label><input id="j-budget" name="budget" placeholder="选填，如 面议 / 1500/天"/></div>
+</div>
+<label for="j-contact">联系方式 *</label><input id="j-contact" name="contact" placeholder="微信 / 电话，仅登录用户可见完整号码" required=""/>
+<label for="j-note">备注</label><textarea id="j-note" name="note" placeholder="线路、特殊要求等" rows="2"></textarea>
+<p style="font-size:13px">发布后登录用户可查看联系方式，可在“我的”撤回需求。请勿提交身份证、护照或银行卡资料。</p><button id="job-submit" type="submit">发布需求</button>
+<div aria-live="polite" class="msg" id="job-msg" role="status"></div>
+</form>
+</div></section>
+</div>
 <!-- ME -->
 <div class="view" id="view-me">
-  <header class="sub-head"><div class="wrap"><h1>我的</h1><p>你登记的导游信息、发布的用导需求，可以删除自己的数据。</p></div></header>
-  <section class="section"><div class="wrap">
-    <div id="me-content" style="max-width:680px;margin:0 auto"><div class="empty">加载中…</div></div>
-    <form id="password-form" class="form account-security" hidden>
-      <h2>账号安全 · 修改密码</h2>
-      <p>输入当前密码后可设置新密码。更新后保留本次登录，其他设备需要重新登录。</p>
-      <label for="change-current">当前密码</label><input id="change-current" type="password" autocomplete="current-password" maxlength="128" required>
-      <label for="change-new">新密码（12 至 128 位）</label>
-      <div class="password-control"><input id="change-new" type="password" autocomplete="new-password" minlength="12" maxlength="128" required><button type="button" class="password-toggle" data-password-toggle="change-new" aria-pressed="false">显示密码</button></div>
-      <label for="change-confirm">再次输入新密码</label><input id="change-confirm" type="password" autocomplete="new-password" minlength="12" maxlength="128" required>
-      <button id="password-submit" type="submit">更新密码</button>
-      <div class="msg" id="password-message" role="status" aria-live="polite"></div>
-    </form>
-  </div></section>
+<header class="sub-head"><div class="wrap"><h1>我的</h1><p>你登记的导游信息、发布的用导需求，可以删除自己的数据。</p></div></header>
+<section class="section"><div class="wrap">
+<div id="me-content" style="max-width:680px;margin:0 auto"><div class="empty">加载中…</div></div>
+<form class="form account-security" hidden="" id="password-form">
+<h2>账号安全 · 修改密码</h2>
+<p>输入当前密码后可设置新密码。更新后保留本次登录，其他设备需要重新登录。</p>
+<label for="change-current">当前密码</label><input autocomplete="current-password" id="change-current" maxlength="128" required="" type="password"/>
+<label for="change-new">新密码（12 至 128 位）</label>
+<div class="password-control"><input autocomplete="new-password" id="change-new" maxlength="128" minlength="12" required="" type="password"/><button aria-pressed="false" class="password-toggle" data-password-toggle="change-new" type="button">显示密码</button></div>
+<label for="change-confirm">再次输入新密码</label><input autocomplete="new-password" id="change-confirm" maxlength="128" minlength="12" required="" type="password"/>
+<button id="password-submit" type="submit">更新密码</button>
+<div aria-live="polite" class="msg" id="password-message" role="status"></div>
+</form>
+</div></section>
 </div>
-
 <!-- FEEDBACK -->
 <div class="view" id="view-feedback">
-  <header class="sub-head"><div class="wrap"><h1>反馈与共建</h1><p>景区政策变了、数据错了、新景区没收录？填表告诉我们，不用会编程，普通导游就能提交。</p></div></header>
-  <section class="section"><div class="wrap" style="max-width:680px">
-    <form class="form" id="feedback-form" novalidate>
-      <label for="f-type">反馈类型 *</label>
-      <select id="f-type" name="type" required>
-        <option value="">请选择</option>
-        <option>景区免票政策有变</option>
-        <option>地图上的景区位置错了</option>
-        <option>发现新景区应收录</option>
-        <option>导游名录 / 找团需求相关</option>
-        <option>网站 Bug / 建议</option>
-        <option>其他</option>
-      </select>
-      <label for="f-spot">涉及景区（如知道）</label><input id="f-spot" name="spot" placeholder="如 台儿庄古城 / 华山">
-      <label for="f-content">具体内容 *</label><textarea id="f-content" name="content" rows="4" required placeholder="请描述你发现的问题或实测情况"></textarea>
-      <label for="f-contact">你的称呼 / 联系方式（选填）</label><input id="f-contact" name="contact" placeholder="方便我们核实后回复你">
-      <button type="submit" id="feedback-submit">提交反馈</button>
-      <div class="msg" id="feedback-msg" role="status" aria-live="polite"></div>
-    </form>
-  </div></section>
+<header class="sub-head"><div class="wrap"><h1>反馈与共建</h1><p>景区政策变了、数据错了、新景区没收录？填表告诉我们，不用会编程，普通导游就能提交。</p></div></header>
+<section class="section"><div class="wrap" style="max-width:680px">
+<form class="form" id="feedback-form" novalidate="">
+<label for="f-type">反馈类型 *</label>
+<select id="f-type" name="type" required="">
+<option value="">请选择</option>
+<option>景区免票政策有变</option>
+<option>地图上的景区位置错了</option>
+<option>发现新景区应收录</option>
+<option>导游名录 / 找团需求相关</option>
+<option>网站 Bug / 建议</option>
+<option>其他</option>
+</select>
+<label for="f-spot">涉及景区（如知道）</label><input id="f-spot" name="spot" placeholder="如 台儿庄古城 / 华山"/>
+<label for="f-content">具体内容 *</label><textarea id="f-content" name="content" placeholder="请描述你发现的问题或实测情况" required="" rows="4"></textarea>
+<label for="f-contact">你的称呼 / 联系方式（选填）</label><input id="f-contact" name="contact" placeholder="方便我们核实后回复你"/>
+<button id="feedback-submit" type="submit">提交反馈</button>
+<div aria-live="polite" class="msg" id="feedback-msg" role="status"></div>
+</form>
+</div></section>
 </div>
-
 <!-- ADMIN -->
 <div class="view" id="view-admin">
-  <header class="sub-head"><div class="wrap"><h1>管理后台</h1><p>查看所有导游、需求、反馈，删除假数据。</p></div></header>
-  <section class="section"><div class="wrap">
-    <div id="admin-content" style="font-size:14px">加载中…</div>
-  </div></section>
+<header class="sub-head"><div class="wrap"><h1>管理后台</h1><p>查看所有导游、需求、反馈，删除假数据。</p></div></header>
+<section class="section"><div class="wrap">
+<div id="admin-content" style="font-size:14px">加载中…</div>
+</div></section>
 </div>
 </main>
-
-<div class="modal-overlay" id="auth-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="auth-title">
-  <div class="modal">
-    <button class="close-x" aria-label="关闭" onclick="closeAuth()">×</button>
-    <h2 id="auth-title">登录 / 注册</h2>
-    <div class="auth-tabs" role="tablist">
-      <button type="button" id="tab-login" role="tab" aria-controls="auth-fields" aria-selected="true" class="active" onclick="setAuthMode('login')">登录</button>
-      <button type="button" id="tab-register" role="tab" aria-controls="auth-fields" aria-selected="false" tabindex="-1" onclick="setAuthMode('register')">注册</button>
-    </div>
-    <form id="auth-form"><div id="auth-fields" role="tabpanel" aria-labelledby="tab-login">
-      <div id="auth-name-wrap" style="display:none">
-        <label for="auth-name">昵称 *</label>
-        <input id="auth-name" autocomplete="nickname" maxlength="30" placeholder="如 李导">
-      </div>
-      <label for="auth-email">邮箱 *</label>
-      <input id="auth-email" type="email" autocomplete="username" maxlength="254" required placeholder="you@example.com">
-      <label for="auth-password" id="auth-password-label">密码 *</label>
-      <div class="password-control"><input id="auth-password" type="password" autocomplete="current-password" maxlength="128" required placeholder="请输入密码"><button type="button" class="password-toggle" data-password-toggle="auth-password" aria-pressed="false">显示密码</button></div>
-    </div>
-    <div class="auth-actions">
-      <button type="submit" id="auth-submit-btn">登录</button>
-      <button type="button" onclick="closeAuth()" style="background:var(--paper-2);color:var(--ink)">取消</button>
-    </div>
-    <div class="auth-msg" id="auth-msg" role="status" aria-live="polite"></div></form>
-    <p class="auth-hint"><a href="/reset-password">忘记密码？</a></p>
-    <p class="auth-hint">登录后可查看联系方式；邮箱未做归属认证，联系交易前请自行核实身份</p>
-  </div>
+<div aria-hidden="true" aria-labelledby="auth-title" aria-modal="true" class="modal-overlay" id="auth-modal" role="dialog">
+<div class="modal">
+<button aria-label="关闭" class="close-x" onclick="closeAuth()">×</button>
+<h2 id="auth-title">登录 / 注册</h2>
+<div class="auth-tabs" role="tablist">
+<button aria-controls="auth-fields" aria-selected="true" class="active" id="tab-login" onclick="setAuthMode('login')" role="tab" type="button">登录</button>
+<button aria-controls="auth-fields" aria-selected="false" id="tab-register" onclick="setAuthMode('register')" role="tab" tabindex="-1" type="button">注册</button>
 </div>
-
+<form id="auth-form"><div aria-labelledby="tab-login" id="auth-fields" role="tabpanel">
+<div id="auth-name-wrap" style="display:none">
+<label for="auth-name">昵称 *</label>
+<input autocomplete="nickname" id="auth-name" maxlength="30" placeholder="如 李导"/>
+</div>
+<label for="auth-email">邮箱 *</label>
+<input autocomplete="username" id="auth-email" maxlength="254" placeholder="you@example.com" required="" type="email"/>
+<label for="auth-password" id="auth-password-label">密码 *</label>
+<div class="password-control"><input autocomplete="current-password" id="auth-password" maxlength="128" placeholder="请输入密码" required="" type="password"/><button aria-pressed="false" class="password-toggle" data-password-toggle="auth-password" type="button">显示密码</button></div>
+</div>
+<div class="auth-actions">
+<button id="auth-submit-btn" type="submit">登录</button>
+<button onclick="closeAuth()" style="background:var(--paper-2);color:var(--ink)" type="button">取消</button>
+</div>
+<div aria-live="polite" class="auth-msg" id="auth-msg" role="status"></div></form>
+<p class="auth-hint"><a href="/reset-password">忘记密码？</a></p>
+<p class="auth-hint">登录后可查看联系方式；邮箱未做归属认证，联系交易前请自行核实身份</p>
+</div>
+</div>
 <footer>
-  <div class="wrap">
-    <div class="links">
-      <a href="#home">首页</a>
-      <a href="#map">景区地图</a>
-      <a href="#guides">找导游</a>
-      <a href="#jobs">找团带</a>
-      <a href="#feedback">反馈</a>
-    </div>
-    <div class="sub-links">
-      <a href="https://visa.chicheng.org/" target="_blank" rel="noopener">签证助手</a>
-      <a href="https://chicheng.org/" target="_blank" rel="noopener">赤澄文化主站</a>
-      <a href="https://github.com/muzifafa/daoyou-hub" target="_blank" rel="noopener">GitHub</a>
-    </div>
-    <p style="margin-top:14px">导游 Hub · 公益项目 · <a href="/privacy.html">隐私与数据说明</a> · 代码 MIT · 数据 CC-BY-SA 4.0<br>政策可能随时间变化，出行前请以景区当日公示为准。</p>
-  </div>
+<div class="wrap">
+<div class="links">
+<a href="#home">首页</a>
+<a href="#map">景区地图</a>
+<a href="#guides">找导游</a>
+<a href="#jobs">找团带</a>
+<a href="#feedback">反馈</a>
+</div>
+<div class="sub-links">
+<a href="https://visa.chicheng.org/" rel="noopener" target="_blank">签证助手</a>
+<a href="https://chicheng.org/" rel="noopener" target="_blank">赤澄文化主站</a>
+<a href="https://github.com/muzifafa/daoyou-hub" rel="noopener" target="_blank">GitHub</a>
+</div>
+<p style="margin-top:14px">导游 Hub · 公益项目 · <a href="/privacy.html">隐私与数据说明</a> · 代码 MIT · 数据 CC-BY-SA 4.0<br/>政策可能随时间变化，出行前请以景区当日公示为准。</p>
+</div>
 </footer>
-
 <script>
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));}
 function toggleMenu(btn){
